@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "youtube")
 public class Youtube {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "youtube_id")
     private Long id;
 
@@ -16,9 +17,10 @@ public class Youtube {
     private String link;
 
     @Column(name = "youtube_theme")
+    @Enumerated(EnumType.STRING)
     private Theme theme;
 
-    private enum Theme{
+    private enum Theme {
         INFO, VLOG
     }
 }

@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "trail_detail")
 public class TrailDetail {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trail_detail_id")
     private Long id;
 
@@ -23,8 +24,10 @@ public class TrailDetail {
     private Integer length;
 
     @Column(name = "difficulty")
+    @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
-    private enum Difficulty{
+
+    private enum Difficulty {
         EASY, NORMAL, HARD
     }
 

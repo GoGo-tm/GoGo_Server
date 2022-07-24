@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "recommend_trail")
 public class RecommendTrail {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recommend_trail_id")
     private Long id;
 
@@ -17,9 +18,11 @@ public class RecommendTrail {
     private Trail trail;
 
     @Column(name = "theme")
+    @Enumerated(EnumType.STRING)
     private Theme theme;
+
     //TODO: 테마 입력
-    private enum Theme{
+    private enum Theme {
 
     }
 }

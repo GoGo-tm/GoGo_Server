@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "mountain_image")
 public class MountainImage {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mountain_image_id")
     private Long id;
 

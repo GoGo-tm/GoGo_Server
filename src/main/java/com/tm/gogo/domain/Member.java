@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "member")
 public class Member {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -26,15 +27,19 @@ public class Member {
     private Location location;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
-    private enum Type{
+
+    private enum Type {
         OWN_MEMBER, SNS_MEMBER
     }
-    private enum Role{
-        ADMIN, MEMBER
+
+    private enum Role {
+        ROLE_ADMIN, ROLE_MEMBER
     }
 
 }

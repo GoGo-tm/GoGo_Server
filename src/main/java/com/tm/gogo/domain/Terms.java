@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "terms")
 public class Terms {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "terms_id")
     private Long id;
 
@@ -22,10 +23,11 @@ public class Terms {
     private String title;
 
     @Column(name = "details")
+    @Enumerated(EnumType.STRING)
     private String detail;
 
     //TODO:약관 타입 입력
-    private enum Type{
+    private enum Type {
 
     }
 }

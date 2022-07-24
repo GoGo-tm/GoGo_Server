@@ -1,16 +1,17 @@
 package com.tm.gogo.domain;
 
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "hiking_log")
 public class HikingLog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hiking_log_id")
     private Long id;
 
@@ -22,7 +23,8 @@ public class HikingLog {
     private String mountainName;
 
     @Column(name = "hiking_date")
-    private Timestamp hikingDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    private LocalDateTime hikingDate;
 
     @Column(name = "star_rating")
     private Integer starRating;

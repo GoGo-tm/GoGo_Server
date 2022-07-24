@@ -8,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "favorite_trail")
 public class FavoriteTrail {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_trail_id")
     private Long id;
 

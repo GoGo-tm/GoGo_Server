@@ -8,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "location")
 public class Location {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "location_id")
     private Long id;
 
