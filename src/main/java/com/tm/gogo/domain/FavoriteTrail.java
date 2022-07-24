@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "favorite_trail")
-public class FavoriteTrail {
+public class FavoriteTrail extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_trail_id")
     private Long id;
