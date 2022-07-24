@@ -14,6 +14,7 @@ public class Terms {
     private Long id;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(name = "required")
