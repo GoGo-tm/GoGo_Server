@@ -23,7 +23,6 @@ public class Terms {
     private String title;
 
     @Column(name = "details")
-    @Enumerated(EnumType.STRING)
     private String detail;
 
     //TODO:약관 타입 입력
