@@ -1,9 +1,12 @@
 package com.tm.gogo.domain;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "member")
@@ -32,13 +35,21 @@ public class Member extends BaseEntity {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Authority authority;
 
     private enum Type {
         NATIVE, GOOGLE, NAVER, KAKAO
     }
 
-    private enum Role {
+    public enum Authority {
         ROLE_ADMIN, ROLE_MEMBER
     }
+
+    @Builder
+    public Member(String email, String password, Authority authority) {
+        this.email = email;
+        this.password = password;
+        this.authority = authority;
+    }
+
 }
