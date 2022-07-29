@@ -1,5 +1,6 @@
 package com.tm.gogo.controller;
 
+import com.tm.gogo.config.SecurityUtil;
 import com.tm.gogo.controller.dto.MemberDto;
 import com.tm.gogo.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MemberDto.Response> getMyMemberInfo() {
-        return ResponseEntity.ok(memberService.getMyInfo());
+        return ResponseEntity.ok(memberService.findMemberById(SecurityUtil.getCurrentMemberId()));
     }
 
     @GetMapping("/{email}")

@@ -1,6 +1,5 @@
 package com.tm.gogo.controller.dto;
 
-import com.tm.gogo.domain.Location;
 import com.tm.gogo.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +11,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberDto {
     @Getter
     @Builder
-    public static class Response{
+    public static class Response {
+        private LocationDto.Response location;
         private String nickname;
         private String email;
-        private Location location;
         private Member.Type type;
-        public static Response of(Member member){
+
+        public static Response of(Member member) {
             return Response.builder()
                     .nickname(member.getNickname())
                     .email(member.getEmail())
-                    .location(member.getLocation())
+                    .location(LocationDto.Response.of(member.getLocation()))
                     .type(member.getType())
                     .build();
         }
@@ -30,13 +30,13 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Request{
+    public static class Request {
         private String email;
         private String password;
 
         public Member toMember(PasswordEncoder passwordEncoder) {
             return Member.builder()
-                    .email(email)
+                    .email(getEmail())
                     .password(passwordEncoder.encode(password))
                     .authority(Member.Authority.ROLE_MEMBER)
                     .build();

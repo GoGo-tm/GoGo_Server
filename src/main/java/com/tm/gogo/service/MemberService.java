@@ -1,6 +1,5 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.config.SecurityUtil;
 import com.tm.gogo.controller.dto.MemberDto;
 import com.tm.gogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +19,10 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberDto.Response getMyInfo() {
-        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+    public MemberDto.Response findMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
                 .map(MemberDto.Response::of)
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+                .orElseThrow(() -> new RuntimeException("사용자 정보가 없습니다. memberId: " + memberId));
     }
 
 
