@@ -1,5 +1,6 @@
-package com.tm.gogo.dto;
+package com.tm.gogo.controller.dto;
 
+import com.tm.gogo.domain.Location;
 import com.tm.gogo.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +15,14 @@ public class MemberDto {
     public static class Response{
         private String nickname;
         private String email;
+        private Location location;
+        private Member.Type type;
         public static Response of(Member member){
             return Response.builder()
                     .nickname(member.getNickname())
                     .email(member.getEmail())
+                    .location(member.getLocation())
+                    .type(member.getType())
                     .build();
         }
     }

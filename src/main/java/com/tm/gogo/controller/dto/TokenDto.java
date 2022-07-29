@@ -1,4 +1,4 @@
-package com.tm.gogo.dto;
+package com.tm.gogo.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

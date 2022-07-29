@@ -2,8 +2,8 @@ package com.tm.gogo.service;
 
 import com.tm.gogo.domain.Member;
 import com.tm.gogo.domain.RefreshToken;
-import com.tm.gogo.dto.MemberDto;
-import com.tm.gogo.dto.TokenDto;
+import com.tm.gogo.controller.dto.MemberDto;
+import com.tm.gogo.controller.dto.TokenDto;
 import com.tm.gogo.jwt.TokenProvider;
 import com.tm.gogo.repository.MemberRepository;
 import com.tm.gogo.repository.RefreshTokenRepository;

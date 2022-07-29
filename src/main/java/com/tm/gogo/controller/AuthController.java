@@ -1,7 +1,7 @@
 package com.tm.gogo.controller;
 
-import com.tm.gogo.dto.MemberDto;
-import com.tm.gogo.dto.TokenDto;
+import com.tm.gogo.controller.dto.MemberDto;
+import com.tm.gogo.controller.dto.TokenDto;
 import com.tm.gogo.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

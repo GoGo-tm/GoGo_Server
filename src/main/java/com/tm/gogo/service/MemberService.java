@@ -1,7 +1,7 @@
 package com.tm.gogo.service;
 
 import com.tm.gogo.config.SecurityUtil;
-import com.tm.gogo.dto.MemberDto;
+import com.tm.gogo.controller.dto.MemberDto;
 import com.tm.gogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    //Todo: DTO 뭐 필요한지 확인
     @Transactional(readOnly = true)
     public MemberDto.Response getMemberInfo(String email){
         return memberRepository.findByEmail(email)
