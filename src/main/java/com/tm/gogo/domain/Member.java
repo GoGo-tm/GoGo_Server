@@ -25,7 +25,7 @@ public class Member extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "location_id")
     private Location location;
 
@@ -46,9 +46,12 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(String email, String password, Authority authority) {
+    public Member(String nickname, String email, Location location, Type type,String password, Authority authority) {
+        this.nickname = nickname;
         this.email = email;
+        this.type = type;
         this.password = password;
+        this.location = location;
         this.authority = authority;
     }
 

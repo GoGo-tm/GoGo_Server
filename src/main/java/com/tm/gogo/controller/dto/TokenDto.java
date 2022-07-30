@@ -5,19 +5,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class TokenDto {
-    private String grantType;
-    private String accessToken;
-    private String refreshToken;
-    private Long accessTokenExpiresIn;
 
+public class TokenDto {
     @Getter
     @NoArgsConstructor
-    public class Request {
+    @AllArgsConstructor
+    @Builder
+    public static class Response {
+        private String grantType;
+        private String accessToken;
+        private String refreshToken;
+        private Long accessTokenExpiresIn;
+
+    }
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Request {
         private String accessToken;
         private String refreshToken;
     }

@@ -1,6 +1,7 @@
 package com.tm.gogo.controller;
 
-import com.tm.gogo.controller.dto.MemberDto;
+import com.tm.gogo.controller.dto.SignInDto;
+import com.tm.gogo.controller.dto.SignUpDto;
 import com.tm.gogo.controller.dto.TokenDto;
 import com.tm.gogo.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberDto.Response> signup(@RequestBody MemberDto.Request memberRequestDto) {
-        return ResponseEntity.ok(authService.signup(memberRequestDto));
+    public ResponseEntity<SignUpDto.Response> signUp(@RequestBody SignUpDto.Request signUpDto) {
+        return ResponseEntity.ok(authService.signUp(signUpDto));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberDto.Request memberRequestDto) {
-        return ResponseEntity.ok(authService.login(memberRequestDto));
+    @PostMapping("/signin")
+    public ResponseEntity<TokenDto.Response> signIn(@RequestBody SignInDto.Request memberRequestDto) {
+        return ResponseEntity.ok(authService.signIn(memberRequestDto));
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenDto.Request tokenRequestDto) {
+    public ResponseEntity<TokenDto.Response> reissue(@RequestBody TokenDto.Request tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
     }
 }
