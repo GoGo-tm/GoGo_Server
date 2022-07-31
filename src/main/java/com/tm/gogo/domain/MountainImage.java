@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "mountain_image")
-public class MountainImage extends BaseEntity {
+public class MountainImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mountain_image_id")
@@ -22,6 +22,4 @@ public class MountainImage extends BaseEntity {
 
     @Column(name = "image_file_name")
     private String imageFileName;
-
-
 }
