@@ -37,7 +37,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    private enum Type {
+    public enum Type {
         NATIVE, GOOGLE, NAVER, KAKAO
     }
 
