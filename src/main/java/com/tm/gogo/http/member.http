@@ -1,0 +1,15 @@
+### 로그인
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "siyeon@naver.net",
+  "password": "12341234"
+}
+
+> {% client.global.set("auth_token", response.body.json.data.accessToken); %}
+
+### Authorization by token, part 2. Use token to authorize.
+GET http://localhost:8080/api/members/me
+#Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjU5Mjg3NDM4fQ.iQrfOdJOs3q6-UKBrvElwFec8t1kgxSnWX0dA4CVF17ElfSXdM275xXO37SKC1SyrzBZRszQ_xYvXhtSGtdeuQ

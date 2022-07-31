@@ -1,9 +1,14 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.member;
 
+import com.tm.gogo.domain.BaseEntity;
+import com.tm.gogo.domain.Location;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "member")
@@ -22,7 +27,7 @@ public class Member extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "location_id")
     private Location location;
 
@@ -32,13 +37,23 @@ public class Member extends BaseEntity {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Authority authority;
 
-    private enum Type {
+    public enum Type {
         NATIVE, GOOGLE, NAVER, KAKAO
     }
 
-    private enum Role {
+    public enum Authority {
         ROLE_ADMIN, ROLE_MEMBER
+    }
+
+    @Builder
+    public Member(String nickname, String email, Location location, Type type,String password, Authority authority) {
+        this.nickname = nickname;
+        this.email = email;
+        this.type = type;
+        this.password = password;
+        this.location = location;
+        this.authority = authority;
     }
 }
