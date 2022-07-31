@@ -53,7 +53,7 @@ public class AuthServiceTest {
                 .nickname(nickname)
                 .email("asdf@gmail.com")
                 .password("12341234")
-                .type(Member.Type.OWN_MEMBER)
+                .type(Member.Type.NATIVE)
                 .location(locationDto)
                 .build();
 
@@ -65,7 +65,7 @@ public class AuthServiceTest {
 
         Member member = memberRepository.findByEmail(email).get();
         assertThat(member.getNickname()).isEqualTo(nickname);
-        assertThat(member.getType()).isEqualTo(Member.Type.OWN_MEMBER);
+        assertThat(member.getType()).isEqualTo(Member.Type.NATIVE);
         assertThat(member.getLocation().getName()).isEqualTo(locationName);
         assertThat(member.getLocation().getLatitude()).isEqualTo(latitude);
         assertThat(member.getLocation().getLongitude()).isEqualTo(longitude);
@@ -91,7 +91,7 @@ public class AuthServiceTest {
                 .nickname(nickname)
                 .email(email)
                 .password("12341234")
-                .type(Member.Type.OWN_MEMBER)
+                .type(Member.Type.NATIVE)
                 .location(locationDto)
                 .build();
 
@@ -143,7 +143,7 @@ public class AuthServiceTest {
                 .nickname(nickname)
                 .email(email)
                 .password(password)
-                .type(Member.Type.OWN_MEMBER)
+                .type(Member.Type.NATIVE)
                 .location(locationDto)
                 .build();
 
