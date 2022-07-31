@@ -35,11 +35,10 @@ public class Member extends BaseEntity {
     private Role role;
 
     private enum Type {
-        OWN_MEMBER, SNS_MEMBER
+        NATIVE, GOOGLE, NAVER, KAKAO
     }
 
     private enum Role {
         ROLE_ADMIN, ROLE_MEMBER
     }
-
 }

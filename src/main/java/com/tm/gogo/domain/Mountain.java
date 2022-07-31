@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "mountain")
-public class Mountain extends BaseEntity {
+public class Mountain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mountain_id")
