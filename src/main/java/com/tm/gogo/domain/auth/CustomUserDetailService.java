@@ -1,7 +1,7 @@
-package com.tm.gogo.service;
+package com.tm.gogo.domain.auth;
 
-import com.tm.gogo.domain.Member;
-import com.tm.gogo.repository.MemberRepository;
+import com.tm.gogo.domain.member.Member;
+import com.tm.gogo.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

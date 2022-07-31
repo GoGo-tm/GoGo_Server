@@ -1,5 +1,7 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.member;
 
+import com.tm.gogo.domain.BaseEntity;
+import com.tm.gogo.domain.Location;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,5 +56,4 @@ public class Member extends BaseEntity {
         this.location = location;
         this.authority = authority;
     }
-
 }

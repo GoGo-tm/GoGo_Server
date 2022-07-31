@@ -1,5 +1,6 @@
 package com.tm.gogo.domain;
 
+import com.tm.gogo.domain.member.Member;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 

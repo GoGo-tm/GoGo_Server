@@ -1,0 +1,34 @@
+### 가입하기
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "nickname": "siyeon",
+  "email": "siyeon@naver.net",
+  "password": "12341234",
+  "type": "NATIVE",
+  "location": {
+    "name": "서울",
+    "latitude": 127.123214,
+    "longitude": 34.1231445
+  }
+}
+
+### 로그인
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "siyeon@naver.net",
+  "password": "12341234"
+}
+
+### 재발급
+POST http://localhost:8080/api/auth/reissue
+Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjU5Mjg3NDM4fQ.iQrfOdJOs3q6-UKBrvElwFec8t1kgxSnWX0dA4CVF17ElfSXdM275xXO37SKC1SyrzBZRszQ_xYvXhtSGtdeuQ",
+  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTk4OTA0Mzh9.G-aXcplvmHr9h-p9vG5u5-J2V9OzqgPI56pBJgP-yBGKqEB-oVAelROpf2Y5Es4SnO0hg4720Nxk66QsgmoSZA"
+}
+

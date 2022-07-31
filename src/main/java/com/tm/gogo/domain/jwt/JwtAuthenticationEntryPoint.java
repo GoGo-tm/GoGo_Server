@@ -1,4 +1,4 @@
-package com.tm.gogo.jwt;
+package com.tm.gogo.domain.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

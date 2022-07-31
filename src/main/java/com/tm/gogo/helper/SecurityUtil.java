@@ -1,4 +1,4 @@
-package com.tm.gogo.config;
+package com.tm.gogo.helper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

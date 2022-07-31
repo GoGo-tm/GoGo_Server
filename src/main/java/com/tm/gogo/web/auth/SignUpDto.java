@@ -1,6 +1,7 @@
-package com.tm.gogo.controller.dto;
+package com.tm.gogo.web.auth;
 
-import com.tm.gogo.domain.Member;
+import com.tm.gogo.domain.member.Member;
+import com.tm.gogo.web.member.LocationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,10 +1,14 @@
-package com.tm.gogo.controller.dto;
+package com.tm.gogo.web.member;
 
 import com.tm.gogo.domain.Location;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class LocationDto {
 

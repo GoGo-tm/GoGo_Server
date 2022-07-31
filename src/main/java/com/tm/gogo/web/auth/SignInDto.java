@@ -1,4 +1,4 @@
-package com.tm.gogo.controller.dto;
+package com.tm.gogo.web.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

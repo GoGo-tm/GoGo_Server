@@ -1,6 +1,6 @@
-package com.tm.gogo.controller.dto;
+package com.tm.gogo.web.member;
 
-import com.tm.gogo.domain.Member;
+import com.tm.gogo.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 

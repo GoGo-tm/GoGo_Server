@@ -1,4 +1,4 @@
-package com.tm.gogo.repository;
+package com.tm.gogo.domain.auth;
 
 import com.tm.gogo.domain.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;

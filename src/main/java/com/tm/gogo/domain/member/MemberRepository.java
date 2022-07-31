@@ -1,6 +1,5 @@
-package com.tm.gogo.repository;
+package com.tm.gogo.domain.member;
 
-import com.tm.gogo.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

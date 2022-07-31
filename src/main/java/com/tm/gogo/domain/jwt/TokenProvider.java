@@ -1,6 +1,6 @@
-package com.tm.gogo.jwt;
+package com.tm.gogo.domain.jwt;
 
-import com.tm.gogo.controller.dto.TokenDto;
+import com.tm.gogo.web.auth.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

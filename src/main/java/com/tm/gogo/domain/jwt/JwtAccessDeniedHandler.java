@@ -1,4 +1,4 @@
-package com.tm.gogo.jwt;
+package com.tm.gogo.domain.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

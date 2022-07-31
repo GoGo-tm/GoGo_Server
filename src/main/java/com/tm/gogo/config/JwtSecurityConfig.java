@@ -1,5 +1,7 @@
-package com.tm.gogo.jwt;
+package com.tm.gogo.config;
 
+import com.tm.gogo.domain.jwt.JwtFilter;
+import com.tm.gogo.domain.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -1,4 +1,4 @@
-package com.tm.gogo.jwt;
+package com.tm.gogo.domain.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
