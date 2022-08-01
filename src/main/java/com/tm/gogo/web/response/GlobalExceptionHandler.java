@@ -28,7 +28,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(Exception ex) {
         logger.error(ex);
-        ErrorDto errorDto = new ErrorDto(ErrorCode.INTERNAL_SERVER_ERROR, ex.getMessage());
+        String message = ex.getClass().getSimpleName() + ": " + ex.getMessage();
+        ErrorDto errorDto = new ErrorDto(ErrorCode.INTERNAL_SERVER_ERROR, message);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDto);
     }
 }
