@@ -7,6 +7,7 @@ import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.RefreshToken;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +31,7 @@ public class AuthService {
     @Transactional
     public SignUpDto.Response signUp(SignUpDto.Request signUpDto) {
         if (memberRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new ApiException(ALREADY_EXIST_MEMBER, "이미 가입되어 있는 유저입니다. email: " + signUpDto.getEmail());
         }
 
         Member member = signUpDto.toMember(passwordEncoder);

@@ -22,7 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorDto> handleApiException(ApiException ex) {
         logger.error(ex);
         ErrorDto errorDto = new ErrorDto(ex.getErrorCode(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
+        return ResponseEntity.status(ex.getHttpStatus()).body(errorDto);
     }
 
     @ExceptionHandler(Exception.class)
