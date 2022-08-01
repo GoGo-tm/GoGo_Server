@@ -5,6 +5,7 @@ import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.web.member.MemberDto;
+import com.tm.gogo.web.response.ApiException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -116,7 +117,7 @@ public class MemberServiceTest {
         void testFailWhenNoEmail() {
             String email = "no-member@naver.net";
 
-            assertThatExceptionOfType(NoSuchElementException.class)
+            assertThatExceptionOfType(ApiException.class)
                     .isThrownBy(() -> memberService.findMemberByEmail(email))
                     .withMessage("사용자 정보가 없습니다. email: " + email);
         }
@@ -126,7 +127,7 @@ public class MemberServiceTest {
         void testFailWhenNoMemberId() {
             Long memberId = 0L;
 
-            assertThatExceptionOfType(NoSuchElementException.class)
+            assertThatExceptionOfType(ApiException.class)
                     .isThrownBy(() -> memberService.findMemberById(memberId))
                     .withMessage("사용자 정보가 없습니다. memberId: " + memberId);
         }
