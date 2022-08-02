@@ -1,9 +1,10 @@
 package com.tm.gogo.service;
 
 import com.tm.gogo.domain.auth.AuthService;
+import com.tm.gogo.web.auth.SignUpResponse;
 import com.tm.gogo.web.member.LocationDto;
 import com.tm.gogo.web.auth.SignInDto;
-import com.tm.gogo.web.auth.SignUpDto;
+import com.tm.gogo.web.auth.SignUpRequest;
 import com.tm.gogo.web.auth.TokenDto;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
@@ -50,7 +51,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email("asdf@gmail.com")
                 .password("12341234")
@@ -59,7 +60,7 @@ public class AuthServiceTest {
                 .build();
 
         //when
-        SignUpDto.Response signupResponse = authService.signUp(signUpDto);
+        SignUpResponse signupResponse = authService.signUp(signUpDto);
 
         //then : 실제로 내가 받은 email 로 저장된 데이터가 있는지 확인
         String email = signupResponse.getEmail();
@@ -88,7 +89,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password("12341234")
@@ -140,7 +141,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password(password)

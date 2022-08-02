@@ -1,7 +1,8 @@
 package com.tm.gogo.domain.auth;
 
 import com.tm.gogo.web.auth.SignInDto;
-import com.tm.gogo.web.auth.SignUpDto;
+import com.tm.gogo.web.auth.SignUpRequest;
+import com.tm.gogo.web.auth.SignUpResponse;
 import com.tm.gogo.web.auth.TokenDto;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.RefreshToken;
@@ -29,14 +30,14 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public SignUpDto.Response signUp(SignUpDto.Request signUpDto) {
+    public SignUpResponse signUp(SignUpRequest signUpDto) {
         if (memberRepository.existsByEmail(signUpDto.getEmail())) {
             throw new ApiException(ALREADY_EXIST_MEMBER, "이미 가입되어 있는 유저입니다. email: " + signUpDto.getEmail());
         }
 
         Member member = signUpDto.toMember(passwordEncoder);
         memberRepository.save(member);
-        return SignUpDto.Response.of(member);
+        return SignUpResponse.of(member);
     }
 
     @Transactional

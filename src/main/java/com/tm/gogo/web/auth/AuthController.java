@@ -27,7 +27,7 @@ public class AuthController {
             @ApiResponse(responseCode = "409", description = "이미 가입한 회원이 존재하는 경우", content = @Content)
     })
     @PostMapping("/signup")
-    public ResponseEntity<SignUpDto.Response> signUp(@RequestBody SignUpDto.Request signUpDto) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpDto) {
         return ResponseEntity.ok(authService.signUp(signUpDto));
     }
 
