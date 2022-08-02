@@ -1,6 +1,7 @@
 package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.member.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignUpRequest {
+    @Schema(example = "등산 gogo", description = "닉네임", required = true)
     private String nickname;
+
+    @Schema(example = "asdf@naver.net", description = "이메일", required = true)
     private String email;
+    @Schema(example = "1q2w3e4r", description = "비밀번호", required = true)
     private String password;
+
+    @Schema(example = "NATIVE", description = "회원 유형", required = true)
     private Member.Type type;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
