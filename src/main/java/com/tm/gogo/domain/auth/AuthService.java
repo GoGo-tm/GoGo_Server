@@ -1,6 +1,6 @@
 package com.tm.gogo.domain.auth;
 
-import com.tm.gogo.web.auth.SignInDto;
+import com.tm.gogo.web.auth.SignInRequest;
 import com.tm.gogo.web.auth.SignUpRequest;
 import com.tm.gogo.web.auth.SignUpResponse;
 import com.tm.gogo.web.auth.TokenDto;
@@ -41,7 +41,7 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenDto.Response signIn(SignInDto.Request signInDto) {
+    public TokenDto.Response signIn(SignInRequest signInDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = signInDto.toAuthentication();
 

@@ -3,7 +3,7 @@ package com.tm.gogo.service;
 import com.tm.gogo.domain.auth.AuthService;
 import com.tm.gogo.web.auth.SignUpResponse;
 import com.tm.gogo.web.member.LocationDto;
-import com.tm.gogo.web.auth.SignInDto;
+import com.tm.gogo.web.auth.SignInRequest;
 import com.tm.gogo.web.auth.SignUpRequest;
 import com.tm.gogo.web.auth.TokenDto;
 import com.tm.gogo.domain.member.Member;
@@ -100,7 +100,7 @@ public class AuthServiceTest {
         Member signUpMember = signUpDto.toMember(passwordEncoder);
         memberRepository.saveAndFlush(signUpMember);
 
-        SignInDto.Request signInDto = SignInDto.Request.builder()
+        SignInRequest signInDto = SignInRequest.builder()
                 .email(email)
                 .password("12341234")
                 .build();
@@ -151,7 +151,7 @@ public class AuthServiceTest {
 
         authService.signUp(signUpDto);
 
-        SignInDto.Request signInDto = SignInDto.Request.builder()
+        SignInRequest signInDto = SignInRequest.builder()
                 .email(email)
                 .password(password)
                 .build();

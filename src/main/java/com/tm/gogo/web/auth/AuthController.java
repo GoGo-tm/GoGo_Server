@@ -37,7 +37,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "로그인 성공하면 토큰 리턴"),
     })
     @PostMapping("/signin")
-    public ResponseEntity<TokenDto.Response> signIn(@RequestBody SignInDto.Request memberRequestDto) {
+    public ResponseEntity<TokenDto.Response> signIn(@RequestBody SignInRequest memberRequestDto) {
         return ResponseEntity.ok(authService.signIn(memberRequestDto));
     }
 
