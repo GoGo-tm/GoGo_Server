@@ -1,6 +1,7 @@
 package com.tm.gogo.web.member;
 
 import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.helper.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

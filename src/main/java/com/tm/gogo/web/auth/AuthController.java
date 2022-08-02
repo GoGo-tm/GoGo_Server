@@ -2,7 +2,6 @@ package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.auth.AuthService;
 import com.tm.gogo.domain.update.MailService;
-import com.tm.gogo.web.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,10 +51,10 @@ public class AuthController {
     }
 
     @PostMapping("/sendEmail/{email}")
-    public ResponseDto sendNewPasswordEmail(@PathVariable("email") String email){
+    public ResponseEntity<Void> sendNewPasswordEmail(@PathVariable("email") String email){
         String newPassword = authService.updatePassword(email);
         MailDto mailDto = mailService.creatMail(email, newPassword);
         mailService.mailSend(mailDto);
-        return ResponseDto.ok().builder().build();
+        return ResponseEntity.ok().build();
     }
 }

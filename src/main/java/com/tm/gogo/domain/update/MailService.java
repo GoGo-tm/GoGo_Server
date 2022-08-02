@@ -3,13 +3,13 @@ package com.tm.gogo.domain.update;
 import com.tm.gogo.web.auth.MailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MailService {
-    private final JavaMailSenderImpl mailSender;
+    private final JavaMailSender mailSender;
 
     public void mailSend(MailDto mailDto) {
         SimpleMailMessage message = new SimpleMailMessage();

@@ -18,6 +18,15 @@ spring:
         format_sql: true
         show_sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: syeonbot@gmail.com
+    password: iqacankhkpeblzri
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+
 logging:
   level:
     com:
