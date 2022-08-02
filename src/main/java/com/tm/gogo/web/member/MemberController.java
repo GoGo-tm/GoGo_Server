@@ -27,7 +27,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "내 정보가 존재하지 않음", content = @Content)
     })
     @GetMapping("/me")
-    public ResponseEntity<MemberDto.Response> findMemberById() {
+    public ResponseEntity<MemberResponse> findMemberById() {
         return ResponseEntity.ok(memberService.findMemberById(SecurityUtil.getCurrentMemberId()));
     }
 
@@ -38,7 +38,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "사용자 정보가 존재하지 않음", content = @Content)
     })
     @GetMapping("/{email}")
-    public ResponseEntity<MemberDto.Response> findMemberByEmail(@PathVariable String email) {
+    public ResponseEntity<MemberResponse> findMemberByEmail(@PathVariable String email) {
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
 }
