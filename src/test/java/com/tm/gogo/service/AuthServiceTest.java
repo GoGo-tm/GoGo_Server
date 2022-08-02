@@ -1,10 +1,8 @@
 package com.tm.gogo.service;
 
 import com.tm.gogo.domain.auth.AuthService;
+import com.tm.gogo.web.auth.*;
 import com.tm.gogo.web.member.LocationDto;
-import com.tm.gogo.web.auth.SignInDto;
-import com.tm.gogo.web.auth.SignUpDto;
-import com.tm.gogo.web.auth.TokenDto;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.MemberRepository;
@@ -50,7 +48,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email("asdf@gmail.com")
                 .password("12341234")
@@ -59,7 +57,7 @@ public class AuthServiceTest {
                 .build();
 
         //when
-        SignUpDto.Response signupResponse = authService.signUp(signUpDto);
+        SignUpResponse signupResponse = authService.signUp(signUpDto);
 
         //then : 실제로 내가 받은 email 로 저장된 데이터가 있는지 확인
         String email = signupResponse.getEmail();
@@ -88,7 +86,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password("12341234")
@@ -99,13 +97,13 @@ public class AuthServiceTest {
         Member signUpMember = signUpDto.toMember(passwordEncoder);
         memberRepository.saveAndFlush(signUpMember);
 
-        SignInDto.Request signInDto = SignInDto.Request.builder()
+        SignInRequest signInDto = SignInRequest.builder()
                 .email(email)
                 .password("12341234")
                 .build();
 
         //when
-        TokenDto.Response signInResponse = authService.signIn(signInDto);
+        TokenResponse signInResponse = authService.signIn(signInDto);
 
         //then
         assertThat(signInResponse.getAccessToken()).isNotNull();
@@ -140,7 +138,7 @@ public class AuthServiceTest {
                 .longitude(longitude)
                 .build();
 
-        SignUpDto.Request signUpDto = SignUpDto.Request.builder()
+        SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password(password)
@@ -150,20 +148,20 @@ public class AuthServiceTest {
 
         authService.signUp(signUpDto);
 
-        SignInDto.Request signInDto = SignInDto.Request.builder()
+        SignInRequest signInDto = SignInRequest.builder()
                 .email(email)
                 .password(password)
                 .build();
 
-        TokenDto.Response tokenResponseDto = authService.signIn(signInDto);
+        TokenResponse tokenResponseDto = authService.signIn(signInDto);
 
-        TokenDto.Request tokenDto = TokenDto.Request.builder()
+        TokenRequest tokenDto = TokenRequest.builder()
                 .accessToken(tokenResponseDto.getAccessToken())
                 .refreshToken(tokenResponseDto.getRefreshToken())
                 .build();
 
         //when
-        TokenDto.Response reissueToken = authService.reissue(tokenDto);
+        TokenResponse reissueToken = authService.reissue(tokenDto);
 
         //then
         assertThat(reissueToken.getAccessToken()).isNotNull();

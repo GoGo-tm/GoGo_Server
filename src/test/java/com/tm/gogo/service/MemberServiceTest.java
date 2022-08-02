@@ -4,7 +4,7 @@ import com.tm.gogo.domain.Location;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.domain.member.MemberService;
-import com.tm.gogo.web.member.MemberDto;
+import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -61,7 +59,7 @@ public class MemberServiceTest {
             memberRepository.saveAndFlush(member);
 
             // when
-            MemberDto.Response memberResponse = memberService.findMemberByEmail(email);
+            MemberResponse memberResponse = memberService.findMemberByEmail(email);
 
             // then
             assertThat(memberResponse.getEmail()).isEqualTo(email);
@@ -101,7 +99,7 @@ public class MemberServiceTest {
             memberRepository.saveAndFlush(member);
 
             // when
-            MemberDto.Response memberResponse = memberService.findMemberById(member.getId());
+            MemberResponse memberResponse = memberService.findMemberById(member.getId());
 
             // then
             assertThat(memberResponse.getEmail()).isEqualTo(email);
