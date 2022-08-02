@@ -3,6 +3,7 @@ package com.tm.gogo.service;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.helper.RandomPasswordGenerator;
 import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 
@@ -24,6 +26,9 @@ public class MemberServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Nested
     @DisplayName("회원 조회")
@@ -100,5 +105,44 @@ public class MemberServiceTest {
                     .isThrownBy(() -> memberService.findMemberById(memberId))
                     .withMessage("사용자 정보가 없습니다. memberId: " + memberId);
         }
+    }
+
+    @Test
+    @DisplayName("비밀번호 변경 성공")
+    void testUpdatePassword() {
+        // given
+        String email = "dustle@naver.net";
+        String nickname = "dustle";
+        Member.Type type = Member.Type.NATIVE;
+
+        String locationName = "서울";
+        float latitude = 1F;
+        float longitude = 2F;
+
+        Location location = Location.builder()
+                .name(locationName)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+
+        Member member = Member.builder()
+                .nickname(nickname)
+                .email(email)
+                .password("12341234")
+                .authority(Member.Authority.ROLE_MEMBER)
+                .type(type)
+                .location(location)
+                .build();
+
+        memberRepository.saveAndFlush(member);
+
+        // when
+        String newPassword = RandomPasswordGenerator.generate();
+        memberService.updatePassword(member.getEmail(), newPassword);
+
+        // then
+        Member updatedMember = memberRepository.findByEmail(email).get();
+        boolean matches = passwordEncoder.matches(newPassword, updatedMember.getPassword());
+        assertThat(matches).isTrue();
     }
 }

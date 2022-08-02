@@ -1,6 +1,5 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.Location;
 import com.tm.gogo.domain.auth.AuthService;
 import com.tm.gogo.web.auth.*;
 import com.tm.gogo.domain.member.Member;
@@ -144,37 +143,5 @@ public class AuthServiceTest {
         long memberId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByEmail(email).get();
         assertThat(member.getId()).isEqualTo(memberId);
-    }
-
-    @Test
-    @DisplayName("비밀번호 변경 테스트")
-    void testUpdatePassword() {
-        String email = "dustle@naver.net";
-        String nickname = "dustle";
-        Member.Type type = Member.Type.NATIVE;
-
-        String locationName = "서울";
-        float latitude = 1F;
-        float longitude = 2F;
-
-        Location location = Location.builder()
-                .name(locationName)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
-
-        Member member = Member.builder()
-                .nickname(nickname)
-                .email(email)
-                .password("12341234")
-                .authority(Member.Authority.ROLE_MEMBER)
-                .type(type)
-                .location(location)
-                .build();
-
-        memberRepository.saveAndFlush(member);
-
-        String newPassword = authService.updatePassword(member.getEmail());
-        assertThat(member.getPassword()).isEqualTo(newPassword);
     }
 }

@@ -5,7 +5,6 @@ import com.tm.gogo.domain.token.TokenRepository;
 import com.tm.gogo.web.auth.*;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
-import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
@@ -15,8 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +28,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final RandomPasswordService randomPasswordService;
 
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpDto) {
@@ -96,17 +93,6 @@ public class AuthService {
 
         // 토큰 발급
         return tokenDto;
-    }
-
-    public String updatePassword(String email) {
-        Member member = findMemberByEmail(email);
-        String newPassword = randomPasswordService.getRandomPassword();
-        member.updatePassword(newPassword);
-        return newPassword;
-    }
-    private Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("이메일이 존재하지 않습니다. email: " + email));
     }
 }
 

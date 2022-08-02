@@ -1,11 +1,10 @@
-package com.tm.gogo.domain.update;
-
-import org.springframework.stereotype.Service;
+package com.tm.gogo.helper;
 
 import java.security.SecureRandom;
-@Service
-public class RandomPasswordService {
-    public String getRandomPassword() {
+
+public class RandomPasswordGenerator {
+
+    public static String generate() {
         int len = 10;
         int randNumOrigin = 48;
         int randNumBound = 122;

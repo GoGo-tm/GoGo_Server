@@ -1,7 +1,6 @@
 package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.auth.AuthService;
-import com.tm.gogo.domain.update.MailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final MailService mailService;
 
     @Operation(summary = "가입하기")
     @ApiResponses({
@@ -48,13 +46,5 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<TokenResponse> reissue(@RequestBody TokenRequest tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
-    }
-
-    @PostMapping("/sendEmail/{email}")
-    public ResponseEntity<Void> sendNewPasswordEmail(@PathVariable("email") String email){
-        String newPassword = authService.updatePassword(email);
-        MailDto mailDto = mailService.creatMail(email, newPassword);
-        mailService.mailSend(mailDto);
-        return ResponseEntity.ok().build();
     }
 }
