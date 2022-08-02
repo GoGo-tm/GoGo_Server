@@ -1,6 +1,5 @@
 package com.tm.gogo.web.member;
 
-import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.domain.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,4 +40,6 @@ public class MemberController {
     public ResponseEntity<MemberResponse> findMemberByEmail(@PathVariable String email) {
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
+
+
 }

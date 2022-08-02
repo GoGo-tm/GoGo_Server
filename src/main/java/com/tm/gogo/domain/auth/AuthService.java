@@ -5,6 +5,7 @@ import com.tm.gogo.domain.token.TokenRepository;
 import com.tm.gogo.web.auth.*;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
+import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
@@ -28,7 +29,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final TokenRepository tokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final RandomPasswordService randomPasswordService;
 
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpDto) {
@@ -94,6 +96,17 @@ public class AuthService {
 
         // 토큰 발급
         return tokenDto;
+    }
+
+    public String updatePassword(String email) {
+        Member member = findMemberByEmail(email);
+        String newPassword = randomPasswordService.getRandomPassword();
+        member.updatePassword(newPassword);
+        return newPassword;
+    }
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("이메일이 존재하지 않습니다. email: " + email));
     }
 }
 

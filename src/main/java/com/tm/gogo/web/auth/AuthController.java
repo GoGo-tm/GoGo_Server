@@ -1,6 +1,8 @@
 package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.auth.AuthService;
+import com.tm.gogo.domain.update.MailService;
+import com.tm.gogo.web.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,10 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "/auth", description = "인증 API")
 @RestController
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final MailService mailService;
 
     @Operation(summary = "가입하기")
     @ApiResponses({
@@ -49,5 +49,13 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<TokenResponse> reissue(@RequestBody TokenRequest tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
+    }
+
+    @PostMapping("/sendEmail/{email}")
+    public ResponseDto sendNewPasswordEmail(@PathVariable("email") String email){
+        String newPassword = authService.updatePassword(email);
+        MailDto mailDto = mailService.creatMail(email, newPassword);
+        mailService.mailSend(mailDto);
+        return ResponseDto.ok().builder().build();
     }
 }

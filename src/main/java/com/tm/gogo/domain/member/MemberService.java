@@ -25,4 +25,5 @@ public class MemberService {
                 .map(MemberResponse::of)
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
+
 }
