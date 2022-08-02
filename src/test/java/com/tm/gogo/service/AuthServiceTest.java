@@ -1,11 +1,8 @@
 package com.tm.gogo.service;
 
 import com.tm.gogo.domain.auth.AuthService;
-import com.tm.gogo.web.auth.SignUpResponse;
+import com.tm.gogo.web.auth.*;
 import com.tm.gogo.web.member.LocationDto;
-import com.tm.gogo.web.auth.SignInRequest;
-import com.tm.gogo.web.auth.SignUpRequest;
-import com.tm.gogo.web.auth.TokenDto;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.MemberRepository;
@@ -106,7 +103,7 @@ public class AuthServiceTest {
                 .build();
 
         //when
-        TokenDto.Response signInResponse = authService.signIn(signInDto);
+        TokenResponse signInResponse = authService.signIn(signInDto);
 
         //then
         assertThat(signInResponse.getAccessToken()).isNotNull();
@@ -156,15 +153,15 @@ public class AuthServiceTest {
                 .password(password)
                 .build();
 
-        TokenDto.Response tokenResponseDto = authService.signIn(signInDto);
+        TokenResponse tokenResponseDto = authService.signIn(signInDto);
 
-        TokenDto.Request tokenDto = TokenDto.Request.builder()
+        TokenRequest tokenDto = TokenRequest.builder()
                 .accessToken(tokenResponseDto.getAccessToken())
                 .refreshToken(tokenResponseDto.getRefreshToken())
                 .build();
 
         //when
-        TokenDto.Response reissueToken = authService.reissue(tokenDto);
+        TokenResponse reissueToken = authService.reissue(tokenDto);
 
         //then
         assertThat(reissueToken.getAccessToken()).isNotNull();
