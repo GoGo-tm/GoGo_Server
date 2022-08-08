@@ -9,6 +9,11 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // 400
     BAD_REQUEST(HttpStatus.BAD_REQUEST),
+    REFRESH_TOKEN_NOT_MATCH(HttpStatus.BAD_REQUEST),
+    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST),
+
+    // 401
+    UNAUTHORIZED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED),
 
     // 404
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND),
