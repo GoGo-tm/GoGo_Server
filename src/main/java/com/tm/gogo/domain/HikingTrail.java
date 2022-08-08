@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "trail")
-public class Trail {
+@Table(name = "hiking_trail")
+public class HikingTrail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "trail_id")
+    @Column(name = "hiking_trail_id")
     private Long id;
 
     @Column(name = "name")
