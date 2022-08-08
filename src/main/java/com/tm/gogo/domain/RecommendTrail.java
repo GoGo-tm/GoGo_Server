@@ -1,5 +1,6 @@
 package com.tm.gogo.domain;
 
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,8 +15,8 @@ public class RecommendTrail extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trail_id")
-    private Trail trail;
+    @JoinColumn(name = "hiking_trail_id")
+    private HikingTrail hikingTrail;
 
     @Column(name = "theme")
     @Enumerated(EnumType.STRING)

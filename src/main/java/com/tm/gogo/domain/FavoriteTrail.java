@@ -1,5 +1,6 @@
 package com.tm.gogo.domain;
 
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,6 @@ public class FavoriteTrail extends BaseEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trail_id")
-    private Trail trail;
+    @JoinColumn(name = "hiking_trail_id")
+    private HikingTrail hikingTrail;
 }
