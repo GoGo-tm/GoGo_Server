@@ -1,5 +1,6 @@
 package com.tm.gogo.domain;
 
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

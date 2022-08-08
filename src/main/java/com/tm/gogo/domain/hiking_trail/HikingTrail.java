@@ -1,8 +1,11 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.hiking_trail;
 
+import com.tm.gogo.domain.Mountain;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -38,6 +41,9 @@ public class HikingTrail {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mountain_id")
     private Mountain mountain;
+
+    @OneToMany(mappedBy = "hikingTrail", cascade = CascadeType.REMOVE)
+    private List<Geometry> geometries = new ArrayList<>();
 
     enum Difficulty {
         EASY, NORMAL, HARD
