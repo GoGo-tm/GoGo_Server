@@ -20,7 +20,24 @@ spring:
 
 logging:
   level:
-    com.tutorial: debug
+    com:
+      tutorial: debug
+    amazonaws:
+      util:
+        EC2MetadataUtils: ERROR
 
 jwt:
   secret-key: Z29nby10bS1zZXJ2ZXItZGxyamVvYW9yb3JodG9kZ290c3Atam9vbmdhbmduaW0teWVvbHNpbWhpaGFsZ2VveW8K
+
+cloud:
+  aws:
+    s3:
+      bucket: gogo-image-s3-bucket
+    credentials:
+      accessKey: AKIAT2E2PXM6M4BAD46M
+      secretKey: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
