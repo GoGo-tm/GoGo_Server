@@ -37,7 +37,11 @@ public class MemberController {
     public ResponseEntity<MemberResponse> findMemberByEmail(@PathVariable String email) {
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
-
+    @Operation(summary = "비밀번호 찾기", description = "비밀번호 변경 후 email로 바뀐 비밀번호 전송")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "비밀번호 변경 후 email 보내기 성공"),
+            @ApiResponse(responseCode = "404", description = "사용자 정보가 존재하지 않음", content = @Content)
+    })
     @PostMapping("/{email}/change-password")
     public ResponseEntity<Void> sendNewPasswordEmail(@PathVariable("email") String email){
         memberService.updatePasswordAndSendMail(email);
