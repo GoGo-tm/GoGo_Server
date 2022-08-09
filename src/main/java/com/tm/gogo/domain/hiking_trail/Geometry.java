@@ -14,10 +14,10 @@ public class Geometry {
     private Long id;
 
     @Column(name = "latitude")
-    private Float latitude;
+    private String latitude;
 
     @Column(name = "longitude")
-    private Float longitude;
+    private String longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hiking_trail_id")
