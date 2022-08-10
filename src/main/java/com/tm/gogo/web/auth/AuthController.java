@@ -47,4 +47,8 @@ public class AuthController {
     public ResponseEntity<TokenResponse> reissue(@RequestBody TokenRequest tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
     }
+    @PostMapping("/issue/{email}")
+    public ResponseEntity<UpdateTokenResponse> issueToken(@PathVariable("email") String email){
+        return ResponseEntity.ok(authService.issueToken(email));
+    }
 }

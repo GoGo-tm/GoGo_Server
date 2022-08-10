@@ -2,17 +2,20 @@ package com.tm.gogo.web.member;
 
 import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.helper.SecurityUtil;
+import com.tm.gogo.web.auth.UpdateTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "/members", description = "회원 정보 API")
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
 public class MemberController {
@@ -42,9 +45,10 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "비밀번호 변경 후 email 보내기 성공"),
             @ApiResponse(responseCode = "404", description = "사용자 정보가 존재하지 않음", content = @Content)
     })
-    @PostMapping("/{email}/change-password")
-    public ResponseEntity<Void> sendNewPasswordEmail(@PathVariable("email") String email){
-        memberService.updatePasswordAndSendMail(email);
+    @PostMapping("/change-password")
+    public ResponseEntity<Void> sendNewPasswordEmail(@RequestBody UpdateTokenResponse updateTokenResponse){
+        memberService.updatePasswordAndSendMail(updateTokenResponse);
         return ResponseEntity.ok().build();
     }
+
 }

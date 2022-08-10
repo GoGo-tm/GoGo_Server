@@ -1,14 +1,13 @@
 package com.tm.gogo.domain.token;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +31,7 @@ public class Token {
     private Type type;
 
     public enum Type {
-        REFRESH
+        REFRESH, ISSUE
     }
 
     public boolean isNotEqualTo(String value) {
