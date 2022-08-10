@@ -10,6 +10,7 @@ import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,18 @@ public class MemberService {
         String newPassword = RandomPasswordGenerator.generate();
         updatePassword(email, newPassword);
         mailService.sendNewPassword(email, newPassword);
+    }
+    public UpdateTokenResponse issueToken(String email){
+        Token issueToken = Token.builder()
+                .key(RandomStringUtils.randomAlphanumeric(10))//랜덤 키 값
+                .value(email)
+                .expiredAt(LocalDateTime.now().plusSeconds(10))
+                .type(Token.Type.ISSUE)
+                .build();
+
+        tokenRepository.save(issueToken);
+
+        return UpdateTokenResponse.of(issueToken);
     }
 
     public String validationToken(UpdateTokenResponse updateTokenResponse) {

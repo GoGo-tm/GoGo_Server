@@ -3,9 +3,12 @@ package com.tm.gogo.service;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.domain.token.Token;
+import com.tm.gogo.domain.token.TokenRepository;
 import com.tm.gogo.helper.RandomPasswordGenerator;
 import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
+
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -29,6 +34,8 @@ public class MemberServiceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Nested
     @DisplayName("회원 조회")
@@ -145,4 +152,46 @@ public class MemberServiceTest {
         boolean matches = passwordEncoder.matches(newPassword, updatedMember.getPassword());
         assertThat(matches).isTrue();
     }
+    @Test
+    @DisplayName("비밀번호 변경 토큰 검증 성공")
+    void testValidationToken(){
+        //given
+        String email = "dustle@gmail.com";
+        Token issueToken = Token.builder()
+                .key(RandomStringUtils.randomAlphanumeric(10))//랜덤 키 값
+                .value(email)
+                .expiredAt(LocalDateTime.now().plusSeconds(10))
+                .type(Token.Type.ISSUE)
+                .build();
+
+        tokenRepository.saveAndFlush(issueToken);
+        UpdateTokenResponse tokenDto = UpdateTokenResponse.of(issueToken);
+
+        //when
+        String tokenEmail = memberService.validationToken(tokenDto);
+
+        //then
+        assertThat(tokenEmail).isEqualTo(email);
+    }
+    @Test
+    @DisplayName("비밀번호 변경 토큰 만료 기간 지나서 검증 실패")
+    void testFailValidationToken(){
+        //given
+        String email = "dustle@gmail.com";
+        Token issueToken = Token.builder()
+                .key(RandomStringUtils.randomAlphanumeric(10))//랜덤 키 값
+                .value(email)
+                .expiredAt(LocalDateTime.now().minusMinutes(10))
+                .type(Token.Type.ISSUE)
+                .build();
+
+        tokenRepository.saveAndFlush(issueToken);
+        UpdateTokenResponse tokenDto = UpdateTokenResponse.of(issueToken);
+
+        //then
+        assertThatExceptionOfType(ApiException.class)
+                .isThrownBy(() -> memberService.validationToken(tokenDto))
+                .withMessage("토큰 만료 기간이 지났습니다.");
+    }
+
 }

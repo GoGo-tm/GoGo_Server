@@ -40,6 +40,17 @@ public class MemberController {
     public ResponseEntity<MemberResponse> findMemberByEmail(@PathVariable String email) {
         return ResponseEntity.ok(memberService.findMemberByEmail(email));
     }
+
+    @Operation(summary = "비밀번호 찾기 토큰 발급 요청", description = "토큰 검증을 위해 토큰 발행")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "토큰 발행 성공"),
+            @ApiResponse(responseCode = "404", description = "잘못된 파라미터", content = @Content)
+    })
+    @PostMapping("/issue/{email}")
+    public ResponseEntity<UpdateTokenResponse> issueToken(@PathVariable("email") String email){
+        return ResponseEntity.ok(memberService.issueToken(email));
+    }
+
     @Operation(summary = "비밀번호 찾기", description = "비밀번호 변경 후 email로 바뀐 비밀번호 전송")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "비밀번호 변경 후 email 보내기 성공"),

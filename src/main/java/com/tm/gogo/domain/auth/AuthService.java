@@ -9,7 +9,6 @@ import com.tm.gogo.web.auth.*;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -65,18 +64,6 @@ public class AuthService {
 
         // 5. 토큰 발급
         return tokenDto;
-    }
-    public UpdateTokenResponse issueToken(String email){
-        Token issueToken = Token.builder()
-                .key(RandomStringUtils.randomAlphanumeric(10))//랜덤 키 값
-                .value(email)
-                .expiredAt(LocalDateTime.now().plusSeconds(10))
-                .type(Token.Type.ISSUE)
-                .build();
-
-        tokenRepository.save(issueToken);
-
-        return UpdateTokenResponse.of(issueToken);
     }
 
     @Transactional
