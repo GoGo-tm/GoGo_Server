@@ -32,10 +32,10 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket: gogo-image-s3-bucket
+      bucket: bucket
     credentials:
-      accessKey: AKIAT2E2PXM6M4BAD46M
-      secretKey: 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
+      accessKey: asdf
+      secretKey: asdfasdf
     region:
       static: ap-northeast-2
       auto: false
