@@ -20,7 +20,24 @@ spring:
 
 logging:
   level:
-    com.tutorial: debug
+    com:
+      tutorial: debug
+    amazonaws:
+      util:
+        EC2MetadataUtils: ERROR
 
 jwt:
   secret-key: Z29nby10bS1zZXJ2ZXItZGxyamVvYW9yb3JodG9kZ290c3Atam9vbmdhbmduaW0teWVvbHNpbWhpaGFsZ2VveW8K
+
+cloud:
+  aws:
+    s3:
+      bucket: bucket
+    credentials:
+      accessKey: asdf
+      secretKey: asdfasdf
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
