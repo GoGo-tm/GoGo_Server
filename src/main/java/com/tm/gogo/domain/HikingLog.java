@@ -20,9 +20,6 @@ public class HikingLog extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "mountain_name")
-    private String mountainName;
-
     @Column(name = "hiking_date")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime hikingDate;
