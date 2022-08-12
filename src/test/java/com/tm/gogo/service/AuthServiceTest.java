@@ -2,7 +2,6 @@ package com.tm.gogo.service;
 
 import com.tm.gogo.domain.auth.AuthService;
 import com.tm.gogo.web.auth.*;
-import com.tm.gogo.web.member.LocationDto;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.MemberRepository;
@@ -38,22 +37,12 @@ public class AuthServiceTest {
     void testSignUp(){
         //given
         String nickname = "asdf";
-        String locationName = "바퀴산";
-        float latitude = 1234123123F;
-        float longitude = 1234123123F;
-
-        LocationDto locationDto = LocationDto.builder()
-                .name(locationName)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
 
         SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email("asdf@gmail.com")
                 .password("12341234")
                 .type(Member.Type.NATIVE)
-                .location(locationDto)
                 .build();
 
         //when
@@ -65,33 +54,20 @@ public class AuthServiceTest {
         Member member = memberRepository.findByEmail(email).get();
         assertThat(member.getNickname()).isEqualTo(nickname);
         assertThat(member.getType()).isEqualTo(Member.Type.NATIVE);
-        assertThat(member.getLocation().getName()).isEqualTo(locationName);
-        assertThat(member.getLocation().getLatitude()).isEqualTo(latitude);
-        assertThat(member.getLocation().getLongitude()).isEqualTo(longitude);
     }
 
     @Test
     @DisplayName("로그인 테스트")
     void testSignIn(){
         //given
-        String locationName = "바퀴산";
         String nickname = "asdf";
         String email = "asdf@gmail.com";
-        float latitude = 1234123123F;
-        float longitude = 1234123123F;
-
-        LocationDto locationDto = LocationDto.builder()
-                .name(locationName)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
 
         SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password("12341234")
                 .type(Member.Type.NATIVE)
-                .location(locationDto)
                 .build();
 
         Member signUpMember = signUpDto.toMember(passwordEncoder);
@@ -125,25 +101,15 @@ public class AuthServiceTest {
     @DisplayName("토큰 재발급 테스트")
     void testReissue() {
         //given
-        String locationName = "바퀴산";
         String nickname = "asdf";
         String email = "asdf@gmail.com";
         String password = "12341234";
-        float latitude = 1234123123F;
-        float longitude = 1234123123F;
-
-        LocationDto locationDto = LocationDto.builder()
-                .name(locationName)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
 
         SignUpRequest signUpDto = SignUpRequest.builder()
                 .nickname(nickname)
                 .email(email)
                 .password(password)
                 .type(Member.Type.NATIVE)
-                .location(locationDto)
                 .build();
 
         authService.signUp(signUpDto);

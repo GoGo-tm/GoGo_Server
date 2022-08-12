@@ -1,6 +1,5 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.Location;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.domain.member.MemberService;
@@ -38,22 +37,11 @@ public class MemberServiceTest {
             String nickname = "woody";
             Member.Type type = Member.Type.NATIVE;
 
-            String locationName = "서울";
-            float latitude = 1F;
-            float longitude = 2F;
-
-            Location location = Location.builder()
-                    .name(locationName)
-                    .latitude(latitude)
-                    .longitude(longitude)
-                    .build();
-
             Member member = Member.builder()
                     .nickname(nickname)
                     .email(email)
                     .authority(Member.Authority.ROLE_MEMBER)
                     .type(type)
-                    .location(location)
                     .build();
 
             memberRepository.saveAndFlush(member);
@@ -65,9 +53,6 @@ public class MemberServiceTest {
             assertThat(memberResponse.getEmail()).isEqualTo(email);
             assertThat(memberResponse.getNickname()).isEqualTo(nickname);
             assertThat(memberResponse.getType()).isEqualTo(type);
-            assertThat(memberResponse.getLocation().getName()).isEqualTo(locationName);
-            assertThat(memberResponse.getLocation().getLatitude()).isEqualTo(latitude);
-            assertThat(memberResponse.getLocation().getLongitude()).isEqualTo(longitude);
         }
 
         @Test
@@ -78,22 +63,11 @@ public class MemberServiceTest {
             String nickname = "woody";
             Member.Type type = Member.Type.NATIVE;
 
-            String locationName = "서울";
-            float latitude = 1F;
-            float longitude = 2F;
-
-            Location location = Location.builder()
-                    .name(locationName)
-                    .latitude(latitude)
-                    .longitude(longitude)
-                    .build();
-
             Member member = Member.builder()
                     .nickname(nickname)
                     .email(email)
                     .authority(Member.Authority.ROLE_MEMBER)
                     .type(type)
-                    .location(location)
                     .build();
 
             memberRepository.saveAndFlush(member);
@@ -105,9 +79,6 @@ public class MemberServiceTest {
             assertThat(memberResponse.getEmail()).isEqualTo(email);
             assertThat(memberResponse.getNickname()).isEqualTo(nickname);
             assertThat(memberResponse.getType()).isEqualTo(type);
-            assertThat(memberResponse.getLocation().getName()).isEqualTo(locationName);
-            assertThat(memberResponse.getLocation().getLatitude()).isEqualTo(latitude);
-            assertThat(memberResponse.getLocation().getLongitude()).isEqualTo(longitude);
         }
 
         @Test
