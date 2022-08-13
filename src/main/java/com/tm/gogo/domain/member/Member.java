@@ -1,7 +1,6 @@
 package com.tm.gogo.domain.member;
 
 import com.tm.gogo.domain.BaseEntity;
-import com.tm.gogo.domain.Location;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +26,6 @@ public class Member extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "location_id")
-    private Location location;
-
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -48,12 +43,11 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(String nickname, String email, Location location, Type type,String password, Authority authority) {
+    public Member(String nickname, String email, Type type,String password, Authority authority) {
         this.nickname = nickname;
         this.email = email;
         this.type = type;
         this.password = password;
-        this.location = location;
         this.authority = authority;
     }
 }

@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MemberResponse {
-    private LocationDto location;
     private String nickname;
     private String email;
     private Member.Type type;
@@ -16,7 +15,6 @@ public class MemberResponse {
         return MemberResponse.builder()
                 .nickname(member.getNickname())
                 .email(member.getEmail())
-                .location(LocationDto.of(member.getLocation()))
                 .type(member.getType())
                 .build();
     }

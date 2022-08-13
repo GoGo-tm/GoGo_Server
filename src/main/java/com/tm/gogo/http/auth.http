@@ -6,12 +6,7 @@ Content-Type: application/json
   "nickname": "siyeon",
   "email": "siyeon@naver.net",
   "password": "12341234",
-  "type": "NATIVE",
-  "location": {
-    "name": "서울",
-    "latitude": 127.123214,
-    "longitude": 34.1231445
-  }
+  "type": "NATIVE"
 }
 
 ### 로그인

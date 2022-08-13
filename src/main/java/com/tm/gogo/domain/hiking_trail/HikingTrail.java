@@ -1,6 +1,5 @@
 package com.tm.gogo.domain.hiking_trail;
 
-import com.tm.gogo.domain.Mountain;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -19,9 +18,6 @@ public class HikingTrail {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "trail_number")
-    private Integer trailNumber;
-
     @Column(name = "length")
     private Integer length;
 
@@ -35,12 +31,11 @@ public class HikingTrail {
     @Column(name = "downtime")
     private Integer downtime;
 
-    @Column(name = "geometry")
-    private String geometry;
+    @Column(name = "mountain_code")
+    private String mountainCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mountain_id")
-    private Mountain mountain;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @OneToMany(mappedBy = "hikingTrail", cascade = CascadeType.REMOVE)
     private List<Geometry> geometries = new ArrayList<>();
