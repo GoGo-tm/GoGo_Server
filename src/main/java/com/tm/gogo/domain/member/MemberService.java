@@ -12,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -29,11 +31,13 @@ public class MemberService {
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
 
+    @Transactional
     public UpdateTokenDto issueToken(String email) {
         Token token = newPasswordTokenService.issueToken(RandomStringUtils.randomAlphanumeric(10), email);
         return UpdateTokenDto.of(token);
     }
 
+    @Transactional
     public void updatePasswordAndSendMail(UpdateTokenDto updateTokenDto) {
         String txId = updateTokenDto.getTxId();
         String email = updateTokenDto.getEmail();
@@ -45,6 +49,7 @@ public class MemberService {
         mailService.sendNewPassword(email, newPassword);
     }
 
+    @Transactional
     public void updatePassword(String email, String newPassword) {
         Member member = findByEmail(email);
         String encodedPassword = passwordEncoder.encode(newPassword);
