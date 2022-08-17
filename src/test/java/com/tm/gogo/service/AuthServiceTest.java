@@ -106,25 +106,15 @@ public class AuthServiceTest {
         @DisplayName("토큰 재발급 테스트")
         void testReissue() {
             //given
-            String locationName = "바퀴산";
             String nickname = "asdf";
             String email = "asdf@gmail.com";
             String password = "12341234";
-            float latitude = 1234123123F;
-            float longitude = 1234123123F;
-
-            LocationDto locationDto = LocationDto.builder()
-                    .name(locationName)
-                    .latitude(latitude)
-                    .longitude(longitude)
-                    .build();
 
             SignUpRequest signUpDto = SignUpRequest.builder()
                     .nickname(nickname)
                     .email(email)
                     .password(password)
                     .type(Member.Type.NATIVE)
-                    .location(locationDto)
                     .build();
 
             authService.signUp(signUpDto);

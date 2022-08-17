@@ -79,23 +79,12 @@ public class MemberServiceTest {
         String nickname = "dustle";
         Member.Type type = Member.Type.NATIVE;
 
-        String locationName = "서울";
-        float latitude = 1F;
-        float longitude = 2F;
-
-        Location location = Location.builder()
-                .name(locationName)
-                .latitude(latitude)
-                .longitude(longitude)
-                .build();
-
         Member member = Member.builder()
                 .nickname(nickname)
                 .email(email)
                 .password("12341234")
                 .authority(Member.Authority.ROLE_MEMBER)
                 .type(type)
-                .location(location)
                 .build();
 
         memberRepository.saveAndFlush(member);
