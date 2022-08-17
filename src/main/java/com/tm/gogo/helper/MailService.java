@@ -17,7 +17,6 @@ public class MailService {
     private final JavaMailSender mailSender;
 
     public void sendNewPassword(String email, String newPassword) {
-        //Todo: 기획한테 메일 형식 물어보기
         MailDto mailDto = MailDto.builder()
                 .address(email)
                 .title("[GOGO] 고고 임시비밀번호가 생성되었습니다")

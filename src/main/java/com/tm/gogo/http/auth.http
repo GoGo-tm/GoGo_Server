@@ -26,8 +26,3 @@ Content-Type: application/json
   "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjU5Mjg3NDM4fQ.iQrfOdJOs3q6-UKBrvElwFec8t1kgxSnWX0dA4CVF17ElfSXdM275xXO37SKC1SyrzBZRszQ_xYvXhtSGtdeuQ",
   "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTk4OTA0Mzh9.G-aXcplvmHr9h-p9vG5u5-J2V9OzqgPI56pBJgP-yBGKqEB-oVAelROpf2Y5Es4SnO0hg4720Nxk66QsgmoSZA"
 }
-
-### 메세지 바꾸기
-POST http://localhost:8080/api/auth/sendEmail/syeonbot@gmail.com
-Content-Type: application/json
-

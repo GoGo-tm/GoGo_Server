@@ -66,33 +66,6 @@ public class AuthService {
         return tokenDto;
     }
 
-    @Transactional
-    public TokenResponse reissue(TokenRequest tokenRequestDto) {
-        // 1. Refresh Token 검증
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            throw new ApiException(ErrorCode.INVALID_REFRESH_TOKEN, "Refresh Token 이 유효하지 않습니다.");
-        }
 
-        // 2. Access Token 에서 Member ID 가져오기
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
-
-        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        Token refreshToken = tokenRepository.findByKeyAndType(authentication.getName(), Token.Type.REFRESH)
-                .orElseThrow(() -> new ApiException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN, "로그아웃 된 사용자입니다."));
-
-        // 4. Refresh Token 일치하는지 검사
-        if (refreshToken.isNotEqualTo(tokenRequestDto.getRefreshToken())) {
-            throw new ApiException(ErrorCode.REFRESH_TOKEN_NOT_MATCH, "토큰의 유저 정보가 일치하지 않습니다.");
-        }
-
-        // 5. 새로운 토큰 생성
-        TokenResponse tokenDto = tokenProvider.generateTokenDto(authentication);
-
-        // 6. 저장소 정보 업데이트
-        refreshToken.renewValue(tokenDto.getRefreshToken(), LocalDateTime.now().plusWeeks(2));
-
-        // 토큰 발급
-        return tokenDto;
-    }
 }
 

@@ -1,5 +1,7 @@
 package com.tm.gogo.domain.token;
 
+import com.tm.gogo.web.response.ApiException;
+import com.tm.gogo.web.response.ErrorCode;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "token")
 public class Token {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id")
     private Long id;
 
@@ -31,7 +34,7 @@ public class Token {
     private Type type;
 
     public enum Type {
-        REFRESH, ISSUE
+        REFRESH, NEW_PASSWORD
     }
 
     public boolean isNotEqualTo(String value) {
@@ -41,5 +44,11 @@ public class Token {
     public void renewValue(String value, LocalDateTime expiredAt) {
         this.value = value;
         this.expiredAt = expiredAt;
+    }
+
+    public void validateExpiredAt() {
+        if (!expiredAt.isAfter(LocalDateTime.now())) {
+            throw new ApiException(ErrorCode.EXPIRED_TOKEN, "토큰 만료 기간이 지났습니다. txId: " + key);
+        }
     }
 }
