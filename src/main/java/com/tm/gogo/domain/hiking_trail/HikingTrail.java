@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "hiking_trail")
+@Table(name = "hiking_trail", indexes = @Index(columnList = "mountain_code", unique = true))
 public class HikingTrail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
