@@ -1,7 +1,6 @@
 package com.tm.gogo.web.member;
 
 import com.tm.gogo.domain.member.MemberService;
-import com.tm.gogo.domain.token.NewPasswordTokenService;
 import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.auth.UpdateTokenDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/members")
 public class MemberController {
     private final MemberService memberService;
-    private final NewPasswordTokenService newPasswordTokenService;
 
     @Operation(summary = "내 정보 찾기", description = "별다른 파라미터 없이 Access Token 으로 내정보를 찾음")
     @ApiResponses({
@@ -39,8 +37,8 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "잘못된 파라미터", content = @Content)
     })
     @PostMapping("/{email}/token")
-    public ResponseEntity<UpdateTokenDto> issueToken(@PathVariable("email") String email){
-        return ResponseEntity.ok(newPasswordTokenService.issueTokenDto(email));
+    public ResponseEntity<UpdateTokenDto> issueToken(@PathVariable("email") String email) {
+        return ResponseEntity.ok(memberService.issueToken(email));
     }
 
     @Operation(summary = "비밀번호 찾기", description = "비밀번호 변경 후 email로 바뀐 비밀번호 전송")
@@ -49,8 +47,8 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "사용자 정보가 존재하지 않음", content = @Content)
     })
     @PostMapping("/change-password")
-    public ResponseEntity<Void> sendNewPasswordEmail(@RequestBody UpdateTokenDto updateTokenDto){
-        newPasswordTokenService.updatePasswordAndSendMail(updateTokenDto);
+    public ResponseEntity<Void> sendNewPasswordEmail(@RequestBody UpdateTokenDto updateTokenDto) {
+        memberService.updatePasswordAndSendMail(updateTokenDto);
         return ResponseEntity.ok().build();
     }
 

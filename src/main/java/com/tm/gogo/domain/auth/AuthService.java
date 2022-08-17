@@ -3,11 +3,9 @@ package com.tm.gogo.domain.auth;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.domain.token.Token;
-import com.tm.gogo.domain.token.TokenRepository;
+import com.tm.gogo.domain.token.*;
 import com.tm.gogo.web.auth.*;
 import com.tm.gogo.web.response.ApiException;
-import com.tm.gogo.web.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 
@@ -27,7 +23,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpDto) {
@@ -53,19 +50,15 @@ public class AuthService {
         TokenResponse tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 4. RefreshToken 저장
-        Token refreshToken = Token.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
-                .expiredAt(LocalDateTime.now().plusWeeks(2))
-                .type(Token.Type.REFRESH)
-                .build();
-
-        tokenRepository.save(refreshToken);
+        refreshTokenService.issueToken(authentication.getName(), tokenDto.getRefreshToken());
 
         // 5. 토큰 발급
         return tokenDto;
     }
 
-
+    @Transactional
+    public TokenResponse reissue(TokenRequest tokenRequestDto) {
+        return refreshTokenService.reissue(tokenRequestDto);
+    }
 }
 

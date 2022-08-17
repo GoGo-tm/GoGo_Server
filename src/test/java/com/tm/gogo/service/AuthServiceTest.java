@@ -6,6 +6,7 @@ import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -95,5 +96,68 @@ public class AuthServiceTest {
         long memberId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByEmail(email).get();
         assertThat(member.getId()).isEqualTo(memberId);
+    }
+
+
+    @Nested
+    @DisplayName("토큰 재발급 테스트")
+    class refreshTokenTest {
+        @Test
+        @DisplayName("토큰 재발급 테스트")
+        void testReissue() {
+            //given
+            String locationName = "바퀴산";
+            String nickname = "asdf";
+            String email = "asdf@gmail.com";
+            String password = "12341234";
+            float latitude = 1234123123F;
+            float longitude = 1234123123F;
+
+            LocationDto locationDto = LocationDto.builder()
+                    .name(locationName)
+                    .latitude(latitude)
+                    .longitude(longitude)
+                    .build();
+
+            SignUpRequest signUpDto = SignUpRequest.builder()
+                    .nickname(nickname)
+                    .email(email)
+                    .password(password)
+                    .type(Member.Type.NATIVE)
+                    .location(locationDto)
+                    .build();
+
+            authService.signUp(signUpDto);
+
+            SignInRequest signInDto = SignInRequest.builder()
+                    .email(email)
+                    .password(password)
+                    .build();
+
+            TokenResponse tokenResponseDto = authService.signIn(signInDto);
+
+            TokenRequest tokenDto = TokenRequest.builder()
+                    .accessToken(tokenResponseDto.getAccessToken())
+                    .refreshToken(tokenResponseDto.getRefreshToken())
+                    .build();
+
+            //when
+            TokenResponse reissueToken = authService.reissue(tokenDto);
+
+            //then
+            assertThat(reissueToken.getAccessToken()).isNotNull();
+            assertThat(reissueToken.getRefreshToken()).isNotNull();
+            assertThat(reissueToken.getGrantType()).isNotNull();
+            assertThat(reissueToken.getAccessTokenExpiresIn()).isNotNull();
+
+            String accessToken = reissueToken.getAccessToken();
+
+            assertThat(tokenProvider.validateToken(accessToken)).isTrue();
+
+            Authentication authentication = tokenProvider.getAuthentication(accessToken);
+            long memberId = Long.parseLong(authentication.getName());
+            Member member = memberRepository.findByEmail(email).get();
+            assertThat(member.getId()).isEqualTo(memberId);
+        }
     }
 }

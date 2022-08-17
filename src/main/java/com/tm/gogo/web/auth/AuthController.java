@@ -1,7 +1,6 @@
 package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.auth.AuthService;
-import com.tm.gogo.domain.token.RefreshTokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final RefreshTokenService refreshTokenService;
 
     @Operation(summary = "가입하기")
     @ApiResponses({
@@ -47,7 +45,7 @@ public class AuthController {
     })
     @PostMapping("/reissue")
     public ResponseEntity<TokenResponse> reissue(@RequestBody TokenRequest tokenRequestDto) {
-        return ResponseEntity.ok(refreshTokenService.reissue(tokenRequestDto));
+        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
     }
 
 }

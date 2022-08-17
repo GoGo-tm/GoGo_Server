@@ -21,23 +21,21 @@ public class RefreshTokenService implements TokenService{
 
     private final TokenProvider tokenProvider;
 
-    //Todo:메소드 사용처 현재 클래스에서 없음
     @Override
-    public Token issueToken(String value) {
-        Token issueToken = Token.builder()
-                .key(RandomStringUtils.randomAlphanumeric(10))//랜덤 키 값
+    public Token issueToken(String key, String value) {
+        Token token = RefreshToken.builder()
+                .key(key)
                 .value(value)
-                .expiredAt(LocalDateTime.now().plusSeconds(10))
-                .type(Token.Type.NEW_PASSWORD)
+                .expiredAt(LocalDateTime.now().plusWeeks(2))
                 .build();
 
-        tokenRepository.save(issueToken);
-        return issueToken;
+        tokenRepository.save(token);
+        return token;
     }
 
     @Override
-    public Token findToken(String key, Token.Type type) {
-        return tokenRepository.findByKeyAndType(key, type)
+    public Token findToken(String key) {
+        return tokenRepository.findByKey(key)
                 .orElseThrow(() -> new ApiException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN, "로그아웃 된 사용자입니다."));
     }
 
@@ -49,7 +47,7 @@ public class RefreshTokenService implements TokenService{
 
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
-        Token refreshToken = findToken(authentication.getName(), Token.Type.REFRESH);
+        Token refreshToken = findToken(authentication.getName());
 
         if (refreshToken.isNotEqualTo(tokenRequestDto.getRefreshToken())) {
             throw new ApiException(ErrorCode.REFRESH_TOKEN_NOT_MATCH, "토큰의 유저 정보가 일치하지 않습니다.");
@@ -61,6 +59,4 @@ public class RefreshTokenService implements TokenService{
 
         return tokenDto;
     }
-
-
 }
