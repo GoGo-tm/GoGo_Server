@@ -62,8 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/members/me").hasRole("MEMBER")
                 .antMatchers("/api/members/terms").hasRole("MEMBER")
+                .antMatchers("/api/hiking-trails/favorite").hasRole("MEMBER")
                 .antMatchers(HttpMethod.GET, "/api/members/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/hiking-trails/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
