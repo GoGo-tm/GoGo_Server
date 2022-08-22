@@ -27,7 +27,7 @@ public class Terms extends BaseEntity {
     private String detail;
 
     //TODO:약관 타입 입력
-    private enum Type {
+    public enum Type {
 
     }
 }
