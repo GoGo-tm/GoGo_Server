@@ -23,7 +23,7 @@ public class RecommendTrail extends BaseEntity {
     private Theme theme;
 
     //TODO: 테마 입력
-    private enum Theme {
+    public enum Theme {
 
     }
 }

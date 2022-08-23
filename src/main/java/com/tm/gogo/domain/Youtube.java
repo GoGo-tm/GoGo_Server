@@ -20,7 +20,7 @@ public class Youtube extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Theme theme;
 
-    private enum Theme {
+    public enum Theme {
         INFO, VLOG
     }
 }
