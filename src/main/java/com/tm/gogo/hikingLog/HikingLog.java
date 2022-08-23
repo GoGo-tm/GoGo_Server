@@ -10,6 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,8 +41,8 @@ public class HikingLog extends BaseEntity {
     @JoinColumn(name = "hiking_trail_id")
     private HikingTrail hikingTrail;
 
-//    @OneToMany(mappedBy = "hiking_log", fetch = FetchType.LAZY)
-//    private List<HikingLogImage> hikingLogImage = new ArrayList<>();
+    @OneToMany(mappedBy = "hikingLog", fetch = FetchType.LAZY)
+    private List<HikingLogImage> hikingLogImage = new ArrayList<>();
 
     @Builder
     public HikingLog(Member member, LocalDateTime hikingDate, Integer starRating, String memo, HikingTrail hikingTrail) {
