@@ -1,6 +1,10 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.hikingLog;
 
+import com.tm.gogo.domain.BaseEntity;
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @Table(name = "hiking_log")
 public class HikingLog extends BaseEntity {
@@ -30,20 +35,19 @@ public class HikingLog extends BaseEntity {
     @Column(name = "memo")
     private String memo;
 
-    @Column(name = "log_image1")
-    private String logImage1;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hiking_trail_id")
+    private HikingTrail hikingTrail;
 
-    @Column(name = "log_image2")
-    private String logImage2;
+//    @OneToMany(mappedBy = "hiking_log", fetch = FetchType.LAZY)
+//    private List<HikingLogImage> hikingLogImage = new ArrayList<>();
 
-    @Column(name = "log_image3")
-    private String logImage3;
-
-    @Column(name = "log_image4")
-    private String logImage4;
-
-    @Column(name = "log_image5")
-    private String logImage5;
-
-
+    @Builder
+    public HikingLog(Member member, LocalDateTime hikingDate, Integer starRating, String memo, HikingTrail hikingTrail) {
+        this.member = member;
+        this.hikingDate = hikingDate;
+        this.starRating = starRating;
+        this.memo = memo;
+        this.hikingTrail = hikingTrail;
+    }
 }

@@ -19,6 +19,7 @@ public enum ErrorCode {
 
     // 404
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND),
+    HIKING_TRAIL_NOT_FOUND(HttpStatus.NOT_FOUND),
 
     //408
     REQUEST_TIMEOUT(HttpStatus.REQUEST_TIMEOUT),
