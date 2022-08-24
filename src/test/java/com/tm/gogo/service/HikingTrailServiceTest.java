@@ -1,6 +1,10 @@
 package com.tm.gogo.service;
 
+import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
+import com.tm.gogo.domain.favorite_trail.FavoriteTrailRepository;
 import com.tm.gogo.domain.hiking_trail.*;
+import com.tm.gogo.domain.member.Member;
+import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_trail.*;
 import com.tm.gogo.web.response.ApiException;
@@ -25,6 +29,12 @@ public class HikingTrailServiceTest {
 
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private FavoriteTrailRepository favoriteTrailRepository;
 
     @Nested
     @DisplayName("등산로 조회")
@@ -239,6 +249,36 @@ public class HikingTrailServiceTest {
                 assertThat(hikingTrailDto.getName()).isEqualTo("등산로" + (5 - i));
             }
         }
+    }
+
+    @Test
+    @DisplayName("즐겨찾기 된 등산로 리스트 조회")
+    void testFindFavorite() {
+        // given
+        Member member = new Member();
+        memberRepository.saveAndFlush(member);
+
+        for (int i = 0; i < 5; i++) {
+            HikingTrail hikingTrail = createHikingTrail("등산로", 1000, Difficulty.EASY, 28, 32, "서울시 강남구 대치동");
+            hikingTrailRepository.saveAndFlush(hikingTrail);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            HikingTrail hikingTrail = createHikingTrail("등산로 즐겨찾기", 1000, Difficulty.EASY, 28, 32, "서울시 강남구 대치동");
+            hikingTrailRepository.saveAndFlush(hikingTrail);
+
+            FavoriteTrail favoriteTrail = FavoriteTrail.builder().member(member).hikingTrail(hikingTrail).build();
+            favoriteTrailRepository.saveAndFlush(favoriteTrail);
+        }
+
+        // when
+        HikingTrailsResponse response = hikingTrailService.findFavoriteHikingTrails(member.getId(), new HikingTrailCondition(), new Scrollable());
+
+        // then
+        List<HikingTrailDto> contents = response.getContents();
+        assertThat(contents.size()).isEqualTo(3);
+
+        contents.forEach(content -> assertThat(content.getName()).isEqualTo("등산로 즐겨찾기"));
     }
 
     @Nested

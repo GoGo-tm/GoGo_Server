@@ -26,8 +26,8 @@ public class HikingTrailService {
         return hikingTrailQueryRepository.findHikingTrails(condition, scrollable);
     }
 
-    public List<HikingTrailDto> findFavoriteHikingTrails(Long memberId) {
-        return null;
+    public HikingTrailsResponse findFavoriteHikingTrails(Long memberId, HikingTrailCondition condition, Scrollable scrollable) {
+        return hikingTrailQueryRepository.findFavoriteHikingTrails(memberId, condition, scrollable);
     }
 
     public HikingTrailDetailResponse findHikingTrail(Long hikingTrailId) {

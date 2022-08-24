@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static com.tm.gogo.domain.favorite_trail.QFavoriteTrail.favoriteTrail;
 import static com.tm.gogo.domain.hiking_trail.QHikingTrail.hikingTrail;
 
 @Repository
@@ -31,6 +32,31 @@ public class HikingTrailQueryRepository {
                 .from(hikingTrail)
                 .leftJoin(hikingTrail.image)
                 .where(
+                        greaterThanId(scrollable.getLastId()),
+                        containsAddress(condition.getAddress()),
+                        eqDifficulty(condition.getDifficulty()),
+                        lessOrEqLength(condition.getLength()),
+                        lessOrEqTime(condition.getTime())
+                )
+                .orderBy(condition.getOrder().getOrderSpecifier())
+                .limit(scrollable.getSize() + 1)
+                .fetch();
+
+        return toResponse(results, scrollable);
+    }
+
+    public HikingTrailsResponse findFavoriteHikingTrails(Long memberId, HikingTrailCondition condition, Scrollable scrollable) {
+        List<HikingTrailDto> results = queryFactory
+                .select(new QHikingTrailDto(
+                        hikingTrail.id,
+                        hikingTrail.image.url,
+                        hikingTrail.name
+                ))
+                .from(favoriteTrail)
+                .join(favoriteTrail.hikingTrail, hikingTrail)
+                .leftJoin(hikingTrail.image)
+                .where(
+                        favoriteTrail.member.id.eq(memberId),
                         greaterThanId(scrollable.getLastId()),
                         containsAddress(condition.getAddress()),
                         eqDifficulty(condition.getDifficulty()),

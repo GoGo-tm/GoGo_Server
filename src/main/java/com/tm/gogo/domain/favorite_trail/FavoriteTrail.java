@@ -1,7 +1,9 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.favorite_trail;
 
+import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -21,4 +23,10 @@ public class FavoriteTrail extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hiking_trail_id")
     private HikingTrail hikingTrail;
+
+    @Builder
+    public FavoriteTrail(Member member, HikingTrail hikingTrail) {
+        this.member = member;
+        this.hikingTrail = hikingTrail;
+    }
 }

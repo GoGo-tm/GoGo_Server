@@ -32,9 +32,9 @@ public class HikingTrailController {
 
     @Operation(summary = "즐겨찾기에 등록된 등산로 리스트 조회", description = "로그인 상태여야 하며 파라미터를 통해 필터링, 정렬 가능")
     @GetMapping("/favorite")
-    public ResponseEntity<List<HikingTrailDto>> findFavoriteHikingTrails() {
+    public ResponseEntity<HikingTrailsResponse> findFavoriteHikingTrails(HikingTrailCondition condition, Scrollable scrollable) {
         return ResponseEntity.ok(
-                hikingTrailService.findFavoriteHikingTrails(SecurityUtil.getCurrentMemberId())
+                hikingTrailService.findFavoriteHikingTrails(SecurityUtil.getCurrentMemberId(), condition, scrollable)
         );
     }
 
