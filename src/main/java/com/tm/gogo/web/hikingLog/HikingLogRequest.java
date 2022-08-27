@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -19,6 +21,7 @@ public class HikingLogRequest {
     private Long hikingTrailId;
     private int starRating;
     private String memo;
+    private List<String> imageUrls;
 
     public HikingLog toHikingLog(Member member, HikingTrail hikingTrail) {
         return HikingLog.builder()
