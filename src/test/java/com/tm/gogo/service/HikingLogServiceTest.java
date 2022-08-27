@@ -52,7 +52,7 @@ public class HikingLogServiceTest {
                 .build();
 
         //when
-        Long hikingLogId = hikingLogService.createHikingLog(1L, hikingLogRequest);
+        Long hikingLogId = hikingLogService.createHikingLog(member.getId(), hikingLogRequest);
 
         //then
         Optional<HikingLog> hikingLog = hikingLogRepository.findById(hikingLogId);
