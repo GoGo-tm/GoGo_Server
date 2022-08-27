@@ -1,12 +1,17 @@
 package com.tm.gogo.web.auth;
 
 import com.tm.gogo.domain.member.Member;
+import com.tm.gogo.domain.term_agreement.Term;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 
 @Getter
@@ -25,6 +30,8 @@ public class SignUpRequest {
     @Schema(example = "NATIVE", description = "회원 유형", required = true)
     private Member.Type type;
 
+    private final EnumSet<Term> terms = EnumSet.noneOf(Term.class);
+
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .nickname(nickname)
@@ -32,6 +39,7 @@ public class SignUpRequest {
                 .password(passwordEncoder.encode(password))
                 .type(type)
                 .authority(Member.Authority.ROLE_MEMBER)
+                .terms(terms)
                 .build();
     }
 }
