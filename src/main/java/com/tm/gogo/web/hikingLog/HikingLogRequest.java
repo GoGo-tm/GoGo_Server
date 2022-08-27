@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HikingLogRequest {
-    private Long memberId;
     private LocalDateTime hikingDate;
     private Long hikingTrailId;
     private int starRating;

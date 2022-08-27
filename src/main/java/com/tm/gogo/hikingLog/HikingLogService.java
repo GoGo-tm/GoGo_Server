@@ -4,7 +4,6 @@ import com.tm.gogo.HikingTrailRepository;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.hikingLog.HikingLogRequest;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,8 @@ public class HikingLogService {
     private final HikingLogImageRepository hikingLogImageRepository;
 
     @Transactional
-    public Long createHikingLog(HikingLogRequest hikingLogRequest) {
-        Member member = findByMemberId(SecurityUtil.getCurrentMemberId());
+    public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
+        Member member = findMemberByMemberId(memberId);
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);
@@ -47,7 +46,7 @@ public class HikingLogService {
         return hikingLog.getId();
     }
 
-    private Member findByMemberId(Long memberId) {
+    private Member findMemberByMemberId(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }

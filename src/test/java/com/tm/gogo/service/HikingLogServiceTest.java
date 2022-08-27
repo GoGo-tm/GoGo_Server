@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Transactional
-public class HikingLogTest {
+public class HikingLogServiceTest {
 
     @Autowired
     private HikingLogService hikingLogService;
@@ -34,7 +34,7 @@ public class HikingLogTest {
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
 
-    @DisplayName("예전 등산 기록 로그 생성")
+    @DisplayName("HikingLog 생성 성공")
     @Test
     void testCreateHikingLog() {
         //given
@@ -45,7 +45,6 @@ public class HikingLogTest {
         hikingTrailRepository.saveAndFlush(hikingTrail);
 
         HikingLogRequest hikingLogRequest = HikingLogRequest.builder()
-                .memberId(member.getId())
                 .hikingTrailId(hikingTrail.getId())
                 .hikingDate(LocalDateTime.now())
                 .starRating(5)
@@ -53,7 +52,7 @@ public class HikingLogTest {
                 .build();
 
         //when
-        Long hikingLogId = hikingLogService.createHikingLog(hikingLogRequest);
+        Long hikingLogId = hikingLogService.createHikingLog(1L, hikingLogRequest);
 
         //then
         Optional<HikingLog> hikingLog = hikingLogRepository.findById(hikingLogId);
