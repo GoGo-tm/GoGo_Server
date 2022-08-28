@@ -10,10 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
 import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
 import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
 
@@ -31,19 +27,6 @@ public class HikingLogService {
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);
-        AtomicInteger num = new AtomicInteger();
-
-        if(hikingLogRequest.getImageUrls() != null) {
-            List<HikingLogImage> hikingLogImages = hikingLogRequest.getImageUrls().stream()
-                    .map(imageUrl -> HikingLogImage.builder().url(imageUrl).number(num.incrementAndGet()).hikingLog(hikingLog).build())
-                    .collect(Collectors.toList());
-
-            for(HikingLogImage hikingLogImage : hikingLogImages){
-                hikingLog.addImageUrls(hikingLogImage);
-            }
-
-            hikingLogImageRepository.saveAll(hikingLogImages);
-        }
 
         hikingLogRepository.save(hikingLog);
         return hikingLog.getId();

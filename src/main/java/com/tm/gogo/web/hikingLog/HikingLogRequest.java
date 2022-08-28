@@ -29,6 +29,7 @@ public class HikingLogRequest {
                 .hikingTrail(hikingTrail)
                 .starRating(starRating)
                 .memo(memo)
+                .imageUrls(imageUrls)
                 .build();
     }
 }

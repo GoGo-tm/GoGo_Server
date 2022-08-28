@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public class HikingLog extends BaseEntity {
     private Member member;
 
     @Column(name = "hiking_date")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime hikingDate;
 
     @Column(name = "star_rating")
@@ -45,16 +46,27 @@ public class HikingLog extends BaseEntity {
     private List<HikingLogImage> hikingLogImages = new ArrayList<>();
 
     @Builder
-    public HikingLog(Member member, LocalDateTime hikingDate, Integer starRating, String memo, HikingTrail hikingTrail) {
+    public HikingLog(Member member, LocalDateTime hikingDate, Integer starRating, String memo, HikingTrail hikingTrail, List<String> imageUrls) {
         this.member = member;
         this.hikingDate = hikingDate;
         this.starRating = starRating;
         this.memo = memo;
         this.hikingTrail = hikingTrail;
+        initHikingLogImages(imageUrls);
     }
 
-    public void addImageUrls(HikingLogImage hikingLogImage) {
-        hikingLogImages.add(hikingLogImage);
-        hikingLogImage.setHikingLog(this);
+    public void initHikingLogImages(List<String> imageUrls) {
+        if (CollectionUtils.isEmpty(imageUrls)) return;
+
+        for (int i = 0; i < imageUrls.size(); i++) {
+            String imageUrl = imageUrls.get(i);
+            HikingLogImage hikingLogImage = HikingLogImage.builder()
+                    .url(imageUrl)
+                    .number(i)
+                    .hikingLog(this)
+                    .build();
+
+            hikingLogImages.add(hikingLogImage);
+        }
     }
 }
