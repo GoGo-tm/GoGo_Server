@@ -9,27 +9,23 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "geometry")
-public class Geometry {
+@Table(name = "hiking_trail_image")
+public class HikingTrailImage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "geometry_id")
+    @Column(name = "hiking_trail_image_id")
     private Long id;
 
-    @Column(name = "latitude")
-    private String latitude;
+    @Column(name = "url")
+    private String url;
 
-    @Column(name = "longitude")
-    private String longitude;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hiking_trail_id")
     private HikingTrail hikingTrail;
 
     @Builder
-    public Geometry(String latitude, String longitude, HikingTrail hikingTrail) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public HikingTrailImage(String url, HikingTrail hikingTrail) {
+        this.url = url;
         this.hikingTrail = hikingTrail;
     }
 }
