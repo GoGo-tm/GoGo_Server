@@ -41,8 +41,8 @@ public class HikingLog extends BaseEntity {
     @JoinColumn(name = "hiking_trail_id")
     private HikingTrail hikingTrail;
 
-    @OneToMany(mappedBy = "hikingLog", fetch = FetchType.LAZY)
-    private List<HikingLogImage> hikingLogImage = new ArrayList<>();
+    @OneToMany(mappedBy = "hikingLog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<HikingLogImage> hikingLogImages = new ArrayList<>();
 
     @Builder
     public HikingLog(Member member, LocalDateTime hikingDate, Integer starRating, String memo, HikingTrail hikingTrail) {
@@ -51,5 +51,10 @@ public class HikingLog extends BaseEntity {
         this.starRating = starRating;
         this.memo = memo;
         this.hikingTrail = hikingTrail;
+    }
+
+    public void addImageUrls(HikingLogImage hikingLogImage) {
+        hikingLogImages.add(hikingLogImage);
+        hikingLogImage.setHikingLog(this);
     }
 }

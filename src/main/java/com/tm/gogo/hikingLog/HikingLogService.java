@@ -31,8 +31,6 @@ public class HikingLogService {
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);
-        hikingLogRepository.save(hikingLog);
-
         AtomicInteger num = new AtomicInteger();
 
         if(hikingLogRequest.getImageUrls() != null) {
@@ -40,9 +38,14 @@ public class HikingLogService {
                     .map(imageUrl -> HikingLogImage.builder().url(imageUrl).number(num.incrementAndGet()).hikingLog(hikingLog).build())
                     .collect(Collectors.toList());
 
+            for(HikingLogImage hikingLogImage : hikingLogImages){
+                hikingLog.addImageUrls(hikingLogImage);
+            }
+
             hikingLogImageRepository.saveAll(hikingLogImages);
         }
-        
+
+        hikingLogRepository.save(hikingLog);
         return hikingLog.getId();
     }
 
