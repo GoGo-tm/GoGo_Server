@@ -1,7 +1,7 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.HikingTrailRepository;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
+import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.hikingLog.*;
@@ -34,9 +34,6 @@ public class HikingLogServiceTest {
 
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
-
-    @Autowired
-    private HikingLogImageRepository hikingLogImageRepository;
 
     @DisplayName("HikingLog 생성 성공")
     @Test

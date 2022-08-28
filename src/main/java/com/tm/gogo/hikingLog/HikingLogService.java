@@ -1,7 +1,7 @@
 package com.tm.gogo.hikingLog;
 
-import com.tm.gogo.HikingTrailRepository;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
+import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.web.hikingLog.HikingLogRequest;
@@ -19,7 +19,6 @@ public class HikingLogService {
     private final HikingLogRepository hikingLogRepository;
     private final HikingTrailRepository hikingTrailRepository;
     private final MemberRepository memberRepository;
-    private final HikingLogImageRepository hikingLogImageRepository;
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
