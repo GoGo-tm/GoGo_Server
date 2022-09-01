@@ -1,8 +1,8 @@
-package com.tm.gogo.web.hikingLog;
+package com.tm.gogo.web.hiking_log;
 
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.hikingLog.HikingLog;
+import com.tm.gogo.domain.hiking_log.HikingLog;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

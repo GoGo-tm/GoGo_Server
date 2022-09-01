@@ -1,10 +1,10 @@
-package com.tm.gogo.hikingLog;
+package com.tm.gogo.domain.hiking_log;
 
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.web.hikingLog.HikingLogRequest;
+import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
