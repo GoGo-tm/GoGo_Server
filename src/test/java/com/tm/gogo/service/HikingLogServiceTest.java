@@ -8,7 +8,6 @@ import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.hikingLog.*;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
