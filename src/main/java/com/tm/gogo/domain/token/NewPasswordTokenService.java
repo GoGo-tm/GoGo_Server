@@ -28,7 +28,7 @@ public class NewPasswordTokenService implements TokenService {
 
     @Override
     public Token findToken(String key) {
-        return tokenRepository.findByKey(key)
+        return tokenRepository.findFirstByKeyOrderByIdDesc(key)
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "존재하지 않는 키 값입니다."));
     }
 

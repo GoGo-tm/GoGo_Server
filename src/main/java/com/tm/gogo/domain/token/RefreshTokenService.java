@@ -6,7 +6,6 @@ import com.tm.gogo.web.auth.TokenResponse;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +34,7 @@ public class RefreshTokenService implements TokenService{
 
     @Override
     public Token findToken(String key) {
-        return tokenRepository.findByKey(key)
+        return tokenRepository.findFirstByKeyOrderByIdDesc(key)
                 .orElseThrow(() -> new ApiException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN, "로그아웃 된 사용자입니다."));
     }
 

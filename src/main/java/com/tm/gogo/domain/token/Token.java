@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "token", indexes = @Index(columnList = "token_key", unique = true))
+@Table(name = "token")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Token {
 
