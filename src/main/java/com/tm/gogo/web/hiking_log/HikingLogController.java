@@ -1,7 +1,7 @@
-package com.tm.gogo.web.hikingLog;
+package com.tm.gogo.web.hiking_log;
 
 import com.tm.gogo.helper.SecurityUtil;
-import com.tm.gogo.hikingLog.HikingLogService;
+import com.tm.gogo.domain.hiking_log.HikingLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

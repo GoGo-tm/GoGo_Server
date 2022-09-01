@@ -1,11 +1,14 @@
 package com.tm.gogo.service;
 
+import com.tm.gogo.domain.hiking_log.HikingLog;
+import com.tm.gogo.domain.hiking_log.HikingLogImage;
+import com.tm.gogo.domain.hiking_log.HikingLogRepository;
+import com.tm.gogo.domain.hiking_log.HikingLogService;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.hikingLog.*;
-import com.tm.gogo.web.hikingLog.HikingLogRequest;
+import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

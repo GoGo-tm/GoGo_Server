@@ -1,4 +1,4 @@
-package com.tm.gogo.hikingLog;
+package com.tm.gogo.domain.hiking_log;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

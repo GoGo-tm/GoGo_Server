@@ -1,4 +1,4 @@
-package com.tm.gogo.hikingLog;
+package com.tm.gogo.domain.hiking_log;
 
 import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
