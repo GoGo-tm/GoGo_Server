@@ -27,7 +27,11 @@ public class HikingTrailQueryRepository {
                 .select(new QHikingTrailDto(
                         hikingTrail.id,
                         hikingTrail.image.url,
-                        hikingTrail.name
+                        hikingTrail.name,
+                        hikingTrail.address,
+                        hikingTrail.favoriteCount,
+                        hikingTrail.difficulty,
+                        hikingTrail.length
                 ))
                 .from(hikingTrail)
                 .leftJoin(hikingTrail.image)
@@ -50,7 +54,11 @@ public class HikingTrailQueryRepository {
                 .select(new QHikingTrailDto(
                         hikingTrail.id,
                         hikingTrail.image.url,
-                        hikingTrail.name
+                        hikingTrail.name,
+                        hikingTrail.address,
+                        hikingTrail.favoriteCount,
+                        hikingTrail.difficulty,
+                        hikingTrail.length
                 ))
                 .from(favoriteTrail)
                 .join(favoriteTrail.hikingTrail, hikingTrail)
