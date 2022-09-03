@@ -14,7 +14,6 @@ import com.tm.gogo.web.hiking_log.HikingLogDto;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import com.tm.gogo.web.hiking_log.HikingLogResponse;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +41,6 @@ public class HikingLogServiceTest {
 
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
-
-    @Test
-    @BeforeEach
-    void setup() {
-
-    }
 
     @DisplayName("HikingLog 생성 성공")
     @Test
