@@ -10,9 +10,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "/hiking-trails", description = "등산로 API")
 @RestController
@@ -37,7 +38,6 @@ public class HikingTrailController {
                 hikingTrailService.findFavoriteHikingTrails(SecurityUtil.getCurrentMemberId(), condition, scrollable)
         );
     }
-
 
     @Operation(summary = "등산로 하나 조회", description = "등산로 한개에 대해 조회")
     @ApiResponses({
