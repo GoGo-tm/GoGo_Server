@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class HikingLogDto {
     private Long id;
+    private String hikingTrailName;
     private String hikingTrailImageUrl;
     private LocalDateTime hikingDate;
     private Integer starRating;
@@ -21,8 +22,9 @@ public class HikingLogDto {
     private Integer length;
 
     @QueryProjection
-    public HikingLogDto(Long id, String hikingTrailImageUrl, LocalDateTime hikingDate, Integer starRating, Difficulty difficulty, String address, Integer length) {
+    public HikingLogDto(Long id, String hikingTrailName,String hikingTrailImageUrl, LocalDateTime hikingDate, Integer starRating, Difficulty difficulty, String address, Integer length) {
         this.id = id;
+        this.hikingTrailName = hikingTrailName;
         this.hikingTrailImageUrl = hikingTrailImageUrl;
         this.hikingDate = hikingDate;
         this.starRating = starRating;
