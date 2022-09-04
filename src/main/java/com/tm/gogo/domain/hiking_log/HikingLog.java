@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -62,11 +63,16 @@ public class HikingLog extends BaseEntity {
             String imageUrl = imageUrls.get(i);
             HikingLogImage hikingLogImage = HikingLogImage.builder()
                     .url(imageUrl)
-                    .number(i)
                     .hikingLog(this)
                     .build();
 
             hikingLogImages.add(hikingLogImage);
         }
+    }
+
+    public List<String> getHikingLogImageUrls() {
+        return hikingLogImages.stream()
+                .map(HikingLogImage::getUrl)
+                .collect(Collectors.toList());
     }
 }

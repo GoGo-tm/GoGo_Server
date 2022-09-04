@@ -3,14 +3,11 @@ package com.tm.gogo.domain.hiking_trail;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_trail.HikingTrailCondition;
 import com.tm.gogo.web.hiking_trail.HikingTrailDetailResponse;
-import com.tm.gogo.web.hiking_trail.HikingTrailDto;
 import com.tm.gogo.web.hiking_trail.HikingTrailsResponse;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
 

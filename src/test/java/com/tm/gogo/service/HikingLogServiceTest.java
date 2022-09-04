@@ -10,6 +10,7 @@ import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.parameter.Scrollable;
+import com.tm.gogo.web.hiking_log.HikingLogDetailResponse;
 import com.tm.gogo.web.hiking_log.HikingLogDto;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import com.tm.gogo.web.hiking_log.HikingLogResponse;
@@ -109,8 +110,8 @@ public class HikingLogServiceTest {
     }
 
     @Test
-    @DisplayName("등산 로그 조회")
-    void testFindHikingLogList() {
+    @DisplayName("등산 로그 리스트 조회 성공")
+    void testFindHikingLogs() {
         //given
         Member member = new Member();
         memberRepository.saveAndFlush(member);
@@ -157,4 +158,51 @@ public class HikingLogServiceTest {
         Assertions.assertThat(hikingLogDto.getLength()).isEqualTo(1000);
         Assertions.assertThat(hikingLogDto.getDifficulty()).isEqualTo(Difficulty.EASY);
     }
+
+    @Test
+    @DisplayName("등산 기록 하나 조회 성공")
+    void testFindHikingLog() {
+        //given
+        Member member = new Member();
+        memberRepository.saveAndFlush(member);
+
+        HikingTrail hikingTrail = HikingTrail.builder()
+                .name("등산로")
+                .length(1000)
+                .difficulty(Difficulty.EASY)
+                .uptime(28)
+                .downtime(32)
+                .address("서울시 강남구 대치동")
+                .build();
+        hikingTrailRepository.saveAndFlush(hikingTrail);
+
+
+        List<String> imageUrls = new ArrayList<>();
+        imageUrls.add("12");
+        imageUrls.add("123");
+        imageUrls.add("1234");
+        imageUrls.add("12345");
+        imageUrls.add("123456");
+
+        HikingLog hikingLog = HikingLog.builder()
+                .member(member)
+                .hikingTrail(hikingTrail)
+                .hikingDate(LocalDateTime.now())
+                .starRating(5)
+                .imageUrls(imageUrls)
+                .memo("이미지 넣기 술법")
+                .build();
+
+        hikingLogRepository.saveAndFlush(hikingLog);
+
+        //when
+        HikingLogDetailResponse response = hikingLogService.findHikingLog(hikingLog.getId());
+
+        Assertions.assertThat(response.getMemo()).isEqualTo("이미지 넣기 술법");
+        Assertions.assertThat(response.getDifficulty()).isEqualTo(Difficulty.EASY);
+        Assertions.assertThat(response.getAddress()).isEqualTo("서울시 강남구 대치동");
+        Assertions.assertThat(response.getHikingLogImageUrls()).isEqualTo(imageUrls);
+
+    }
+
 }

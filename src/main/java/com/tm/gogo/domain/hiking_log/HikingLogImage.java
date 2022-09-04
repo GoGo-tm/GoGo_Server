@@ -21,17 +21,13 @@ public class HikingLogImage {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "number")
-    private Integer number;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "hiking_log_id")
     private HikingLog hikingLog;
 
     @Builder
-    public HikingLogImage(String url, Integer number, HikingLog hikingLog) {
+    public HikingLogImage(String url, HikingLog hikingLog) {
         this.url = url;
-        this.number = number;
         this.hikingLog = hikingLog;
     }
 }
