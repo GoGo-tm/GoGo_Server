@@ -13,8 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
-import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
+import static com.tm.gogo.web.response.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -50,9 +49,10 @@ public class HikingLogService {
         return hikingLogQueryRepository.findHikingLogs(memberId, scrollable);
     }
 
+    @Transactional(readOnly = true)
     public HikingLogDetailResponse findHikingLog(Long hikingLogId) {
         return hikingLogRepository.findById(hikingLogId)
                 .map(HikingLogDetailResponse::of)
-                .orElseThrow(() -> new ApiException(HIKING_TRAIL_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
+                .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
     }
 }
