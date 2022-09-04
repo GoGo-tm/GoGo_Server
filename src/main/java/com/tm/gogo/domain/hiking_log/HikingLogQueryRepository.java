@@ -24,6 +24,7 @@ public class HikingLogQueryRepository {
         List<HikingLogDto> results = jpaQueryFactory
                 .select(new QHikingLogDto(
                         hikingLog.id,
+                        hikingTrail.name,
                         hikingTrail.image.url,
                         hikingLog.hikingDate,
                         hikingLog.starRating,

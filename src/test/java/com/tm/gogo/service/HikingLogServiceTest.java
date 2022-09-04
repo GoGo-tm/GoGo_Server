@@ -151,6 +151,7 @@ public class HikingLogServiceTest {
         HikingLogDto hikingLogDto = contents.get(0);
 
         Assertions.assertThat(hikingLogDto).isNotNull();
+        Assertions.assertThat(hikingLogDto.getHikingTrailName()).isEqualTo("등산로");
         Assertions.assertThat(hikingLogDto.getStarRating()).isEqualTo(5);
         Assertions.assertThat(hikingLogDto.getAddress()).isEqualTo("서울시 강남구 대치동");
         Assertions.assertThat(hikingLogDto.getLength()).isEqualTo(1000);
