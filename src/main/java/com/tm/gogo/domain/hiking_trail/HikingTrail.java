@@ -79,4 +79,8 @@ public class HikingTrail {
     public void increaseFavoriteCount() {
         this.favoriteCount += 1;
     }
+
+    public void decreaseFavoriteCount() {
+        this.favoriteCount -= 1;
+    }
 }

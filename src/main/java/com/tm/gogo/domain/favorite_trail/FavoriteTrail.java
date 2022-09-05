@@ -4,14 +4,17 @@ import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "favorite_trail")
 public class FavoriteTrail extends BaseEntity {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_trail_id")
     private Long id;
@@ -28,5 +31,16 @@ public class FavoriteTrail extends BaseEntity {
     public FavoriteTrail(Member member, HikingTrail hikingTrail) {
         this.member = member;
         this.hikingTrail = hikingTrail;
+        initialize();
+    }
+
+    public void initialize() {
+        this.member.registerFavorite(this);
+        this.hikingTrail.increaseFavoriteCount();
+    }
+
+    public void destroy() {
+        member.deleteFavorite(this);
+        hikingTrail.decreaseFavoriteCount();
     }
 }

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs")
                 .antMatchers("/h2-console/**", "/favicon.ico");
     }
 
@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/members/me").hasRole("MEMBER")
                 .antMatchers("/api/members/terms").hasRole("MEMBER")
-                .antMatchers("/api/hiking-trails/favorite").hasRole("MEMBER")
+                .antMatchers("/api/hiking-trails/**/favorite").hasRole("MEMBER")
                 .antMatchers(HttpMethod.GET, "/api/members/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/hiking-trails/**").permitAll()
