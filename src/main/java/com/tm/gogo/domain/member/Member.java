@@ -1,6 +1,8 @@
 package com.tm.gogo.domain.member;
 
 import com.tm.gogo.domain.BaseEntity;
+import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.term_agreement.Term;
 import com.tm.gogo.domain.term_agreement.TermAgreement;
 import com.tm.gogo.web.response.ApiException;
@@ -44,6 +46,17 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private final List<TermAgreement> termAgreements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private final List<FavoriteTrail> favorites = new ArrayList<>();
+
+    public void registerFavorite(FavoriteTrail favorite) {
+        favorites.add(favorite);
+    }
+
+    public void deleteFavorite(FavoriteTrail favorite) {
+        favorites.remove(favorite);
+    }
 
     public enum Type {
         NATIVE, GOOGLE, NAVER, KAKAO
