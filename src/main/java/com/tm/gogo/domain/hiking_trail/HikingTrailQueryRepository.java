@@ -38,6 +38,7 @@ public class HikingTrailQueryRepository {
                 .where(
                         greaterThanId(scrollable.getLastId()),
                         containsAddress(condition.getAddress()),
+                        containsName(condition.getName()),
                         eqDifficulty(condition.getDifficulty()),
                         lessOrEqLength(condition.getLength()),
                         lessOrEqTime(condition.getTime())
@@ -67,6 +68,7 @@ public class HikingTrailQueryRepository {
                         favoriteTrail.member.id.eq(memberId),
                         greaterThanId(scrollable.getLastId()),
                         containsAddress(condition.getAddress()),
+                        containsName(condition.getName()),
                         eqDifficulty(condition.getDifficulty()),
                         lessOrEqLength(condition.getLength()),
                         lessOrEqTime(condition.getTime())
@@ -90,6 +92,10 @@ public class HikingTrailQueryRepository {
 
     private BooleanExpression containsAddress(String address) {
         return StringUtils.hasText(address) ? hikingTrail.address.contains(address) : null;
+    }
+
+    private BooleanExpression containsName(String name) {
+        return StringUtils.hasText(name) ? hikingTrail.name.contains(name) : null;
     }
 
     private BooleanExpression eqDifficulty(Difficulty difficulty) {

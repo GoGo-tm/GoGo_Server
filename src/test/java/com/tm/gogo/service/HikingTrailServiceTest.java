@@ -59,6 +59,27 @@ public class HikingTrailServiceTest {
         }
 
         @Test
+        @DisplayName("필터링 - 등산로명 궁산")
+        void testFindHikingTrailsFilterByName() {
+            // given
+            for (int i = 0; i < 5; i++) {
+                HikingTrail hikingTrail = createHikingTrail("궁산", 0, Difficulty.EASY, 0, 0, "강원도 속초시 중앙동");
+                hikingTrailRepository.saveAndFlush(hikingTrail);
+            }
+
+            // when
+            HikingTrailsResponse allResponses = hikingTrailService.findHikingTrails(new HikingTrailCondition(), new Scrollable());
+            HikingTrailsResponse responses = hikingTrailService.findHikingTrails(
+                    HikingTrailCondition.builder().name("궁산").build(),
+                    new Scrollable()
+            );
+
+            // then
+            assertThat(allResponses.getContents().size()).isEqualTo(15);
+            assertThat(responses.getContents().size()).isEqualTo(5);
+        }
+
+        @Test
         @DisplayName("필터링 - 지역 강원")
         void testFindHikingTrailsFilterByAddress() {
             // given
