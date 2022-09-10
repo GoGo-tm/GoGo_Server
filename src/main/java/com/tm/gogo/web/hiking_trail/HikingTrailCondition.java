@@ -26,6 +26,9 @@ public class HikingTrailCondition {
     @Schema(example = "POPULARITY", description = "정렬 기준 (POPULARITY, LONG, SHORT)")
     private HikingTrailOrder order;
 
+    @Schema(example = "궁산", description = "산 이름으로 조회")
+    private String name;
+
     public HikingTrailOrder getOrder() {
         return order != null ? order : HikingTrailOrder.POPULARITY;
     }
