@@ -26,9 +26,13 @@ public class HikingTrailController {
     @Operation(summary = "등산로 리스트 조회", description = "파라미터를 통해 필터링, 정렬 가능")
     @GetMapping
     public ResponseEntity<HikingTrailsResponse> findHikingTrails(HikingTrailCondition condition, Scrollable scrollable) {
-        return ResponseEntity.ok(
-                hikingTrailService.findHikingTrails(condition, scrollable)
-        );
+        Long memberId = SecurityUtil.getCurrentMemberId();
+
+        if (memberId == null) {
+            return ResponseEntity.ok(hikingTrailService.findHikingTrails(condition, scrollable));
+        }
+
+        return ResponseEntity.ok(hikingTrailService.findHikingTrailsOfMember(memberId, condition, scrollable));
     }
 
     @Operation(summary = "즐겨찾기에 등록된 등산로 리스트 조회", description = "로그인 상태여야 하며 파라미터를 통해 필터링, 정렬 가능")

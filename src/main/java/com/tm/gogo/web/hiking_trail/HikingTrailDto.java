@@ -31,6 +31,9 @@ public class HikingTrailDto {
     @Schema(example = "43690", description = "단위: m")
     private Integer length;
 
+    @Schema(example = "false", description = "회원인 경우 즐겨찾기 여부")
+    private Boolean favorite;
+
     @QueryProjection
     public HikingTrailDto(Long id, String imageUrl, String name, String address, Long favoriteCount, Difficulty difficulty, Integer length) {
         this.id = id;
@@ -40,5 +43,10 @@ public class HikingTrailDto {
         this.favoriteCount = favoriteCount;
         this.difficulty = difficulty;
         this.length = length;
+        this.favorite = false;
+    }
+
+    public void updateFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }
