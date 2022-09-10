@@ -24,12 +24,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDto errorDto = new ErrorDto(ex.getErrorCode(), ex.getMessage());
         return ResponseEntity.status(ex.getHttpStatus()).body(errorDto);
     }
-
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorDto> handleException(Exception ex) {
-        logger.error(ex);
-        String message = ex.getClass().getSimpleName() + ": " + ex.getMessage();
-        ErrorDto errorDto = new ErrorDto(ErrorCode.INTERNAL_SERVER_ERROR, message);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDto);
-    }
 }

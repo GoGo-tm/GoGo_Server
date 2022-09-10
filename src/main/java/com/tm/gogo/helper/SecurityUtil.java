@@ -14,10 +14,14 @@ public class SecurityUtil {
     public static Long getCurrentMemberId() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getName() == null) {
-            throw  new RuntimeException("Security Context 에 인증 정보가 없습니다.");
+        if (hasCurrentMemberId(authentication)) {
+            return Long.parseLong(authentication.getName());
         }
 
-        return Long.parseLong(authentication.getName());
+        return null;
+    }
+
+    public static boolean hasCurrentMemberId(Authentication authentication) {
+        return authentication != null && authentication.getName() != null && !authentication.getName().equals("anonymousUser");
     }
 }

@@ -49,6 +49,34 @@ public class HikingTrailServiceTest {
         }
 
         @Test
+        @DisplayName("로그인 된 사용자가 등산로 조회하면 즐겨찾기 여부 표시")
+        void test1() {
+            // given
+            Member member = new Member();
+            memberRepository.saveAndFlush(member);
+
+            hikingTrailRepository.findAll().forEach(hikingTrail -> {
+                if (hikingTrail.getId() % 2 == 0) {
+                    FavoriteTrail favorite = FavoriteTrail.builder().member(member).hikingTrail(hikingTrail).build();
+                    favoriteTrailRepository.saveAndFlush(favorite);
+                }
+            });
+
+            // when
+            HikingTrailsResponse responses = hikingTrailService.findHikingTrailsOfMember(member.getId(), new HikingTrailCondition(), new Scrollable());
+
+            // then
+            assertThat(responses.getContents().size()).isEqualTo(10);
+            responses.getContents().forEach(content -> {
+                if (content.getId() % 2 == 0) {
+                    assertThat(content.getFavorite()).isTrue();
+                } else {
+                    assertThat(content.getFavorite()).isFalse();
+                }
+            });
+        }
+
+        @Test
         @DisplayName("전체 등산로 리스트 조회")
         void testFindHikingTrails() {
             // when
@@ -56,6 +84,7 @@ public class HikingTrailServiceTest {
 
             // then
             assertThat(responses.getContents().size()).isEqualTo(10);
+            responses.getContents().forEach(content -> assertThat(content.getFavorite()).isFalse());
         }
 
         @Test
