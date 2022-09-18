@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,7 @@ public class HikingLogController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "등산 기록 생성 성공"),
     })
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping()
     public ResponseEntity<Long> createHikingLog(@RequestBody HikingLogRequest hikingLogRequest) {
         return ResponseEntity.ok(hikingLogService.createHikingLog(SecurityUtil.getCurrentMemberId(), hikingLogRequest));
     }

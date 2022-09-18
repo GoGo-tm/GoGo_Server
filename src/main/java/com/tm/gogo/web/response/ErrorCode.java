@@ -32,8 +32,7 @@ public enum ErrorCode {
     ALREADY_REGISTER_FAVORITE_TRAIL(HttpStatus.CONFLICT),
 
     // 500
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
-    FAIL_IMAGE_UPLOAD(HttpStatus.INTERNAL_SERVER_ERROR)
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR)
     ;
 
     private final HttpStatus httpStatus;
