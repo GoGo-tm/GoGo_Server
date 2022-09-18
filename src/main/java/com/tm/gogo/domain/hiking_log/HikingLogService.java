@@ -4,7 +4,6 @@ import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.helper.ImageUploadService;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_log.HikingLogDetailResponse;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
@@ -13,8 +12,6 @@ import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.tm.gogo.web.response.ErrorCode.*;
 
@@ -25,16 +22,13 @@ public class HikingLogService {
     private final HikingTrailRepository hikingTrailRepository;
     private final MemberRepository memberRepository;
     private final HikingLogQueryRepository hikingLogQueryRepository;
-    private final ImageUploadService imageUploadService;
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
         Member member = findMemberByMemberId(memberId);
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
-        List<String> imageUrls = imageUploadService.uploadImageFiles("hiking-log", hikingLogRequest.getImageFiles());
-
-        HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail, imageUrls);
+        HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);
 
         hikingLogRepository.save(hikingLog);
         return hikingLog.getId();
