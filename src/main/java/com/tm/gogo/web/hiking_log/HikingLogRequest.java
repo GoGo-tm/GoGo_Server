@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -20,9 +22,9 @@ public class HikingLogRequest {
     private Long hikingTrailId;
     private int starRating;
     private String memo;
-    private List<String> imageUrls;
+    private List<MultipartFile> imageFiles;
 
-    public HikingLog toHikingLog(Member member, HikingTrail hikingTrail) {
+    public HikingLog toHikingLog(Member member, HikingTrail hikingTrail, List<String> imageUrls) {
         return HikingLog.builder()
                 .member(member)
                 .hikingDate(hikingDate)
@@ -31,5 +33,9 @@ public class HikingLogRequest {
                 .memo(memo)
                 .imageUrls(imageUrls)
                 .build();
+    }
+
+    public List<MultipartFile> getImageFiles() {
+        return imageFiles != null ? imageFiles : Collections.emptyList();
     }
 }
