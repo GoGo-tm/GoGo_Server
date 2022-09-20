@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface HikingLogRepository extends JpaRepository<HikingLog, Long> {
-    @Override
+import java.util.List;
+
+public interface HikingLogImageRepository extends JpaRepository<HikingLogImage, Long> {
     @Modifying
     @Transactional
-    @Query("delete from HikingLog h where h.id = :id")
-    void deleteById(@Param("id") Long hikingLogId);
+    @Query("delete from HikingLogImage h where h in :hikingLogImages")
+    void deleteAllByHikingLogImages(@Param("hikingLogImages") List<HikingLogImage> hikingLogImages);
 }

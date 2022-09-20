@@ -21,7 +21,7 @@ public class HikingLogImage {
     @Column(name = "url")
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "hiking_log_id")
     private HikingLog hikingLog;
 
