@@ -22,6 +22,7 @@ public class HikingLogService {
     private final HikingTrailRepository hikingTrailRepository;
     private final MemberRepository memberRepository;
     private final HikingLogQueryRepository hikingLogQueryRepository;
+    private final HikingLogImageQueryRepository hikingLogImageQueryRepository;
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
@@ -53,6 +54,24 @@ public class HikingLogService {
     public HikingLogDetailResponse findHikingLog(Long hikingLogId) {
         return hikingLogRepository.findById(hikingLogId)
                 .map(HikingLogDetailResponse::of)
+                .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
+    }
+
+    @Transactional
+    public void deleteHikingLog(Long memberId, Long hikingLogId) {
+        HikingLog hikingLog = findById(hikingLogId);
+        Member member = hikingLog.getMember();
+
+        if (member.isNotEquals(memberId)) {
+            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
+        }
+
+        hikingLogImageQueryRepository.deleteHikingLogImages(hikingLogId);
+        hikingLogQueryRepository.deleteHikingLog(hikingLogId);
+    }
+
+    private HikingLog findById(Long hikingLogId) {
+        return hikingLogRepository.findById(hikingLogId)
                 .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
     }
 }

@@ -43,7 +43,7 @@ public class HikingLog extends BaseEntity {
     @JoinColumn(name = "hiking_trail_id")
     private HikingTrail hikingTrail;
 
-    @OneToMany(mappedBy = "hikingLog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hikingLog", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<HikingLogImage> hikingLogImages = new ArrayList<>();
 
     @Builder

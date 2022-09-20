@@ -46,6 +46,15 @@ public class HikingLogQueryRepository {
         return toResponse(results, scrollable);
     }
 
+    public void deleteHikingLog(Long hikingLogId) {
+        jpaQueryFactory
+                .delete(hikingLog)
+                .where(
+                        hikingLog.id.eq(hikingLogId)
+                )
+                .execute();
+    }
+
     private HikingLogResponse toResponse(List<HikingLogDto> results, Scrollable scrollable) {
         boolean hasNext = results.size() > scrollable.getSize();
         List<HikingLogDto> contents = hasNext ? results.subList(0, scrollable.getSize()) : results;

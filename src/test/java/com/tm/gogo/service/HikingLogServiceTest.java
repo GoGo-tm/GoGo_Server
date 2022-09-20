@@ -1,9 +1,6 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.hiking_log.HikingLog;
-import com.tm.gogo.domain.hiking_log.HikingLogImage;
-import com.tm.gogo.domain.hiking_log.HikingLogRepository;
-import com.tm.gogo.domain.hiking_log.HikingLogService;
+import com.tm.gogo.domain.hiking_log.*;
 import com.tm.gogo.domain.hiking_trail.Difficulty;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
@@ -15,7 +12,9 @@ import com.tm.gogo.web.hiking_log.HikingLogDto;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import com.tm.gogo.web.hiking_log.HikingLogResponse;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +41,7 @@ public class HikingLogServiceTest {
 
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
+
 
     @DisplayName("HikingLog 생성 성공")
     @Test
@@ -203,6 +203,56 @@ public class HikingLogServiceTest {
         Assertions.assertThat(response.getAddress()).isEqualTo("서울시 강남구 대치동");
         Assertions.assertThat(response.getHikingLogImageUrls()).isEqualTo(imageUrls);
 
+    }
+
+
+    @Nested
+    @DisplayName("등산 로그 삭제")
+    class testDelete {
+        Long memberId;
+        Long hikingLogId;
+        @BeforeEach
+        void setup() {
+            //given
+            Member member = new Member();
+            memberRepository.saveAndFlush(member);
+            memberId = member.getId();
+
+            HikingTrail hikingTrail = HikingTrail.builder()
+                    .name("등산로")
+                    .length(1000)
+                    .difficulty(Difficulty.EASY)
+                    .uptime(28)
+                    .downtime(32)
+                    .address("서울시 강남구 대치동")
+                    .build();
+            hikingTrailRepository.saveAndFlush(hikingTrail);
+
+
+            List<String> imageUrls = new ArrayList<>();
+            imageUrls.add("12");
+            imageUrls.add("123");
+            imageUrls.add("1234");
+            imageUrls.add("12345");
+            imageUrls.add("123456");
+
+            HikingLog hikingLog = HikingLog.builder()
+                    .member(member)
+                    .hikingTrail(hikingTrail)
+                    .hikingDate(LocalDateTime.now())
+                    .starRating(5)
+                    .imageUrls(imageUrls)
+                    .memo("이미지 넣기 술법")
+                    .build();
+
+            hikingLogRepository.saveAndFlush(hikingLog);
+            hikingLogId = hikingLog.getId();
+        }
+        @Test
+        void testDelete()  {
+            hikingLogService.deleteHikingLog(memberId, hikingLogId);
+            Assertions.assertThat(hikingLogRepository.findAll()).isEmpty();
+        }
     }
 
 }

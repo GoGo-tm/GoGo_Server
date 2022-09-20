@@ -2,7 +2,6 @@ package com.tm.gogo.domain.member;
 
 import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
-import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.term_agreement.Term;
 import com.tm.gogo.domain.term_agreement.TermAgreement;
 import com.tm.gogo.web.response.ApiException;
@@ -98,5 +97,9 @@ public class Member extends BaseEntity {
                 .findFirst()
                 .orElseThrow(() -> new ApiException(ErrorCode.TERM_NOT_FOUND, "동의된 약관이 없습니다. memberId: " + id + ", term: " + term))
                 .setAgreed(agreed);
+    }
+
+    public boolean isNotEquals(Long otherMemberId) {
+        return !this.id.equals(otherMemberId);
     }
 }
