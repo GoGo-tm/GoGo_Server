@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static com.tm.gogo.web.response.ErrorCode.*;
 
 @Service
@@ -24,7 +22,7 @@ public class HikingLogService {
     private final HikingTrailRepository hikingTrailRepository;
     private final MemberRepository memberRepository;
     private final HikingLogQueryRepository hikingLogQueryRepository;
-    private final HikingLogImageRepository hikingLogImageRepository;
+    private final HikingLogImageQueryRepository hikingLogImageQueryRepository;
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
@@ -68,9 +66,8 @@ public class HikingLogService {
             throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
         }
 
-        List<HikingLogImage> hikingLogImages = hikingLog.getHikingLogImages();
-        hikingLogImageRepository.deleteAllByHikingLogImages(hikingLogImages);
-        hikingLogRepository.deleteById(hikingLogId);
+        hikingLogImageQueryRepository.deleteHikingLogImages(hikingLogId);
+        hikingLogQueryRepository.deleteHikingLog(hikingLogId);
     }
 
     private HikingLog findById(Long hikingLogId) {

@@ -42,8 +42,6 @@ public class HikingLogServiceTest {
     @Autowired
     private HikingTrailRepository hikingTrailRepository;
 
-    @Autowired
-    private HikingLogImageRepository hikingLogImageRepository;
 
     @DisplayName("HikingLog 생성 성공")
     @Test
@@ -253,11 +251,6 @@ public class HikingLogServiceTest {
         @Test
         void testDelete()  {
             hikingLogService.deleteHikingLog(memberId, hikingLogId);
-
-            //then
-            hikingLogImageRepository.flush();
-            hikingLogRepository.flush();
-
             Assertions.assertThat(hikingLogRepository.findAll()).isEmpty();
         }
     }
