@@ -55,4 +55,21 @@ public class HikingLogService {
                 .map(HikingLogDetailResponse::of)
                 .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
     }
+
+    @Transactional
+    public void deleteHikingLog(Long memberId, Long hikingLogId) {
+        HikingLog hikingLog = findById(hikingLogId);
+        Member member = hikingLog.getMember();
+
+        if(member.isNotEquals(memberId)) {
+            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
+        }
+
+        hikingLogRepository.deleteById(hikingLogId);
+    }
+
+    private HikingLog findById(Long hikingLogId) {
+        return hikingLogRepository.findById(hikingLogId)
+                .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
+    }
 }

@@ -47,4 +47,16 @@ public class HikingLogController {
         return ResponseEntity.ok(hikingLogService.findHikingLog(hikingLogId));
     }
 
+    @Operation(summary = "등산 기록 하나 삭제", description = "등산 기록 한개 삭제하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "등산로그 삭제 성공"),
+            @ApiResponse(responseCode = "400", description = "등산로그 멤버와 주어진 멤버가 불일치"),
+            @ApiResponse(responseCode = "404", description = "등산로그 정보가 존재하지 않음", content = @Content)
+    })
+    @DeleteMapping("/{hikingLogId}")
+    public ResponseEntity<Void> deleteHikingLog(@PathVariable Long hikingLogId) {
+        hikingLogService.deleteHikingLog(SecurityUtil.getCurrentMemberId(), hikingLogId);
+        return ResponseEntity.ok().build();
+    }
+
 }

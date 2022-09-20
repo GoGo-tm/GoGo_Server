@@ -205,4 +205,51 @@ public class HikingLogServiceTest {
 
     }
 
+
+    @Test
+    @DisplayName("등산 로그 삭제")
+    void testReadHikingLog()  {
+        //given
+        Member member = new Member();
+        memberRepository.saveAndFlush(member);
+
+        HikingTrail hikingTrail = HikingTrail.builder()
+                .name("등산로")
+                .length(1000)
+                .difficulty(Difficulty.EASY)
+                .uptime(28)
+                .downtime(32)
+                .address("서울시 강남구 대치동")
+                .build();
+        hikingTrailRepository.saveAndFlush(hikingTrail);
+
+
+        List<String> imageUrls = new ArrayList<>();
+        imageUrls.add("12");
+        imageUrls.add("123");
+        imageUrls.add("1234");
+        imageUrls.add("12345");
+        imageUrls.add("123456");
+
+        HikingLog hikingLog = HikingLog.builder()
+                .member(member)
+                .hikingTrail(hikingTrail)
+                .hikingDate(LocalDateTime.now())
+                .starRating(5)
+                .imageUrls(imageUrls)
+                .memo("이미지 넣기 술법")
+                .build();
+
+        hikingLogRepository.saveAndFlush(hikingLog);
+
+        //when
+        hikingLogService.deleteHikingLog(member.getId(), hikingLog.getId());
+
+        //then
+        hikingLogRepository.flush();
+
+        Optional<HikingLog> optionalHikingLog = hikingLogRepository.findById(hikingLog.getId());
+        Assertions.assertThat(optionalHikingLog).isEmpty();
+    }
+
 }
