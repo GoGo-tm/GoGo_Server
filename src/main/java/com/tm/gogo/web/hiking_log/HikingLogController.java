@@ -1,7 +1,7 @@
 package com.tm.gogo.web.hiking_log;
 
-import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.domain.hiking_log.HikingLogService;
+import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.parameter.Scrollable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -59,4 +59,14 @@ public class HikingLogController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "등산 기록 수정", description = "등산 기록 한개 수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "등산로그 수정 성공"),
+            @ApiResponse(responseCode = "400", description = "등산로그 멤버와 주어진 멤버가 불일치"),
+            @ApiResponse(responseCode = "404", description = "등산로그 정보가 존재하지 않음", content = @Content)
+    })
+    @PutMapping("/{hikingLogId}")
+    public ResponseEntity<Long> updateHikingLog(@PathVariable Long hikingLogId, @RequestBody HikingLogRequest hikingLogRequest) {
+        return ResponseEntity.ok(hikingLogService.updateHikingLog(SecurityUtil.getCurrentMemberId(), hikingLogId, hikingLogRequest));
+    }
 }

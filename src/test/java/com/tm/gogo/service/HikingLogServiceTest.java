@@ -254,5 +254,74 @@ public class HikingLogServiceTest {
             Assertions.assertThat(hikingLogRepository.findAll()).isEmpty();
         }
     }
+    @Test
+    @DisplayName("등산로그 수정 성공")
+    void testUpdateHikingLog() {
+        //given
+        Member member = new Member();
+        memberRepository.saveAndFlush(member);
 
+        HikingTrail hikingTrail1 = HikingTrail.builder()
+                .name("등산로")
+                .length(1000)
+                .difficulty(Difficulty.EASY)
+                .uptime(28)
+                .downtime(32)
+                .address("서울시 강남구 대치동")
+                .build();
+        hikingTrailRepository.saveAndFlush(hikingTrail1);
+        HikingTrail hikingTrail2 = HikingTrail.builder()
+                .name("등산로")
+                .length(1000)
+                .difficulty(Difficulty.EASY)
+                .uptime(28)
+                .downtime(32)
+                .address("서울시 강남구 대치동")
+                .build();
+        hikingTrailRepository.saveAndFlush(hikingTrail2);
+
+        List<String> imageUrls1 = new ArrayList<>();
+        imageUrls1.add("12");
+        imageUrls1.add("123");
+        imageUrls1.add("1234");
+        imageUrls1.add("12345");
+        imageUrls1.add("123456");
+
+        List<String> imageUrls2 = new ArrayList<>();
+        imageUrls2.add("12");
+        imageUrls2.add("123");
+        imageUrls2.add("123");
+        imageUrls2.add("123");
+        imageUrls2.add("123");
+
+        HikingLog hikingLog = HikingLog.builder()
+                .member(member)
+                .hikingTrail(hikingTrail1)
+                .hikingDate(LocalDateTime.now())
+                .starRating(5)
+                .imageUrls(imageUrls1)
+                .memo("이미지 넣기 술법")
+                .build();
+        hikingLogRepository.saveAndFlush(hikingLog);
+
+        HikingLogRequest hikingLogRequest = HikingLogRequest.builder()
+                .hikingTrailId(hikingTrail2.getId())
+                .hikingDate(LocalDateTime.now())
+                .starRating(3)
+                .imageUrls(imageUrls2)
+                .memo("수정하기 술법")
+                .build();
+
+        //when
+        Long hikingLogId = hikingLogService.updateHikingLog(member.getId(), hikingLog.getId(), hikingLogRequest);
+
+        //then
+        HikingLogDetailResponse response = hikingLogService.findHikingLog(hikingLogId);
+
+        Assertions.assertThat(response.getMemo()).isEqualTo("수정하기 술법");
+        Assertions.assertThat(response.getDifficulty()).isEqualTo(Difficulty.EASY);
+        Assertions.assertThat(response.getAddress()).isEqualTo("서울시 강남구 대치동");
+        Assertions.assertThat(response.getStarRating()).isEqualTo(3);
+        Assertions.assertThat(response.getHikingLogImageUrls()).isEqualTo(imageUrls2);
+    }
 }
