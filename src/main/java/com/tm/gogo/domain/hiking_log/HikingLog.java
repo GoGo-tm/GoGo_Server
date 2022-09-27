@@ -3,6 +3,7 @@ package com.tm.gogo.domain.hiking_log;
 import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.member.Member;
+import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,7 @@ public class HikingLog extends BaseEntity {
 
     public void initHikingLogImages(List<String> imageUrls) {
         if (CollectionUtils.isEmpty(imageUrls)) return;
+        hikingLogImages.clear();
 
         for (int i = 0; i < imageUrls.size(); i++) {
             String imageUrl = imageUrls.get(i);
@@ -74,5 +76,13 @@ public class HikingLog extends BaseEntity {
         return hikingLogImages.stream()
                 .map(HikingLogImage::getUrl)
                 .collect(Collectors.toList());
+    }
+
+    public void update(HikingLogRequest hikingLogRequest, HikingTrail hikingTrail) {
+        this.hikingDate = hikingLogRequest.getHikingDate();
+        this.starRating = hikingLogRequest.getStarRating();
+        this.memo = hikingLogRequest.getMemo();
+        this.hikingTrail = hikingTrail;
+        initHikingLogImages(hikingLogRequest.getImageUrls());
     }
 }

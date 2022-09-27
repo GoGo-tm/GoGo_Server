@@ -62,9 +62,7 @@ public class HikingLogService {
         HikingLog hikingLog = findById(hikingLogId);
         Member member = hikingLog.getMember();
 
-        if (member.isNotEquals(memberId)) {
-            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
-        }
+        member.validate(memberId);
 
         hikingLogImageQueryRepository.deleteHikingLogImages(hikingLogId);
         hikingLogQueryRepository.deleteHikingLog(hikingLogId);
@@ -73,5 +71,18 @@ public class HikingLogService {
     private HikingLog findById(Long hikingLogId) {
         return hikingLogRepository.findById(hikingLogId)
                 .orElseThrow(() -> new ApiException(HIKING_LOG_NOT_FOUND, "등산로그 정보가 없습니다. hikingLogId: " + hikingLogId));
+    }
+
+    @Transactional
+    public Long updateHikingLog(Long memberId, Long hikingLogId, HikingLogRequest hikingLogRequest) {
+        HikingLog hikingLog = findById(hikingLogId);
+        Member member = hikingLog.getMember();
+
+        member.validate(memberId);
+
+        HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
+        hikingLog.update(hikingLogRequest, hikingTrail);
+
+        return hikingLogId;
     }
 }
