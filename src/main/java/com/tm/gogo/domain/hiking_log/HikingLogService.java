@@ -62,9 +62,7 @@ public class HikingLogService {
         HikingLog hikingLog = findById(hikingLogId);
         Member member = hikingLog.getMember();
 
-        if (member.isNotEquals(memberId)) {
-            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
-        }
+        member.validate(memberId);
 
         hikingLogImageQueryRepository.deleteHikingLogImages(hikingLogId);
         hikingLogQueryRepository.deleteHikingLog(hikingLogId);
@@ -80,9 +78,7 @@ public class HikingLogService {
         HikingLog hikingLog = findById(hikingLogId);
         Member member = hikingLog.getMember();
 
-        if (member.isNotEquals(memberId)) {
-            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + memberId);
-        }
+        member.validate(memberId);
 
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
         hikingLog.update(hikingLogRequest, hikingTrail);

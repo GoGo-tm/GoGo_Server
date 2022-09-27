@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_MATCH;
+
 @Getter
 @Entity
 @NoArgsConstructor
@@ -99,7 +101,9 @@ public class Member extends BaseEntity {
                 .setAgreed(agreed);
     }
 
-    public boolean isNotEquals(Long otherMemberId) {
-        return !this.id.equals(otherMemberId);
+    public void validate(Long otherMemberId) {
+        if (!this.id.equals(otherMemberId)) {
+            throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + otherMemberId);
+        }
     }
 }

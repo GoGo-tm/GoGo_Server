@@ -59,6 +59,7 @@ public class HikingLog extends BaseEntity {
 
     public void initHikingLogImages(List<String> imageUrls) {
         if (CollectionUtils.isEmpty(imageUrls)) return;
+        hikingLogImages.clear();
 
         for (int i = 0; i < imageUrls.size(); i++) {
             String imageUrl = imageUrls.get(i);
@@ -82,7 +83,6 @@ public class HikingLog extends BaseEntity {
         this.starRating = hikingLogRequest.getStarRating();
         this.memo = hikingLogRequest.getMemo();
         this.hikingTrail = hikingTrail;
-        hikingLogImages.clear();
         initHikingLogImages(hikingLogRequest.getImageUrls());
     }
 }
