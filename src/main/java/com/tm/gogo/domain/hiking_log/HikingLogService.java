@@ -57,8 +57,8 @@ public class HikingLogService {
         return hikingLogs;
     }
 
-    private void setImageUrls(HikingLogResponse hikingLogDto) {
-        List<Long> hikingLogIds = hikingLogDto.getContents().stream()
+    private void setImageUrls(HikingLogResponse hikingLogs) {
+        List<Long> hikingLogIds = hikingLogs.getContents().stream()
                 .map(HikingLogDto::getId)
                 .collect(Collectors.toList());
 
@@ -67,7 +67,7 @@ public class HikingLogService {
 
         HikingLogImageMap hikingLogImageMap = HikingLogImageMap.builder().imageUrls(map).build();
 
-        hikingLogDto.setImageUrls(hikingLogImageMap);
+        hikingLogs.setImageUrls(hikingLogImageMap);
     }
 
     @Transactional(readOnly = true)

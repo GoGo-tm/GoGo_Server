@@ -61,5 +61,7 @@ public class HikingLogQueryRepository {
         return new HikingLogResponse(contents, hasNext);
     }
 
-    private BooleanExpression lessThanId(Long id) {return id != null ? hikingLog.id.lt(id) : null;}
+    private BooleanExpression lessThanId(Long id) {
+        return id != null ? hikingLog.id.lt(id) : null;
+    }
 }
