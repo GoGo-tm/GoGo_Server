@@ -6,12 +6,17 @@ import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_log.HikingLogDetailResponse;
+import com.tm.gogo.web.hiking_log.HikingLogDto;
 import com.tm.gogo.web.hiking_log.HikingLogRequest;
 import com.tm.gogo.web.hiking_log.HikingLogResponse;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.tm.gogo.web.response.ErrorCode.*;
 
@@ -47,7 +52,22 @@ public class HikingLogService {
 
     @Transactional(readOnly = true)
     public HikingLogResponse findHikingLogs(Long memberId, Scrollable scrollable) {
-        return hikingLogQueryRepository.findHikingLogs(memberId, scrollable);
+        HikingLogResponse hikingLogs = hikingLogQueryRepository.findHikingLogs(memberId, scrollable);
+        setImageUrls(hikingLogs);
+        return hikingLogs;
+    }
+
+    private void setImageUrls(HikingLogResponse hikingLogDto) {
+        List<Long> hikingLogIds = hikingLogDto.getContents().stream()
+                .map(HikingLogDto::getId)
+                .collect(Collectors.toList());
+
+        Map<Long, List<String>> map = hikingLogRepository.findAllById(hikingLogIds).stream()
+                .collect(Collectors.toMap(HikingLog::getId, HikingLog::getHikingLogImageUrls));
+
+        HikingLogImageMap hikingLogImageMap = HikingLogImageMap.builder().imageUrls(map).build();
+
+        hikingLogDto.setImageUrls(hikingLogImageMap);
     }
 
     @Transactional(readOnly = true)

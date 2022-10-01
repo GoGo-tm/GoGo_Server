@@ -160,6 +160,7 @@ public class HikingLogServiceTest {
         Assertions.assertThat(hikingLogDto.getAddress()).isEqualTo("서울시 강남구 대치동");
         Assertions.assertThat(hikingLogDto.getLength()).isEqualTo(1000);
         Assertions.assertThat(hikingLogDto.getDifficulty()).isEqualTo(Difficulty.EASY);
+        Assertions.assertThat(hikingLogDto.getImageUrls()).isEqualTo(imageUrls);
     }
 
     @Test

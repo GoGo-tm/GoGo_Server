@@ -2,14 +2,14 @@ package com.tm.gogo.web.hiking_log;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.tm.gogo.domain.hiking_trail.Difficulty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@Builder
 @NoArgsConstructor
 public class HikingLogDto {
     private Long id;
@@ -20,6 +20,7 @@ public class HikingLogDto {
     private Difficulty difficulty;
     private String address;
     private Integer length;
+    private List<String> imageUrls;
 
     @QueryProjection
     public HikingLogDto(Long id, String hikingTrailName,String hikingTrailImageUrl, LocalDateTime hikingDate, Integer starRating, Difficulty difficulty, String address, Integer length) {
@@ -31,5 +32,10 @@ public class HikingLogDto {
         this.difficulty = difficulty;
         this.address = address;
         this.length = length;
+        this.imageUrls = new ArrayList<>();
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }
