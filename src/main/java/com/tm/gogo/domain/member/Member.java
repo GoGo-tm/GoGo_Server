@@ -4,7 +4,6 @@ import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
 import com.tm.gogo.domain.term_agreement.Term;
 import com.tm.gogo.domain.term_agreement.TermAgreement;
-import com.tm.gogo.web.member.MemberRequest;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
 import lombok.Builder;
@@ -108,10 +107,10 @@ public class Member extends BaseEntity {
         }
     }
 
-    public void update(MemberRequest memberRequest, String newPassword) {
-        this.nickname = memberRequest.getNickname();
-        this.email = memberRequest.getEmail();
+    public void update(String nickname, String email, String newPassword, boolean agreed) {
+        this.nickname = nickname;
+        this.email = email;
         this.password = newPassword;
-        updateTermAgreed(Term.LOCATION, memberRequest.isAgreed());
+        updateTermAgreed(Term.LOCATION, agreed);
     }
 }

@@ -54,7 +54,7 @@ public class MemberService {
     @Transactional
     public void updatePassword(String email, String newPassword) {
         Member member = findByEmail(email);
-        String encodedPassword = encode(newPassword);
+        String encodedPassword = passwordEncoder.encode(newPassword);
         member.updatePassword(encodedPassword);
     }
 
@@ -68,10 +68,6 @@ public class MemberService {
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
 
-    private String encode(String password) {
-        return passwordEncoder.encode(password);
-    }
-
     @Transactional
     public void update(Long memberId, MemberRequest memberRequest) {
         Member member = findById(memberId);
@@ -80,7 +76,7 @@ public class MemberService {
         if (!matches)
             throw new ApiException(PASSWORD_NOT_MATCH, "password 값이 다릅니다. password: " + memberRequest.getPassword());
 
-        String encodedNewPassword = encode(memberRequest.getNewPassword());
-        member.update(memberRequest, encodedNewPassword);
+        String encodedNewPassword = passwordEncoder.encode(memberRequest.getNewPassword());
+        member.update(memberRequest.getNickname(), memberRequest.getEmail(), encodedNewPassword, memberRequest.isAgreed());
     }
 }
