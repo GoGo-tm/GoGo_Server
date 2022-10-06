@@ -106,4 +106,11 @@ public class Member extends BaseEntity {
             throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + otherMemberId);
         }
     }
+
+    public void update(String nickname, String email, String newPassword, boolean agreed) {
+        this.nickname = nickname;
+        this.email = email;
+        this.password = newPassword;
+        updateTermAgreed(Term.LOCATION, agreed);
+    }
 }
