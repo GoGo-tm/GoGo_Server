@@ -77,12 +77,10 @@ public class MemberService {
         Member member = findById(memberId);
 
         boolean matches = passwordEncoder.matches(memberRequest.getPassword(), member.getPassword());
-        if(!matches) throw new ApiException(PASSWORD_NOT_MATCH, "password 값이 다릅니다. password: " + memberRequest.getPassword());
-
-        //member.validatePassword(memberRequest.getPassword());
+        if (!matches)
+            throw new ApiException(PASSWORD_NOT_MATCH, "password 값이 다릅니다. password: " + memberRequest.getPassword());
 
         String encodedNewPassword = encode(memberRequest.getNewPassword());
         member.update(memberRequest, encodedNewPassword);
     }
 }
-
