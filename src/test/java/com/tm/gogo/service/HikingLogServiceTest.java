@@ -203,6 +203,7 @@ public class HikingLogServiceTest {
         HikingLogDetailResponse response = hikingLogService.findHikingLog(hikingLog.getId());
 
         Assertions.assertThat(response.getMemo()).isEqualTo("이미지 넣기 술법");
+        Assertions.assertThat(response.getHikingTrailName()).isEqualTo("등산로");
         Assertions.assertThat(response.getDifficulty()).isEqualTo(Difficulty.EASY);
         Assertions.assertThat(response.getAddress()).isEqualTo("서울시 강남구 대치동");
         Assertions.assertThat(response.getHikingLogImageUrls()).isEqualTo(imageUrls);

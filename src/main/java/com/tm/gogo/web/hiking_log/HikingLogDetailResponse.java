@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Builder
 public class HikingLogDetailResponse {
+    private String hikingTrailName;
     private Integer starRating;
     private String address;
     private Difficulty difficulty;
@@ -21,6 +22,7 @@ public class HikingLogDetailResponse {
 
     public static HikingLogDetailResponse of(HikingLog hikingLog){
         return HikingLogDetailResponse.builder()
+                .hikingTrailName(hikingLog.getHikingTrail().getName())
                 .starRating(hikingLog.getStarRating())
                 .address(hikingLog.getHikingTrail().getAddress())
                 .difficulty(hikingLog.getHikingTrail().getDifficulty())
