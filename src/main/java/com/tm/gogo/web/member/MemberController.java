@@ -52,4 +52,15 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "내 정보 수정", description = "수정하기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "404", description = "사용자 정보가 존재하지 않음", content = @Content)
+    })
+    @PutMapping()
+    public ResponseEntity<Void> updateMember(@RequestBody MemberRequest memberRequest) {
+        memberService.update(SecurityUtil.getCurrentMemberId(), memberRequest);
+        return ResponseEntity.ok().build();
+    }
+
 }

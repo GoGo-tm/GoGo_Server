@@ -4,6 +4,7 @@ import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
 import com.tm.gogo.domain.term_agreement.Term;
 import com.tm.gogo.domain.term_agreement.TermAgreement;
+import com.tm.gogo.web.member.MemberRequest;
 import com.tm.gogo.web.response.ApiException;
 import com.tm.gogo.web.response.ErrorCode;
 import lombok.Builder;
@@ -105,5 +106,12 @@ public class Member extends BaseEntity {
         if (!this.id.equals(otherMemberId)) {
             throw new ApiException(MEMBER_NOT_MATCH, "memberId 값이 다릅니다. memberId: " + otherMemberId);
         }
+    }
+
+    public void update(MemberRequest memberRequest, String newPassword) {
+        this.nickname = memberRequest.getNickname();
+        this.email = memberRequest.getEmail();
+        this.password = newPassword;
+        updateTermAgreed(Term.LOCATION, memberRequest.isAgreed());
     }
 }

@@ -6,6 +6,7 @@ import com.tm.gogo.domain.token.Token;
 import com.tm.gogo.helper.MailService;
 import com.tm.gogo.helper.RandomPasswordGenerator;
 import com.tm.gogo.web.auth.UpdateTokenDto;
+import com.tm.gogo.web.member.MemberRequest;
 import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
+import static com.tm.gogo.web.response.ErrorCode.PASSWORD_NOT_MATCH;
 
 @Service
 @Transactional(readOnly = true)
@@ -52,13 +54,35 @@ public class MemberService {
     @Transactional
     public void updatePassword(String email, String newPassword) {
         Member member = findByEmail(email);
-        String encodedPassword = passwordEncoder.encode(newPassword);
+        String encodedPassword = encode(newPassword);
         member.updatePassword(encodedPassword);
     }
 
     private Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. email: " + email));
+    }
+
+    private Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
+    }
+
+    private String encode(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    @Transactional
+    public void update(Long memberId, MemberRequest memberRequest) {
+        Member member = findById(memberId);
+
+        boolean matches = passwordEncoder.matches(memberRequest.getPassword(), member.getPassword());
+        if(!matches) throw new ApiException(PASSWORD_NOT_MATCH, "password 값이 다릅니다. password: " + memberRequest.getPassword());
+
+        //member.validatePassword(memberRequest.getPassword());
+
+        String encodedNewPassword = encode(memberRequest.getNewPassword());
+        member.update(memberRequest, encodedNewPassword);
     }
 }
 
