@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface FavoriteTrailRepository extends JpaRepository<FavoriteTrail, Long> {
     Optional<FavoriteTrail> findByMemberAndHikingTrail(Member member, HikingTrail hikingTrail);
     List<FavoriteTrail> findByMemberAndHikingTrailIn(Member member, List<HikingTrail> hikingTrails);
+    void deleteAllByMemberId(Long memberId);
 }

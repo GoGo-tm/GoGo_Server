@@ -4,6 +4,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static com.tm.gogo.domain.hiking_log.QHikingLogImage.hikingLogImage;
 
 @Repository
@@ -17,6 +19,15 @@ public class HikingLogImageQueryRepository {
                 .delete(hikingLogImage)
                 .where(
                         hikingLogImage.hikingLog.id.eq(hikingLogId)
+                )
+                .execute();
+    }
+
+    public void deleteAllByHikingLogIds(List<Long> hikingLogIds) {
+        jpaQueryFactory
+                .delete(hikingLogImage)
+                .where(
+                        hikingLogImage.hikingLog.id.in(hikingLogIds)
                 )
                 .execute();
     }

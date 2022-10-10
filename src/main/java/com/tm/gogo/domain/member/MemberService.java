@@ -1,14 +1,19 @@
 package com.tm.gogo.domain.member;
 
 
+import com.tm.gogo.domain.favorite_trail.FavoriteTrailService;
+import com.tm.gogo.domain.hiking_log.HikingLogService;
 import com.tm.gogo.domain.token.NewPasswordTokenService;
 import com.tm.gogo.domain.token.Token;
+import com.tm.gogo.domain.withdrawal_reason.WithdrawalReason;
+import com.tm.gogo.domain.withdrawal_reason.WithdrawalReasonRepository;
 import com.tm.gogo.helper.MailService;
 import com.tm.gogo.helper.RandomPasswordGenerator;
 import com.tm.gogo.web.auth.UpdateTokenDto;
 import com.tm.gogo.web.member.MemberRequest;
 import com.tm.gogo.web.member.MemberResponse;
 import com.tm.gogo.web.response.ApiException;
+import com.tm.gogo.web.withdrawal_reason.WithdrawalReasonDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +31,9 @@ public class MemberService {
     private final NewPasswordTokenService newPasswordTokenService;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+    private final WithdrawalReasonRepository withdrawalReasonRepository;
+    private final HikingLogService hikingLogService;
+    private final FavoriteTrailService favoriteTrailService;
 
     public MemberResponse findMemberInfoById(Long memberId) {
         return memberRepository.findById(memberId)
@@ -78,5 +86,16 @@ public class MemberService {
 
         String encodedNewPassword = passwordEncoder.encode(memberRequest.getNewPassword());
         member.update(memberRequest.getNickname(), memberRequest.getEmail(), encodedNewPassword, memberRequest.isAgreed());
+    }
+
+    @Transactional
+    public void withdrawal(Long memberId, WithdrawalReasonDto withdrawalReasonDto) {
+        WithdrawalReason withdrawalReason = withdrawalReasonDto.toWithDrawlReason();
+        withdrawalReasonRepository.save(withdrawalReason);
+
+        hikingLogService.deleteAll(memberId);
+        favoriteTrailService.deleteAll(memberId);
+
+        memberRepository.deleteById(memberId);
     }
 }

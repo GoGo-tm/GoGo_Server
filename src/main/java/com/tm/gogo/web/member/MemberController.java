@@ -3,6 +3,7 @@ package com.tm.gogo.web.member;
 import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.auth.UpdateTokenDto;
+import com.tm.gogo.web.withdrawal_reason.WithdrawalReasonDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -63,4 +64,13 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "탈퇴하기", description = "사용자 탈퇴")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "탈퇴 성공")
+    })
+    @DeleteMapping()
+    public ResponseEntity<Void> withdrawal(@RequestBody WithdrawalReasonDto withdrawalReasonDto) {
+        memberService.withdrawal(SecurityUtil.getCurrentMemberId(), withdrawalReasonDto);
+        return ResponseEntity.ok().build();
+    }
 }
