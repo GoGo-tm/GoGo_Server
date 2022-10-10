@@ -28,7 +28,7 @@ public class MemberController {
     })
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> findMemberById() {
-        return ResponseEntity.ok(memberService.findMemberById(SecurityUtil.getCurrentMemberId()));
+        return ResponseEntity.ok(memberService.findMemberInfoById(SecurityUtil.getCurrentMemberId()));
     }
 
     @Operation(summary = "비밀번호 찾기 토큰 발급 요청", description = "토큰 검증을 위해 토큰 발행")

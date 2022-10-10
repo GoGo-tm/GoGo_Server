@@ -3,7 +3,7 @@ package com.tm.gogo.domain.hiking_log;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_log.HikingLogDetailResponse;
 import com.tm.gogo.web.hiking_log.HikingLogDto;
@@ -23,26 +23,21 @@ import static com.tm.gogo.web.response.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 public class HikingLogService {
+    private final MemberService memberService;
     private final HikingLogRepository hikingLogRepository;
     private final HikingTrailRepository hikingTrailRepository;
-    private final MemberRepository memberRepository;
     private final HikingLogQueryRepository hikingLogQueryRepository;
     private final HikingLogImageQueryRepository hikingLogImageQueryRepository;
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
-        Member member = findMemberByMemberId(memberId);
+        Member member = memberService.findMemberById(memberId);
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);
 
         hikingLogRepository.save(hikingLog);
         return hikingLog.getId();
-    }
-
-    private Member findMemberByMemberId(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
 
     private HikingTrail findByHikingTrailId(Long hikingTrailId) {

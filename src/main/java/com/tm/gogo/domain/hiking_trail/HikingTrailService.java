@@ -3,7 +3,7 @@ package com.tm.gogo.domain.hiking_trail;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrailRepository;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_trail.HikingTrailCondition;
 import com.tm.gogo.web.hiking_trail.HikingTrailDetailResponse;
@@ -18,16 +18,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
-import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class HikingTrailService {
 
+    private final MemberService memberService;
     private final HikingTrailQueryRepository hikingTrailQueryRepository;
     private final HikingTrailRepository hikingTrailRepository;
-    private final MemberRepository memberRepository;
     private final FavoriteTrailRepository favoriteTrailRepository;
 
     public HikingTrailsResponse findHikingTrails(HikingTrailCondition condition, Scrollable scrollable) {
@@ -41,7 +40,7 @@ public class HikingTrailService {
     }
 
     private void updateFavorite(Long memberId, HikingTrailsResponse hikingTrails) {
-        Member member = findMember(memberId);
+        Member member = memberService.findMemberById(memberId);
 
         List<Long> hikingTrailIds = hikingTrails.getContents().stream()
                 .map(HikingTrailDto::getId)
@@ -65,10 +64,5 @@ public class HikingTrailService {
         return hikingTrailRepository.findById(hikingTrailId)
                 .map(HikingTrailDetailResponse::of)
                 .orElseThrow(() -> new ApiException(HIKING_TRAIL_NOT_FOUND, "등산로 정보가 없습니다. hikingTrailId: " + hikingTrailId));
-    }
-
-    private Member findMember(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
 }

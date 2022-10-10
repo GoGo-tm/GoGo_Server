@@ -27,7 +27,7 @@ public class MemberService {
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberResponse findMemberById(Long memberId) {
+    public MemberResponse findMemberInfoById(Long memberId) {
         return memberRepository.findById(memberId)
                 .map(MemberResponse::of)
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
@@ -63,14 +63,14 @@ public class MemberService {
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. email: " + email));
     }
 
-    private Member findById(Long memberId) {
+    public Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND, "사용자 정보가 없습니다. memberId: " + memberId));
     }
 
     @Transactional
     public void update(Long memberId, MemberRequest memberRequest) {
-        Member member = findById(memberId);
+        Member member = findMemberById(memberId);
 
         boolean matches = passwordEncoder.matches(memberRequest.getPassword(), member.getPassword());
         if (!matches)
