@@ -54,7 +54,7 @@ public class MemberServiceTest {
             memberRepository.saveAndFlush(member);
 
             // when
-            MemberResponse memberResponse = memberService.findMemberById(member.getId());
+            MemberResponse memberResponse = memberService.findMemberInfoById(member.getId());
 
             // then
             assertThat(memberResponse.getEmail()).isEqualTo(email);
@@ -68,7 +68,7 @@ public class MemberServiceTest {
             Long memberId = 0L;
 
             assertThatExceptionOfType(ApiException.class)
-                    .isThrownBy(() -> memberService.findMemberById(memberId))
+                    .isThrownBy(() -> memberService.findMemberInfoById(memberId))
                     .withMessage("사용자 정보가 없습니다. memberId: " + memberId);
         }
     }
