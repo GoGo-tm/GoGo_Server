@@ -103,9 +103,9 @@ public class HikingLogService {
 
     @Transactional
     public void deleteAll(Long memberId) {
-        List<Long> hikingLogs = hikingLogQueryRepository.findIds(memberId);
+        List<Long> hikingLogIds = hikingLogQueryRepository.findIds(memberId);
 
-        hikingLogImageQueryRepository.deleteAllByHikingLogIds(hikingLogs);
-        hikingLogQueryRepository.deleteAllByIds(hikingLogs);
+        hikingLogImageQueryRepository.deleteAllByHikingLogIds(hikingLogIds);
+        hikingLogQueryRepository.deleteAllByIds(hikingLogIds);
     }
 }
