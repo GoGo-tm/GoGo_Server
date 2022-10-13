@@ -27,6 +27,7 @@ public class MemberService {
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
 
+
     public MemberResponse findMemberInfoById(Long memberId) {
         return memberRepository.findById(memberId)
                 .map(MemberResponse::of)
@@ -78,5 +79,9 @@ public class MemberService {
 
         String encodedNewPassword = passwordEncoder.encode(memberRequest.getNewPassword());
         member.update(memberRequest.getNickname(), memberRequest.getEmail(), encodedNewPassword, memberRequest.isAgreed());
+    }
+
+    public void delete(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 }

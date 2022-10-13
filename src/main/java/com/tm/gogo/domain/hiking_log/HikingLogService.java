@@ -100,4 +100,12 @@ public class HikingLogService {
 
         return hikingLogId;
     }
+
+    @Transactional
+    public void deleteAll(Long memberId) {
+        List<Long> hikingLogIds = hikingLogQueryRepository.findIds(memberId);
+
+        hikingLogImageQueryRepository.deleteAllByHikingLogIds(hikingLogIds);
+        hikingLogQueryRepository.deleteAllByIds(hikingLogIds);
+    }
 }

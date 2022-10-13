@@ -46,6 +46,12 @@ public class FavoriteTrailService {
         favoriteTrailRepository.delete(favorite);
     }
 
+    @Transactional
+    public void deleteAll(Long memberId) {
+        Member member = memberService.findMemberById(memberId);
+        favoriteTrailRepository.deleteAllByMember(member);
+    }
+
     private HikingTrail findHikingTrail(Long hikingTrailId) {
         return hikingTrailRepository.findById(hikingTrailId)
                 .orElseThrow(() -> new ApiException(HIKING_TRAIL_NOT_FOUND, "등산로 정보가 없습니다. hikingTrailId: " + hikingTrailId));

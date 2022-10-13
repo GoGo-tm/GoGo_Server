@@ -33,6 +33,7 @@ public class MemberServiceTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @Nested
     @DisplayName("회원 조회")
     class FindTest {
@@ -178,4 +179,6 @@ public class MemberServiceTest {
                 .isThrownBy(() -> memberService.update(member.getId(), memberRequest))
                 .withMessage("password 값이 다릅니다. password: " + memberRequest.getPassword());
     }
+
+
 }

@@ -46,11 +46,28 @@ public class HikingLogQueryRepository {
         return toResponse(results, scrollable);
     }
 
+    public List<Long> findIds(Long memberId) {
+        return jpaQueryFactory
+                .select(hikingLog.id)
+                .from(hikingLog)
+                .where(hikingLog.member.id.eq(memberId))
+                .fetch();
+    }
+
     public void deleteHikingLog(Long hikingLogId) {
         jpaQueryFactory
                 .delete(hikingLog)
                 .where(
                         hikingLog.id.eq(hikingLogId)
+                )
+                .execute();
+    }
+
+    public void deleteAllByIds(List<Long> hikingLogIds) {
+        jpaQueryFactory
+                .delete(hikingLog)
+                .where(
+                        hikingLog.id.in(hikingLogIds)
                 )
                 .execute();
     }
