@@ -1,4 +1,4 @@
-package com.tm.gogo.domain.withdrawal_reason;
+package com.tm.gogo.domain.withdrawal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

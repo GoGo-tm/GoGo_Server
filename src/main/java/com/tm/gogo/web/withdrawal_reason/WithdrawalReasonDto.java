@@ -1,7 +1,7 @@
 package com.tm.gogo.web.withdrawal_reason;
 
-import com.tm.gogo.domain.withdrawal_reason.Reason;
-import com.tm.gogo.domain.withdrawal_reason.WithdrawalReason;
+import com.tm.gogo.domain.withdrawal.Reason;
+import com.tm.gogo.domain.withdrawal.WithdrawalReason;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

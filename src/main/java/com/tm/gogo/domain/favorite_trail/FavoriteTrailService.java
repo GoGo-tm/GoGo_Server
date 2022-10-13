@@ -48,7 +48,7 @@ public class FavoriteTrailService {
 
     @Transactional
     public void deleteAll(Long memberId) {
-        Member member = findMember(memberId);
+        Member member = memberService.findMemberById(memberId);
         favoriteTrailRepository.deleteAllByMember(member);
     }
 

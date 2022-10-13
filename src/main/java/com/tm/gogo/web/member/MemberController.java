@@ -1,6 +1,7 @@
 package com.tm.gogo.web.member;
 
 import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.domain.withdrawal.WithdrawalService;
 import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.auth.UpdateTokenDto;
 import com.tm.gogo.web.withdrawal_reason.WithdrawalReasonDto;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/members")
 public class MemberController {
     private final MemberService memberService;
+    private final WithdrawalService withdrawalService;
 
     @Operation(summary = "내 정보 찾기", description = "별다른 파라미터 없이 Access Token 으로 내정보를 찾음")
     @ApiResponses({
@@ -70,7 +72,7 @@ public class MemberController {
     })
     @DeleteMapping()
     public ResponseEntity<Void> withdrawal(@RequestBody WithdrawalReasonDto withdrawalReasonDto) {
-        memberService.withdrawal(SecurityUtil.getCurrentMemberId(), withdrawalReasonDto);
+        withdrawalService.withdrawal(SecurityUtil.getCurrentMemberId(), withdrawalReasonDto);
         return ResponseEntity.ok().build();
     }
 }
