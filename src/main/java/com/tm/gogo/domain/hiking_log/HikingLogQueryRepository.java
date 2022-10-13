@@ -46,7 +46,7 @@ public class HikingLogQueryRepository {
         return toResponse(results, scrollable);
     }
 
-    public List<Long> findAllByMemberId(Long memberId) {
+    public List<Long> findIds(Long memberId) {
         return jpaQueryFactory
                 .select(hikingLog.id)
                 .from(hikingLog)

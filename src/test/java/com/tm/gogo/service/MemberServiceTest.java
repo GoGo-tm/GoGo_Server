@@ -280,8 +280,8 @@ public class MemberServiceTest {
 
         //then
         assertThat(withdrawalReasonRepository.findAll()).isNotEmpty();
-        assertThat(memberRepository.findById(member.getId())).isEmpty();
-        assertThat(favoriteTrailRepository.findById(favorite.getId())).isEmpty();
+        assertThat(memberRepository.findAll()).isEmpty();
+        assertThat(favoriteTrailRepository.findAll()).isEmpty();
         assertThat(hikingLogRepository.findAll()).isEmpty();
 
     }
