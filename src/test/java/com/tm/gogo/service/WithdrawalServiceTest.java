@@ -117,7 +117,7 @@ public class WithdrawalServiceTest {
         favoriteTrailRepository.saveAndFlush(favorite);
 
         WithdrawalReasonDto reasonDto = WithdrawalReasonDto.builder()
-                .reason(Reason.TEST)
+                .reason(Reason.REJOIN)
                 .opinion("")
                 .build();
 

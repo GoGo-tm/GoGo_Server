@@ -5,5 +5,6 @@ public enum Reason {
     NO_UPDATE,
     ANOTHER_APP,
     LOST_INTEREST,
-    REJOIN
+    REJOIN,
+    ETC
 }
