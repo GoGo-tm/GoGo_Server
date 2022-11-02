@@ -2,7 +2,8 @@
 
 - Spring Boot
 - Spring Security
+- JPA, QueryDSL
 - MySQL
 - Java
 - Lombok
-- AWS EC2, RDS
+- AWS EC2, RDS, S3
