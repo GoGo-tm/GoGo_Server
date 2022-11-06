@@ -1,5 +1,6 @@
 package com.tm.gogo.domain;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -21,4 +22,11 @@ public class Notice extends BaseEntity {
 
     @Column(name = "image")
     private String image;
+
+    @Builder
+    public Notice(String title, String content, String image) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+    }
 }
