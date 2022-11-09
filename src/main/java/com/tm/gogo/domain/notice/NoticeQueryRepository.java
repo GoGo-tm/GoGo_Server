@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tm.gogo.domain.QNotice.*;
+import static com.tm.gogo.domain.notice.QNotice.notice;
 
 @Repository
 @RequiredArgsConstructor
