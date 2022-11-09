@@ -64,6 +64,7 @@ public class SecurityConfig {
                 .antMatchers("/api/members/terms").hasRole("MEMBER")
                 .antMatchers("/api/hiking-trails/**/favorite").hasRole("MEMBER")
                 .antMatchers("/api/notices").permitAll()
+                .antMatchers("/api/youtubes").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/members/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/hiking-trails/**").permitAll()
