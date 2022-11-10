@@ -1,6 +1,6 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.Notice;
+import com.tm.gogo.domain.notice.Notice;
 import com.tm.gogo.domain.notice.NoticeRepository;
 import com.tm.gogo.domain.notice.NoticeService;
 import com.tm.gogo.parameter.Scrollable;

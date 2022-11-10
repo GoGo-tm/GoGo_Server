@@ -1,13 +1,9 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.Notice;
-import com.tm.gogo.domain.notice.NoticeRepository;
-import com.tm.gogo.domain.notice.NoticeService;
 import com.tm.gogo.domain.youtube.Youtube;
 import com.tm.gogo.domain.youtube.YoutubeRepository;
 import com.tm.gogo.domain.youtube.YoutubeService;
 import com.tm.gogo.parameter.Scrollable;
-import com.tm.gogo.web.notice.NoticesResponse;
 import com.tm.gogo.web.youtube.YoutubesResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

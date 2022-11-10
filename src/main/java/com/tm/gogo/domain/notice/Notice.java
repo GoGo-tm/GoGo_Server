@@ -1,5 +1,6 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.notice;
 
+import com.tm.gogo.domain.BaseEntity;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
