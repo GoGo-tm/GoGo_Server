@@ -2,6 +2,7 @@ package com.tm.gogo.domain.hiking_trail;
 
 import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrailRepository;
+import com.tm.gogo.domain.favorite_trail.FavoriteTrailService;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.parameter.Scrollable;
@@ -24,10 +25,9 @@ import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
 @RequiredArgsConstructor
 public class HikingTrailService {
 
-    private final MemberService memberService;
     private final HikingTrailQueryRepository hikingTrailQueryRepository;
     private final HikingTrailRepository hikingTrailRepository;
-    private final FavoriteTrailRepository favoriteTrailRepository;
+    private final FavoriteTrailService favoriteTrailService;
 
     public HikingTrailsResponse findHikingTrails(HikingTrailCondition condition, Scrollable scrollable) {
         return hikingTrailQueryRepository.findHikingTrails(condition, scrollable);
@@ -40,18 +40,13 @@ public class HikingTrailService {
     }
 
     private void updateFavorite(Long memberId, HikingTrailsResponse hikingTrails) {
-        Member member = memberService.findMemberById(memberId);
-
         List<Long> hikingTrailIds = hikingTrails.getContents().stream()
                 .map(HikingTrailDto::getId)
                 .collect(Collectors.toList());
 
         List<HikingTrail> trails = hikingTrailRepository.findAllById(hikingTrailIds);
 
-        Set<Long> favoriteTrailIds = favoriteTrailRepository.findByMemberAndHikingTrailIn(member, trails).stream()
-                .map(FavoriteTrail::getHikingTrail)
-                .map(HikingTrail::getId)
-                .collect(Collectors.toSet());
+        Set<Long> favoriteTrailIds = favoriteTrailService.findFavoriteTrailIds(memberId, trails);
 
         hikingTrails.updateContentFavorites(favoriteTrailIds);
     }

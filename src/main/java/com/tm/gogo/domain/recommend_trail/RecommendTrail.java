@@ -1,13 +1,17 @@
-package com.tm.gogo.domain;
+package com.tm.gogo.domain.recommend_trail;
 
+import com.tm.gogo.domain.BaseEntity;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "recommend_trail")
+@Table(name = "recommend_trail", indexes = @Index(columnList = "theme"))
 public class RecommendTrail extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +24,11 @@ public class RecommendTrail extends BaseEntity {
 
     @Column(name = "theme")
     @Enumerated(EnumType.STRING)
-    private Theme theme;
+    private RecommendTrailTheme theme;
 
-    //TODO: 테마 입력
-    public enum Theme {
-
+    @Builder
+    public RecommendTrail(HikingTrail hikingTrail, RecommendTrailTheme theme) {
+        this.hikingTrail = hikingTrail;
+        this.theme = theme;
     }
 }

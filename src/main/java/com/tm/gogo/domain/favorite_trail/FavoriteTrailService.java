@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static com.tm.gogo.web.response.ErrorCode.*;
 
 @Service
@@ -50,6 +54,15 @@ public class FavoriteTrailService {
     public void deleteAll(Long memberId) {
         Member member = memberService.findMemberById(memberId);
         favoriteTrailRepository.deleteAllByMember(member);
+    }
+
+    public Set<Long> findFavoriteTrailIds(Long memberId, List<HikingTrail> trails) {
+        Member member = memberService.findMemberById(memberId);
+
+        return favoriteTrailRepository.findByMemberAndHikingTrailIn(member, trails).stream()
+                .map(FavoriteTrail::getHikingTrail)
+                .map(HikingTrail::getId)
+                .collect(Collectors.toSet());
     }
 
     private HikingTrail findHikingTrail(Long hikingTrailId) {

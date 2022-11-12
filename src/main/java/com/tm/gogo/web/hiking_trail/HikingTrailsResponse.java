@@ -19,9 +19,6 @@ public class HikingTrailsResponse {
     private boolean hasNext;
 
     public void updateContentFavorites(Set<Long> favoriteIds) {
-        contents.forEach(content -> {
-            boolean isFavorite = favoriteIds.contains(content.getId());
-            content.updateFavorite(isFavorite);
-        });
+        contents.forEach(content -> content.updateByFavoriteIdSet(favoriteIds));
     }
 }
