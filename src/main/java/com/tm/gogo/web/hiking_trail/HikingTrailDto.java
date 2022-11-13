@@ -2,9 +2,13 @@ package com.tm.gogo.web.hiking_trail;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.tm.gogo.domain.hiking_trail.Difficulty;
+import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -34,6 +38,7 @@ public class HikingTrailDto {
     @Schema(example = "false", description = "회원인 경우 즐겨찾기 여부")
     private Boolean favorite;
 
+    @Builder
     @QueryProjection
     public HikingTrailDto(Long id, String imageUrl, String name, String address, Long favoriteCount, Difficulty difficulty, Integer length) {
         this.id = id;
@@ -44,6 +49,22 @@ public class HikingTrailDto {
         this.difficulty = difficulty;
         this.length = length;
         this.favorite = false;
+    }
+
+    public static HikingTrailDto of(HikingTrail hikingTrail) {
+        return HikingTrailDto.builder()
+                .id(hikingTrail.getId())
+                .imageUrl(hikingTrail.getImageUrl())
+                .name(hikingTrail.getName())
+                .address(hikingTrail.getAddress())
+                .favoriteCount(hikingTrail.getFavoriteCount())
+                .difficulty(hikingTrail.getDifficulty())
+                .length(hikingTrail.getLength())
+                .build();
+    }
+
+    public void updateByFavoriteIdSet(Set<Long> favoriteTrailIds) {
+        this.favorite = favoriteTrailIds.contains(this.id);
     }
 
     public void updateFavorite(boolean favorite) {

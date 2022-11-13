@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .antMatchers("/api/youtubes").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/members/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/recommend-trails/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/hiking-trails/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
