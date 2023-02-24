@@ -3,7 +3,7 @@ package com.tm.gogo.domain.auth;
 import com.tm.gogo.domain.jwt.TokenProvider;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
-import com.tm.gogo.domain.token.*;
+import com.tm.gogo.domain.token.RefreshTokenService;
 import com.tm.gogo.web.auth.*;
 import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -26,7 +27,6 @@ public class AuthService {
 
     private final RefreshTokenService refreshTokenService;
 
-    @Transactional
     public SignUpResponse signUp(SignUpRequest signUpDto) {
         if (memberRepository.existsByEmail(signUpDto.getEmail())) {
             throw new ApiException(ALREADY_EXIST_MEMBER, "이미 가입되어 있는 유저입니다. email: " + signUpDto.getEmail());
@@ -37,7 +37,6 @@ public class AuthService {
         return SignUpResponse.of(member);
     }
 
-    @Transactional
     public TokenResponse signIn(SignInRequest signInDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = signInDto.toAuthentication();
@@ -47,7 +46,7 @@ public class AuthService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenResponse tokenDto = tokenProvider.generateTokenDto(authentication);
+        TokenResponse tokenDto = tokenProvider.generateTokenDto(authentication.getName(), authentication.getAuthorities());
 
         // 4. RefreshToken 저장
         refreshTokenService.issueToken(authentication.getName(), tokenDto.getRefreshToken());
@@ -56,7 +55,6 @@ public class AuthService {
         return tokenDto;
     }
 
-    @Transactional
     public TokenResponse reissue(TokenRequest tokenRequestDto) {
         return refreshTokenService.reissue(tokenRequestDto);
     }

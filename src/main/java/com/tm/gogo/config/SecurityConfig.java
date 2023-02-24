@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/images/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/oauth/**").permitAll()
                 .antMatchers("/api/members/me").hasRole("MEMBER")
                 .antMatchers("/api/members/terms").hasRole("MEMBER")
                 .antMatchers("/api/hiking-trails/**/favorite").hasRole("MEMBER")
