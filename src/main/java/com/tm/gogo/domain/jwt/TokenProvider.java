@@ -1,6 +1,5 @@
 package com.tm.gogo.domain.jwt;
 
-import com.tm.gogo.web.auth.TokenRequest;
 import com.tm.gogo.web.auth.TokenResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -36,9 +35,9 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenResponse generateTokenDto(Authentication authentication) {
+    public TokenResponse generateTokenDto(String subject, Collection<? extends GrantedAuthority> authorities) {
         // 권한들 가져오기
-        String authorities = authentication.getAuthorities().stream()
+        String authoritiesString = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
@@ -47,8 +46,8 @@ public class TokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())       // payload "sub": "name"
-                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
+                .setSubject(subject)       // payload "sub": "name"
+                .claim(AUTHORITIES_KEY, authoritiesString)        // payload "auth": "ROLE_USER"
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
