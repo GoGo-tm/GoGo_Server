@@ -51,3 +51,9 @@ cloud:
       auto: false
     stack:
       auto: false
+
+oauth:
+  kakao:
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com

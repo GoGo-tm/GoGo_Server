@@ -1,18 +1,17 @@
 package com.tm.gogo.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.oauth.OauthProfileResponse;
+import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthInfo;
+import com.tm.gogo.domain.oauth.OauthProfileResponse;
 import com.tm.gogo.domain.oauth.kakao.KakaoOauthService;
-import com.tm.gogo.helper.client.OauthApiClient;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class KaKaoOauthServiceTest {
     @Test
-    void testKakaoOauth() throws JsonProcessingException {
+    void testKakaoOauth() {
         // given
         KakaoOauthService kakaoOauthService = new KakaoOauthService(new KakaoApiMockClient());
 

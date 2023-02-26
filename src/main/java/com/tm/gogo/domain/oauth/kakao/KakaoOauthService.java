@@ -1,10 +1,9 @@
 package com.tm.gogo.domain.oauth.kakao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.oauth.OauthProfileResponse;
+import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthInfo;
-import com.tm.gogo.helper.client.OauthApiClient;
+import com.tm.gogo.domain.oauth.OauthProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class KakaoOauthService {
 
     private final OauthApiClient kakaoApiClient;
 
-    public OauthInfo getKakaoInfo(String grantType, String clientId, String authorizationCode) throws JsonProcessingException {
+    public OauthInfo getKakaoInfo(String grantType, String clientId, String authorizationCode) {
         String accessToken = kakaoApiClient.getOauthAccessToken(grantType, clientId, authorizationCode);
         OauthProfileResponse oauthProfile = kakaoApiClient.getOauthProfile(accessToken);
 
