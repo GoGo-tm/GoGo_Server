@@ -14,12 +14,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class KakaoApiClient {
+public class KakaoApiClient implements OauthApiClient {
 
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public String kakaoLogin(String grantType, String clientId, String authorizationCode) throws JsonProcessingException {
+    @Override
+    public String getOauthAccessToken(String grantType, String clientId, String authorizationCode) throws JsonProcessingException {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -37,7 +38,8 @@ public class KakaoApiClient {
         return kakaoToken.getAccessToken();
     }
 
-    public KakaoMyInfo getKakaoInfo(String kakaoAccessToken) throws JsonProcessingException {
+    @Override
+    public KakaoMyInfo getOauthProfile(String kakaoAccessToken) throws JsonProcessingException {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.set("Authorization", "Bearer " + kakaoAccessToken);

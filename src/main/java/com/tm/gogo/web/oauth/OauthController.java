@@ -27,7 +27,9 @@ public class OauthController {
         OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(kakaoLoginRequest.getGrantType(),
                                                              kakaoLoginRequest.getClientId(),
                                                              kakaoLoginRequest.getAuthorizationCode());
+
         TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(kakaoInfo);
+
         return ResponseEntity.ok(tokenResponse);
     }
 }
