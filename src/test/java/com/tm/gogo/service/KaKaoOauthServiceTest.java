@@ -37,6 +37,11 @@ public class KaKaoOauthServiceTest {
         }
 
         @Override
+        public String getOauthAccessToken(String grantType, String clientId, String code, String state) {
+            return null;
+        }
+
+        @Override
         public OauthProfileResponse getOauthProfile(String accessToken) {
             return new KakaoMockInfo();
         }

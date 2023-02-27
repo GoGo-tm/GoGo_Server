@@ -1,4 +1,9 @@
 oauth:
+  naver:
+    secret: ZP2xGYxKSn
+    url:
+      auth: https://nid.naver.com
+      api: https://openapi.naver.com
   kakao:
     url:
       auth: https://kauth.kakao.com
