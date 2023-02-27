@@ -5,6 +5,8 @@ import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthInfo;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
 import com.tm.gogo.domain.oauth.kakao.KakaoOauthService;
+import com.tm.gogo.web.oauth.KakaoLoginRequest;
+import com.tm.gogo.web.oauth.OauthLoginRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,12 +17,8 @@ public class KaKaoOauthServiceTest {
         // given
         KakaoOauthService kakaoOauthService = new KakaoOauthService(new KakaoApiMockClient());
 
-        String grantType = "";
-        String clientId = "";
-        String authorizationCode = "";
-
         // when
-        OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(grantType, clientId, authorizationCode);
+        OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(new KakaoLoginRequest());
 
         // then
         assertThat(kakaoInfo.getEmail()).isEqualTo("test@test.com");
@@ -31,9 +29,10 @@ public class KaKaoOauthServiceTest {
 
     static class KakaoApiMockClient implements OauthApiClient {
 
+
         @Override
-        public String getOauthAccessToken(String grantType, String clientId, String authorizationCode) {
-            return "accessToken";
+        public String getOauthAccessToken(OauthLoginRequest oauthLoginRequest) {
+            return "test";
         }
 
         @Override

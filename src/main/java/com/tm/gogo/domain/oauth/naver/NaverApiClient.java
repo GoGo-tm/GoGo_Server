@@ -1,4 +1,4 @@
-package com.tm.gogo.domain.oauth.kakao;
+package com.tm.gogo.domain.oauth.naver;
 
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,43 +17,43 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoApiClient implements OauthApiClient {
+public class NaverApiClient implements OauthApiClient {
 
-    @Value("${oauth.kakao.url.auth}")
+    @Value("${oauth.naver.url.auth}")
     private String authUrl;
 
-    @Value("${oauth.kakao.url.api}")
+    @Value("${oauth.naver.url.api}")
     private String apiUrl;
+
+    @Value("${oauth.naver.secret}")
+    private String clientSecret;
 
     private final RestTemplate restTemplate;
 
     @Override
     public String getOauthAccessToken(OauthLoginRequest oauthLoginRequest) {
-        String url = authUrl + "/oauth/token";
+        String url = authUrl + "/oauth2.0/token";
 
         HttpHeaders httpHeaders = newHttpHeaders();
 
         MultiValueMap<String, String> body = oauthLoginRequest.makeBody();
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+        body.add("client_secret", clientSecret);
 
-        ResponseEntity<KakaoToken> response = restTemplate.postForEntity(url, request, KakaoToken.class);
+        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+        ResponseEntity<NaverToken> response = restTemplate.postForEntity(url, request, NaverToken.class);
 
         return Objects.requireNonNull(response.getBody()).getAccessToken();
     }
 
     @Override
     public OauthProfileResponse getOauthProfile(String accessToken) {
-        String url = apiUrl + "/v2/user/me";
+        String url = apiUrl + "/v1/nid/me";
 
         HttpHeaders httpHeaders = newHttpHeaders();
         httpHeaders.set("Authorization", "Bearer " + accessToken);
 
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("property_keys", "[\"kakao_account.email\", \"kakao_account.profile\"]");
-
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
-
-        ResponseEntity<KakaoMyInfo> response = restTemplate.postForEntity(url, request, KakaoMyInfo.class);
+        HttpEntity<?> request = new HttpEntity<>(httpHeaders);
+        ResponseEntity<NaverMyInfo> response = restTemplate.postForEntity(url, request, NaverMyInfo.class);
 
         return response.getBody();
     }
