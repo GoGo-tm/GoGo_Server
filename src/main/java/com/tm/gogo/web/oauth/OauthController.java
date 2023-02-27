@@ -2,6 +2,7 @@ package com.tm.gogo.web.oauth;
 
 import com.tm.gogo.domain.oauth.OauthInfo;
 import com.tm.gogo.domain.oauth.OauthMemberService;
+import com.tm.gogo.domain.oauth.google.GoogleOauthService;
 import com.tm.gogo.domain.oauth.kakao.KakaoOauthService;
 import com.tm.gogo.domain.oauth.naver.NaverOauthService;
 import com.tm.gogo.web.auth.TokenResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OauthController {
     private final KakaoOauthService kakaoOauthService;
     private final NaverOauthService naverOauthService;
+    private final GoogleOauthService googleOauthService;
     private final OauthMemberService oauthMemberService;
 
     @PostMapping("/kakao")
@@ -36,6 +38,15 @@ public class OauthController {
         OauthInfo naverInfo = naverOauthService.getNaverInfo(naverLoginRequest);
 
         TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(naverInfo);
+
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<TokenResponse> googleLogin(@RequestBody GoogleLoginRequest googleLoginRequest) {
+        OauthInfo googleInfo = googleOauthService.getGoogleInfo(googleLoginRequest);
+
+        TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(googleInfo);
 
         return ResponseEntity.ok(tokenResponse);
     }
