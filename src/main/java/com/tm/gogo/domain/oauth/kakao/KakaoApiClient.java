@@ -2,6 +2,7 @@ package com.tm.gogo.domain.oauth.kakao;
 
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
+import com.tm.gogo.web.oauth.OauthLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -28,24 +29,17 @@ public class KakaoApiClient implements OauthApiClient {
     private final RestTemplate restTemplate;
 
     @Override
-    public String getOauthAccessToken(String grantType, String clientId, String authorizationCode) {
+    public String getOauthAccessToken(OauthLoginRequest oauthLoginRequest) {
         String url = authUrl + "/oauth/token";
 
         HttpHeaders httpHeaders = newHttpHeaders();
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", grantType);
-        body.add("client_id", clientId);
-        body.add("code", authorizationCode);
+
+        MultiValueMap<String, String> body = oauthLoginRequest.makeBody();
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
         ResponseEntity<KakaoToken> response = restTemplate.postForEntity(url, request, KakaoToken.class);
 
         return Objects.requireNonNull(response.getBody()).getAccessToken();
-    }
-
-    @Override
-    public String getOauthAccessToken(String grantType, String clientId, String code, String state) {
-        return null;
     }
 
     @Override

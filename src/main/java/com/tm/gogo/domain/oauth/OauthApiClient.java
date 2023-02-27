@@ -1,9 +1,9 @@
 package com.tm.gogo.domain.oauth;
 
-public interface OauthApiClient {
-    String getOauthAccessToken(String grantType, String clientId, String authorizationCode);
+import com.tm.gogo.web.oauth.OauthLoginRequest;
 
-    String getOauthAccessToken(String grantType, String clientId, String code, String state);
+public interface OauthApiClient {
+    String getOauthAccessToken(OauthLoginRequest oauthLoginRequest);
 
     OauthProfileResponse getOauthProfile(String accessToken);
 }

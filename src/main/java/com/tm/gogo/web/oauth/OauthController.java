@@ -18,16 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/oauth")
 @RequiredArgsConstructor
 public class OauthController {
-
     private final KakaoOauthService kakaoOauthService;
     private final NaverOauthService naverOauthService;
     private final OauthMemberService oauthMemberService;
 
     @PostMapping("/kakao")
     public ResponseEntity<TokenResponse> kakaoLogin(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-        OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(kakaoLoginRequest.getGrantType(),
-                kakaoLoginRequest.getClientId(),
-                kakaoLoginRequest.getAuthorizationCode());
+        OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(kakaoLoginRequest);
 
         TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(kakaoInfo);
 
@@ -36,10 +33,7 @@ public class OauthController {
 
     @PostMapping("/naver")
     public ResponseEntity<TokenResponse> naverLogin(@RequestBody NaverLoginRequest naverLoginRequest) {
-        OauthInfo naverInfo = naverOauthService.getNaverInfo(naverLoginRequest.getGrantType(),
-                naverLoginRequest.getClientId(),
-                naverLoginRequest.getCode(),
-                naverLoginRequest.getState());
+        OauthInfo naverInfo = naverOauthService.getNaverInfo(naverLoginRequest);
 
         TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(naverInfo);
 

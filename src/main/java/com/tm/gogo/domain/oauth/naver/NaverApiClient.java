@@ -2,6 +2,7 @@ package com.tm.gogo.domain.oauth.naver;
 
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
+import com.tm.gogo.web.oauth.OauthLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,23 +31,15 @@ public class NaverApiClient implements OauthApiClient {
     private final RestTemplate restTemplate;
 
     @Override
-    public String getOauthAccessToken(String grantType, String clientId, String authorizationCode) {
-        return null;
-    }
-
-    @Override
-    public String getOauthAccessToken(String grantType, String clientId, String code, String state) {
+    public String getOauthAccessToken(OauthLoginRequest oauthLoginRequest) {
         String url = authUrl + "/oauth2.0/token";
 
         HttpHeaders httpHeaders = newHttpHeaders();
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", grantType);
-        body.add("client_id", clientId);
-        body.add("client_secret", clientSecret);
-        body.add("code", code);
-        body.add("state", state);
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
+        MultiValueMap<String, String> body = oauthLoginRequest.makeBody();
+        body.add("client_secret", clientSecret);
+
+        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
         ResponseEntity<NaverToken> response = restTemplate.postForEntity(url, request, NaverToken.class);
 
         return Objects.requireNonNull(response.getBody()).getAccessToken();
