@@ -8,3 +8,8 @@ oauth:
     url:
       auth: https://kauth.kakao.com
       api: https://kapi.kakao.com
+  google:
+    secret: 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
+    url:
+      auth: https://oauth2.googleapis.com
+      api: https://people.googleapis.com
