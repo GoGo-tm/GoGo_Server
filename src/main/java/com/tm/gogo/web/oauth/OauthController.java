@@ -1,10 +1,6 @@
 package com.tm.gogo.web.oauth;
 
-import com.tm.gogo.domain.oauth.OauthInfo;
-import com.tm.gogo.domain.oauth.OauthMemberService;
-import com.tm.gogo.domain.oauth.google.GoogleOauthService;
-import com.tm.gogo.domain.oauth.kakao.KakaoOauthService;
-import com.tm.gogo.domain.oauth.naver.NaverOauthService;
+import com.tm.gogo.domain.oauth.OauthService;
 import com.tm.gogo.web.auth.TokenResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,35 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/oauth")
 @RequiredArgsConstructor
 public class OauthController {
-    private final KakaoOauthService kakaoOauthService;
-    private final NaverOauthService naverOauthService;
-    private final GoogleOauthService googleOauthService;
-    private final OauthMemberService oauthMemberService;
+    private final OauthService oauthService;
 
     @PostMapping("/kakao")
     public ResponseEntity<TokenResponse> kakaoLogin(@RequestBody KakaoLoginRequest kakaoLoginRequest) {
-        OauthInfo kakaoInfo = kakaoOauthService.getKakaoInfo(kakaoLoginRequest);
-
-        TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(kakaoInfo);
-
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(oauthService.login(kakaoLoginRequest));
     }
 
     @PostMapping("/naver")
     public ResponseEntity<TokenResponse> naverLogin(@RequestBody NaverLoginRequest naverLoginRequest) {
-        OauthInfo naverInfo = naverOauthService.getNaverInfo(naverLoginRequest);
-
-        TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(naverInfo);
-
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(oauthService.login(naverLoginRequest));
     }
 
     @PostMapping("/google")
     public ResponseEntity<TokenResponse> googleLogin(@RequestBody GoogleLoginRequest googleLoginRequest) {
-        OauthInfo googleInfo = googleOauthService.getGoogleInfo(googleLoginRequest);
-
-        TokenResponse tokenResponse = oauthMemberService.getAccessTokenWithOauthInfo(googleInfo);
-
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(oauthService.login(googleLoginRequest));
     }
 }

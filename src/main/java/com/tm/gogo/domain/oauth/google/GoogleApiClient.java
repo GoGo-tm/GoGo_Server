@@ -1,9 +1,8 @@
 package com.tm.gogo.domain.oauth.google;
 
+import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
-import com.tm.gogo.domain.oauth.naver.NaverMyInfo;
-import com.tm.gogo.domain.oauth.naver.NaverToken;
 import com.tm.gogo.web.oauth.OauthLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +54,11 @@ public class GoogleApiClient implements OauthApiClient {
         ResponseEntity<GoogleMyInfo> response = restTemplate.exchange(url, HttpMethod.GET, request, GoogleMyInfo.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public Member.Type getMemberType() {
+        return Member.Type.GOOGLE;
     }
 
     private HttpHeaders newHttpHeaders() {

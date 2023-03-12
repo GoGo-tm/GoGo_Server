@@ -39,6 +39,11 @@ public class KaKaoOauthServiceTest {
         public OauthProfileResponse getOauthProfile(String accessToken) {
             return new KakaoMockInfo();
         }
+
+        @Override
+        public Member.Type getMemberType() {
+            return null;
+        }
     }
 
     static class KakaoMockInfo implements OauthProfileResponse {

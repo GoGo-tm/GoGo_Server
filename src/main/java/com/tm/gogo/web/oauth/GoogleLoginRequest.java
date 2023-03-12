@@ -1,5 +1,6 @@
 package com.tm.gogo.web.oauth;
 
+import com.tm.gogo.domain.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,10 @@ public class GoogleLoginRequest implements OauthLoginRequest {
         body.add("redirect_uri", redirectUri);
 
         return body;
+    }
+
+    @Override
+    public Member.Type memberType() {
+        return Member.Type.GOOGLE;
     }
 }
