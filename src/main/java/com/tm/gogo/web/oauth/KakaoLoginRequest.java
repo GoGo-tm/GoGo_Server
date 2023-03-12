@@ -1,5 +1,6 @@
 package com.tm.gogo.web.oauth;
 
+import com.tm.gogo.domain.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,10 @@ public class KakaoLoginRequest implements OauthLoginRequest {
         body.add("code", authorizationCode);
 
         return body;
+    }
+
+    @Override
+    public Member.Type memberType() {
+        return Member.Type.KAKAO;
     }
 }

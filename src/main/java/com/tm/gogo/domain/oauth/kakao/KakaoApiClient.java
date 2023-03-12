@@ -1,5 +1,6 @@
 package com.tm.gogo.domain.oauth.kakao;
 
+import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
 import com.tm.gogo.web.oauth.OauthLoginRequest;
@@ -57,6 +58,11 @@ public class KakaoApiClient implements OauthApiClient {
         ResponseEntity<KakaoMyInfo> response = restTemplate.postForEntity(url, request, KakaoMyInfo.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public Member.Type getMemberType() {
+        return Member.Type.KAKAO;
     }
 
     private HttpHeaders newHttpHeaders() {

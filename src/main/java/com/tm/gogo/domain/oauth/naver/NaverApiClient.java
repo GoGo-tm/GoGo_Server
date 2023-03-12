@@ -1,5 +1,6 @@
 package com.tm.gogo.domain.oauth.naver;
 
+import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.oauth.OauthApiClient;
 import com.tm.gogo.domain.oauth.OauthProfileResponse;
 import com.tm.gogo.web.oauth.OauthLoginRequest;
@@ -56,6 +57,11 @@ public class NaverApiClient implements OauthApiClient {
         ResponseEntity<NaverMyInfo> response = restTemplate.postForEntity(url, request, NaverMyInfo.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public Member.Type getMemberType() {
+        return Member.Type.NAVER;
     }
 
     private HttpHeaders newHttpHeaders() {
