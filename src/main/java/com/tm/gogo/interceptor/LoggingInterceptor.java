@@ -6,7 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Slf4j
@@ -21,8 +22,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
         request.setAttribute(LOG_ID, uuid);
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        log.info("Before Interceptor Request [{}][{}][{}]", timestamp, uuid, requestURI);
+        log.info("[{}] [{}] {} {}", currentTime(), uuid, request.getMethod(), requestURI);
 
         return true;
     }
@@ -33,18 +33,21 @@ public class LoggingInterceptor implements HandlerInterceptor {
         String uuid = (String) request.getAttribute(LOG_ID);
         int status = response.getStatus();
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        log.info("After Interceptor Request [{}][{}][{}][{}]", timestamp, uuid, status, requestURI);
+        log.info("[{}] [{}] [{}] {} {}", currentTime(), uuid, response.getStatus(), request.getMethod(), requestURI);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String requestURI = request.getRequestURI();
         String uuid = (String) request.getAttribute(LOG_ID);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        if(ex != null) {
-            log.info("Complete Interceptor Request [{}][{}][{}][{}]", timestamp, uuid, requestURI, handler);
+        if (ex != null) {
+            log.info("[{}] [{}] [{}] {} {}", currentTime(), uuid, response.getStatus(), request.getMethod(), requestURI);
+            log.error(ex.getMessage());
         }
+    }
+
+    private String currentTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
