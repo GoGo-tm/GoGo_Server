@@ -139,8 +139,7 @@ gradle-app.setting
 .classpath
 
 # YML credentials
-**/application-aws.yml
-**/application-email.yml
+**/application-*.yml
 
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,java,intellij+all
