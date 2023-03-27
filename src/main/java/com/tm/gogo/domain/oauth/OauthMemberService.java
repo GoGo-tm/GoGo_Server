@@ -1,8 +1,9 @@
 package com.tm.gogo.domain.oauth;
 
 import com.tm.gogo.domain.jwt.TokenProvider;
+import com.tm.gogo.domain.member.CommandMemberService;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.domain.token.RefreshTokenService;
 import com.tm.gogo.web.auth.TokenResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +20,17 @@ import java.util.Collections;
 @Transactional
 @RequiredArgsConstructor
 public class OauthMemberService {
-    private final MemberRepository memberRepository;
+
     private final TokenProvider tokenProvider;
     private final RefreshTokenService refreshTokenService;
+    private final QueryMemberService queryMemberService;
+    private final CommandMemberService commandMemberService;
 
     public TokenResponse getAccessTokenWithOauthInfo(OauthInfo oauthInfo) {
-        Member member = findOrCreateMember(oauthInfo);
-        return generateToken(String.valueOf(member.getId()), getAuthorities(member));
-    }
+        Member member = queryMemberService.findOptionalByEmail(oauthInfo.getEmail())
+                .orElseGet(() -> newMember(oauthInfo));
 
-    private Member findOrCreateMember(OauthInfo oauthInfo) {
-        return memberRepository.findByEmail(oauthInfo.getEmail())
-                               .orElseGet(() -> newMember(oauthInfo));
+        return generateToken(String.valueOf(member.getId()), getAuthorities(member));
     }
 
     private Member newMember(OauthInfo oauthInfo) {
@@ -41,7 +41,7 @@ public class OauthMemberService {
                 .authority(oauthInfo.getAuthority())
                 .build();
 
-        return memberRepository.save(member);
+        return commandMemberService.save(member);
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Member member) {

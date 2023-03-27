@@ -1,6 +1,6 @@
 package com.tm.gogo.domain.term_agreement;
 
-import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.web.term_agreement.TermAgreementResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TermAgreementService {
 
-    private final MemberService memberService;
+    private final QueryMemberService queryMemberService;
 
 
     public List<TermAgreementResponse> findTermAgreements(Long memberId) {
-        return memberService.findMemberById(memberId).getTermAgreements().stream()
+        return queryMemberService.findById(memberId).getTermAgreements().stream()
                 .map(TermAgreementResponse::of)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void updateTermAgreement(Long memberId, Term term, Boolean agreed) {
-        memberService.findMemberById(memberId).updateTermAgreed(term, agreed);
+        queryMemberService.findById(memberId).updateTermAgreed(term, agreed);
     }
 }

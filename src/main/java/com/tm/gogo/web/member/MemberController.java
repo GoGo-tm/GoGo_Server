@@ -1,6 +1,9 @@
 package com.tm.gogo.web.member;
 
-import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.domain.member.CommandMemberService;
+import com.tm.gogo.domain.member.ChangePasswordService;
+import com.tm.gogo.domain.member.QueryMemberService;
+import com.tm.gogo.domain.member.UpdateMemberInfoService;
 import com.tm.gogo.domain.withdrawal.WithdrawalService;
 import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.auth.UpdateTokenDto;
@@ -21,7 +24,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
 public class MemberController {
-    private final MemberService memberService;
+
+    private final ChangePasswordService changePasswordService;
+    private final QueryMemberService queryMemberService;
+    private final UpdateMemberInfoService updateMemberInfoService;
+    private final CommandMemberService commandMemberService;
     private final WithdrawalService withdrawalService;
 
     @Operation(summary = "내 정보 찾기", description = "별다른 파라미터 없이 Access Token 으로 내정보를 찾음")
@@ -31,7 +38,7 @@ public class MemberController {
     })
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> findMemberById() {
-        return ResponseEntity.ok(memberService.findMemberInfoById(SecurityUtil.getCurrentMemberId()));
+        return ResponseEntity.ok(queryMemberService.findMemberInfoById(SecurityUtil.getCurrentMemberId()));
     }
 
     @Operation(summary = "비밀번호 찾기 토큰 발급 요청", description = "토큰 검증을 위해 토큰 발행")
@@ -41,7 +48,7 @@ public class MemberController {
     })
     @PostMapping("/{email}/token")
     public ResponseEntity<UpdateTokenDto> issueToken(@PathVariable("email") String email) {
-        return ResponseEntity.ok(memberService.issueToken(email));
+        return ResponseEntity.ok(changePasswordService.issueToken(email));
     }
 
     @Operation(summary = "비밀번호 찾기", description = "비밀번호 변경 후 email로 바뀐 비밀번호 전송")
@@ -51,7 +58,7 @@ public class MemberController {
     })
     @PostMapping("/change-password")
     public ResponseEntity<Void> sendNewPasswordEmail(@RequestBody UpdateTokenDto updateTokenDto) {
-        memberService.updatePasswordAndSendMail(updateTokenDto);
+        changePasswordService.updatePasswordAndSendMail(updateTokenDto);
         return ResponseEntity.ok().build();
     }
 
@@ -62,7 +69,7 @@ public class MemberController {
     })
     @PutMapping()
     public ResponseEntity<Void> updateMember(@RequestBody MemberRequest memberRequest) {
-        memberService.update(SecurityUtil.getCurrentMemberId(), memberRequest);
+        updateMemberInfoService.updateMemberInfo(SecurityUtil.getCurrentMemberId(), memberRequest);
         return ResponseEntity.ok().build();
     }
 
