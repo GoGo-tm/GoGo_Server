@@ -3,7 +3,7 @@ package com.tm.gogo.domain.hiking_log;
 import com.tm.gogo.domain.hiking_trail.HikingTrail;
 import com.tm.gogo.domain.hiking_trail.HikingTrailRepository;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberService;
+import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_log.HikingLogDetailResponse;
 import com.tm.gogo.web.hiking_log.HikingLogDto;
@@ -18,12 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.tm.gogo.web.response.ErrorCode.*;
+import static com.tm.gogo.web.response.ErrorCode.HIKING_LOG_NOT_FOUND;
+import static com.tm.gogo.web.response.ErrorCode.HIKING_TRAIL_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class HikingLogService {
-    private final MemberService memberService;
+
+    private final QueryMemberService queryMemberService;
     private final HikingLogRepository hikingLogRepository;
     private final HikingTrailRepository hikingTrailRepository;
     private final HikingLogQueryRepository hikingLogQueryRepository;
@@ -31,7 +33,7 @@ public class HikingLogService {
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
-        Member member = memberService.findMemberById(memberId);
+        Member member = queryMemberService.findMemberById(memberId);
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);

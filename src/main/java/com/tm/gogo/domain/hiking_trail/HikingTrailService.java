@@ -1,10 +1,6 @@
 package com.tm.gogo.domain.hiking_trail;
 
-import com.tm.gogo.domain.favorite_trail.FavoriteTrail;
-import com.tm.gogo.domain.favorite_trail.FavoriteTrailRepository;
 import com.tm.gogo.domain.favorite_trail.FavoriteTrailService;
-import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberService;
 import com.tm.gogo.parameter.Scrollable;
 import com.tm.gogo.web.hiking_trail.HikingTrailCondition;
 import com.tm.gogo.web.hiking_trail.HikingTrailDetailResponse;

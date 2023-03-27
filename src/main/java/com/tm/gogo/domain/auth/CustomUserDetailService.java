@@ -1,7 +1,7 @@
 package com.tm.gogo.domain.auth;
 
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.QueryMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +17,14 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
-    private final MemberRepository memberRepository;
+
+    private final QueryMemberService queryMemberService;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByEmail(username)
-                .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
+        Member member = queryMemberService.findByEmail(username);
+        return createUserDetails(member);
     }
 
     // DB 에 User 값이 존재한다면 UserDetails 객체로 만들어서 리턴

@@ -20,11 +20,11 @@ import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
     private final RefreshTokenService refreshTokenService;
 
     public SignUpResponse signUp(SignUpRequest signUpDto) {
