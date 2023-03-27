@@ -1,8 +1,8 @@
 package com.tm.gogo.service;
 
-import com.tm.gogo.domain.member.CommandMemberService;
 import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.UpdateMemberInfoService;
 import com.tm.gogo.domain.term_agreement.Term;
 import com.tm.gogo.web.member.MemberRequest;
 import com.tm.gogo.web.response.ApiException;
@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
 @Transactional
-public class CommandMemberServiceTest {
+public class UpdateMemberInfoTest {
 
     @Autowired
-    private CommandMemberService commandMemberService;
+    private UpdateMemberInfoService updateMemberInfoService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -58,7 +58,7 @@ public class CommandMemberServiceTest {
                 .agreed(true)
                 .build();
 
-        commandMemberService.update(member.getId(), memberRequest);
+        updateMemberInfoService.updateMemberInfo(member.getId(), memberRequest);
 
         //then
         Member updatedMember = memberRepository.findById(member.getId()).get();
@@ -104,7 +104,7 @@ public class CommandMemberServiceTest {
 
         //then
         assertThatExceptionOfType(ApiException.class)
-                .isThrownBy(() -> commandMemberService.update(member.getId(), memberRequest))
+                .isThrownBy(() -> updateMemberInfoService.updateMemberInfo(member.getId(), memberRequest))
                 .withMessage("password 값이 다릅니다. password: " + memberRequest.getPassword());
     }
 }
