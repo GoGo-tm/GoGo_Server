@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 import static com.tm.gogo.web.response.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
@@ -38,9 +37,7 @@ public class QueryMemberService {
         return memberRepository.findByEmail(email);
     }
 
-    public void existsEmail(String email) {
-        if (memberRepository.existsByEmail(email)) {
-            throw new ApiException(ALREADY_EXIST_MEMBER, "이미 존재하는 유저입니다. email: " + email);
-        }
+    public boolean existsEmail(String email) {
+        return memberRepository.existsByEmail(email);
     }
 }

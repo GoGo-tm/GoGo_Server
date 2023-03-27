@@ -6,6 +6,7 @@ import com.tm.gogo.domain.member.Member;
 import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.domain.token.RefreshTokenService;
 import com.tm.gogo.web.auth.*;
+import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
 
 @Service
 @Transactional
@@ -27,7 +30,9 @@ public class AuthService {
     private final QueryMemberService queryMemberService;
 
     public SignUpResponse signUp(SignUpRequest signUpDto) {
-        queryMemberService.existsEmail(signUpDto.getEmail());
+        if (queryMemberService.existsEmail(signUpDto.getEmail())) {
+            throw new ApiException(ALREADY_EXIST_MEMBER, "이미 존재하는 유저입니다. email: " + signUpDto.getEmail());
+        }
 
         Member member = signUpDto.toMember(passwordEncoder);
         commandMemberService.save(member);
