@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ChangePasswordService {
 
@@ -20,13 +20,11 @@ public class ChangePasswordService {
     private final NewPasswordTokenService newPasswordTokenService;
     private final MailService mailService;
 
-    @Transactional
     public UpdateTokenDto issueToken(String email) {
         Token token = newPasswordTokenService.issueToken(RandomStringUtils.randomAlphanumeric(10), email);
         return UpdateTokenDto.of(token);
     }
 
-    @Transactional
     public void updatePasswordAndSendMail(UpdateTokenDto updateTokenDto) {
         String txId = updateTokenDto.getTxId();
         String email = updateTokenDto.getEmail();

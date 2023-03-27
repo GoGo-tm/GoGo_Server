@@ -1,11 +1,11 @@
 package com.tm.gogo.domain.auth;
 
 import com.tm.gogo.domain.jwt.TokenProvider;
+import com.tm.gogo.domain.member.CommandMemberService;
 import com.tm.gogo.domain.member.Member;
-import com.tm.gogo.domain.member.MemberRepository;
+import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.domain.token.RefreshTokenService;
 import com.tm.gogo.web.auth.*;
-import com.tm.gogo.web.response.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,26 +14,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.tm.gogo.web.response.ErrorCode.ALREADY_EXIST_MEMBER;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenService refreshTokenService;
+    private final CommandMemberService commandMemberService;
+    private final QueryMemberService queryMemberService;
 
     public SignUpResponse signUp(SignUpRequest signUpDto) {
-        if (memberRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new ApiException(ALREADY_EXIST_MEMBER, "이미 가입되어 있는 유저입니다. email: " + signUpDto.getEmail());
-        }
+        queryMemberService.existsEmail(signUpDto.getEmail());
 
         Member member = signUpDto.toMember(passwordEncoder);
-        memberRepository.save(member);
+        commandMemberService.save(member);
         return SignUpResponse.of(member);
     }
 
@@ -59,4 +56,3 @@ public class AuthService {
         return refreshTokenService.reissue(tokenRequestDto);
     }
 }
-

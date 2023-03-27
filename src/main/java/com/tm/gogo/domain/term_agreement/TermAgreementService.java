@@ -18,13 +18,13 @@ public class TermAgreementService {
 
 
     public List<TermAgreementResponse> findTermAgreements(Long memberId) {
-        return queryMemberService.findMemberById(memberId).getTermAgreements().stream()
+        return queryMemberService.findById(memberId).getTermAgreements().stream()
                 .map(TermAgreementResponse::of)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void updateTermAgreement(Long memberId, Term term, Boolean agreed) {
-        queryMemberService.findMemberById(memberId).updateTermAgreed(term, agreed);
+        queryMemberService.findById(memberId).updateTermAgreed(term, agreed);
     }
 }

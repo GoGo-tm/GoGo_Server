@@ -3,6 +3,7 @@ package com.tm.gogo.web.member;
 import com.tm.gogo.domain.member.CommandMemberService;
 import com.tm.gogo.domain.member.ChangePasswordService;
 import com.tm.gogo.domain.member.QueryMemberService;
+import com.tm.gogo.domain.member.UpdateMemberInfoService;
 import com.tm.gogo.domain.withdrawal.WithdrawalService;
 import com.tm.gogo.helper.SecurityUtil;
 import com.tm.gogo.web.auth.UpdateTokenDto;
@@ -26,6 +27,7 @@ public class MemberController {
 
     private final ChangePasswordService changePasswordService;
     private final QueryMemberService queryMemberService;
+    private final UpdateMemberInfoService updateMemberInfoService;
     private final CommandMemberService commandMemberService;
     private final WithdrawalService withdrawalService;
 
@@ -67,7 +69,7 @@ public class MemberController {
     })
     @PutMapping()
     public ResponseEntity<Void> updateMember(@RequestBody MemberRequest memberRequest) {
-        commandMemberService.update(SecurityUtil.getCurrentMemberId(), memberRequest);
+        updateMemberInfoService.updateMemberInfo(SecurityUtil.getCurrentMemberId(), memberRequest);
         return ResponseEntity.ok().build();
     }
 

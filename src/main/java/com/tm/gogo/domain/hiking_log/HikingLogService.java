@@ -33,7 +33,7 @@ public class HikingLogService {
 
     @Transactional
     public Long createHikingLog(Long memberId, HikingLogRequest hikingLogRequest) {
-        Member member = queryMemberService.findMemberById(memberId);
+        Member member = queryMemberService.findById(memberId);
         HikingTrail hikingTrail = findByHikingTrailId(hikingLogRequest.getHikingTrailId());
 
         HikingLog hikingLog = hikingLogRequest.toHikingLog(member, hikingTrail);

@@ -25,7 +25,7 @@ public class FavoriteTrailService {
     private final FavoriteTrailRepository favoriteTrailRepository;
 
     public void registerFavorite(Long memberId, Long hikingTrailId) {
-        Member member = queryMemberService.findMemberById(memberId);
+        Member member = queryMemberService.findById(memberId);
         HikingTrail hikingTrail = findHikingTrail(hikingTrailId);
         validate(member, hikingTrail);
 
@@ -41,7 +41,7 @@ public class FavoriteTrailService {
     }
 
     public void deleteFavorite(Long memberId, Long hikingTrailId) {
-        Member member = queryMemberService.findMemberById(memberId);
+        Member member = queryMemberService.findById(memberId);
         HikingTrail hikingTrail = findHikingTrail(hikingTrailId);
         FavoriteTrail favorite = favoriteTrailRepository.findByMemberAndHikingTrail(member, hikingTrail)
                 .orElseThrow(() -> new ApiException(FAVORITE_TRAIL_NOT_FOUND, "즐겨찾기 된 상태가 아닙니다. memberId: " + memberId + ", hikingTrailId: " + hikingTrailId));
@@ -52,12 +52,12 @@ public class FavoriteTrailService {
 
     @Transactional
     public void deleteAll(Long memberId) {
-        Member member = queryMemberService.findMemberById(memberId);
+        Member member = queryMemberService.findById(memberId);
         favoriteTrailRepository.deleteAllByMember(member);
     }
 
     public Set<Long> findFavoriteTrailIds(Long memberId, List<HikingTrail> trails) {
-        Member member = queryMemberService.findMemberById(memberId);
+        Member member = queryMemberService.findById(memberId);
 
         return favoriteTrailRepository.findByMemberAndHikingTrailIn(member, trails).stream()
                 .map(FavoriteTrail::getHikingTrail)
