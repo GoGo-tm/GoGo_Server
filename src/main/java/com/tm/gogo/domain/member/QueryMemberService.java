@@ -44,7 +44,6 @@ public class QueryMemberService {
         return memberRepository.findByEmail(email);
     }
 
-    @Cacheable
     public boolean existsEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
