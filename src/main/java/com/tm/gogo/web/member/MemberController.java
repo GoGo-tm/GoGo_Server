@@ -1,6 +1,5 @@
 package com.tm.gogo.web.member;
 
-import com.tm.gogo.domain.member.CommandMemberService;
 import com.tm.gogo.domain.member.ChangePasswordService;
 import com.tm.gogo.domain.member.QueryMemberService;
 import com.tm.gogo.domain.member.UpdateMemberInfoService;
@@ -28,7 +27,6 @@ public class MemberController {
     private final ChangePasswordService changePasswordService;
     private final QueryMemberService queryMemberService;
     private final UpdateMemberInfoService updateMemberInfoService;
-    private final CommandMemberService commandMemberService;
     private final WithdrawalService withdrawalService;
 
     @Operation(summary = "내 정보 찾기", description = "별다른 파라미터 없이 Access Token 으로 내정보를 찾음")

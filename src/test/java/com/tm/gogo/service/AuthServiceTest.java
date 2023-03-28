@@ -146,6 +146,7 @@ public class AuthServiceTest {
 
             Authentication authentication = tokenProvider.getAuthentication(accessToken);
             long memberId = Long.parseLong(authentication.getName());
+
             Member member = memberRepository.findByEmail(email).get();
             assertThat(member.getId()).isEqualTo(memberId);
         }

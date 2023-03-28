@@ -28,6 +28,9 @@ spring:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
 
+  cache:
+    type: none
+
 logging:
   level:
     com:
@@ -67,3 +70,5 @@ oauth:
     url:
       auth: https://oauth2.googleapis.com
       api: https://people.googleapis.com
+
+
