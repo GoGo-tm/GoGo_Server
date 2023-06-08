@@ -9,6 +9,7 @@ import com.tm.gogo.web.youtube.YoutubesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tm.gogo.domain.youtube.QYoutube.youtube;
@@ -41,7 +42,7 @@ public class YoutubeQueryRepository {
 
     private YoutubesResponse toResponse(List<YoutubeDto> results, Scrollable scrollable) {
         boolean hasNext = results.size() > scrollable.getSize();
-        List<YoutubeDto> contents = hasNext ? results.subList(0, scrollable.getSize()) : results;
+        List<YoutubeDto> contents = hasNext ? new ArrayList<>(results.subList(0, scrollable.getSize())) : results;
         return new YoutubesResponse(contents, hasNext);
     }
 

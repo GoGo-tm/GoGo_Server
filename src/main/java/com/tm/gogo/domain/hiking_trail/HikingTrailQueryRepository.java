@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tm.gogo.domain.favorite_trail.QFavoriteTrail.favoriteTrail;
@@ -82,7 +83,8 @@ public class HikingTrailQueryRepository {
 
     private HikingTrailsResponse toResponse(List<HikingTrailDto> results, Scrollable scrollable) {
         boolean hasNext = results.size() > scrollable.getSize();
-        List<HikingTrailDto> contents = hasNext ? results.subList(0, scrollable.getSize()) : results;
+        // subList 요거 문제인 것 같음
+        List<HikingTrailDto> contents = hasNext ? new ArrayList<>(results.subList(0, scrollable.getSize())) : results;
         return new HikingTrailsResponse(contents, hasNext);
     }
 

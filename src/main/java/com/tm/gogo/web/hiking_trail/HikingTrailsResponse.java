@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class HikingTrailsResponse {
 
-    private List<HikingTrailDto> contents;
+    private List<HikingTrailDto> contents = new ArrayList<>();
 
     @Schema(example = "true", description = "다음 데이터가 있는지 없는지 표시")
     private boolean hasNext;

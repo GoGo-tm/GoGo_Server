@@ -9,6 +9,7 @@ import com.tm.gogo.web.notice.QNoticeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tm.gogo.domain.notice.QNotice.notice;
@@ -39,7 +40,7 @@ public class NoticeQueryRepository {
 
     private NoticesResponse toResponse(List<NoticeDto> results, Scrollable scrollable) {
         boolean hasNext = results.size() > scrollable.getSize();
-        List<NoticeDto> contents = hasNext ? results.subList(0, scrollable.getSize()) : results;
+        List<NoticeDto> contents = hasNext ? new ArrayList<>(results.subList(0, scrollable.getSize())) : results;
         return new NoticesResponse(contents, hasNext);
     }
 

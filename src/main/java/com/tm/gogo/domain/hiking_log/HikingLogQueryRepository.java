@@ -9,6 +9,7 @@ import com.tm.gogo.web.hiking_log.QHikingLogDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tm.gogo.domain.hiking_log.QHikingLog.hikingLog;
@@ -74,7 +75,7 @@ public class HikingLogQueryRepository {
 
     private HikingLogResponse toResponse(List<HikingLogDto> results, Scrollable scrollable) {
         boolean hasNext = results.size() > scrollable.getSize();
-        List<HikingLogDto> contents = hasNext ? results.subList(0, scrollable.getSize()) : results;
+        List<HikingLogDto> contents = hasNext ? new ArrayList<>(results.subList(0, scrollable.getSize())) : results;
         return new HikingLogResponse(contents, hasNext);
     }
 
